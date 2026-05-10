@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Karla } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const inter = Inter({ 
+const karla = Karla({ 
   subsets: ["latin"],
-  variable: '--font-inter',
+  variable: '--font-karla',
 });
 
 export const metadata: Metadata = {
@@ -47,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-background" data-scroll-behavior="smooth">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${karla.variable} font-sans antialiased`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
