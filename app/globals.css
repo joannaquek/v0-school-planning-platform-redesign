@@ -150,8 +150,8 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* Smooth scrolling */
-html {
+/* Smooth scrolling - with Next.js compatibility */
+html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
 }
 
