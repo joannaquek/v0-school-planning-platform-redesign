@@ -18,10 +18,13 @@ import type { YearlyData } from '@/lib/types';
 interface TrendChartProps {
   data: YearlyData[];
   schoolName: string;
+  /** When set, only this phase is shown so each year appears once. */
+  phase?: '2A' | '2B' | '2C';
 }
 
-export function TrendChart({ data, schoolName }: TrendChartProps) {
-  const chartData = [...data].reverse().map((d) => ({
+export function TrendChart({ data, schoolName, phase = '2C' }: TrendChartProps) {
+  const filtered = data.filter((d) => d.phase === phase);
+  const chartData = [...filtered].reverse().map((d) => ({
     year: d.year.toString(),
     vacancies: d.vacancies,
     registered: d.registered,
@@ -91,10 +94,12 @@ export function TrendChart({ data, schoolName }: TrendChartProps) {
 
 interface BallotChartProps {
   data: YearlyData[];
+  phase?: '2A' | '2B' | '2C';
 }
 
-export function BallotChart({ data }: BallotChartProps) {
-  const chartData = [...data].reverse().map((d) => ({
+export function BallotChart({ data, phase = '2C' }: BallotChartProps) {
+  const filtered = data.filter((d) => d.phase === phase);
+  const chartData = [...filtered].reverse().map((d) => ({
     year: d.year.toString(),
     ballotRate: d.ballotRate || 100,
     balloted: d.balloted,

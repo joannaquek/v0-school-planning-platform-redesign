@@ -1,12 +1,13 @@
 {
-  "name": "my-project",
+  "name": "v0-school-planning-platform-redesign",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "sync-school-data": "cp ../p1-school-selector/lib/schools-bundled.json ./lib/schools-bundled.json"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

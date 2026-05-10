@@ -8,6 +8,29 @@ This repository is linked to a [v0](https://v0.app) project. You can continue de
 
 [Continue working on v0 →](https://v0.app/chat/projects/prj_gzxhkjFOQFrl6iFsodLMDG70HAop)
 
+## Official school data
+
+School profiles, CCAs, programmes, and coordinates come from `lib/schools-bundled.json`, the same bundle built by the `p1-school-selector` app (data.gov.sg MOE datasets + compiled ballot snapshots).
+
+After refreshing data in a local `p1-school-selector` checkout (sibling folder next to this project), copy the new bundle in:
+
+```bash
+# In p1-school-selector: npm run data:download && npm run data:build && npm run data:geocode
+npm run sync-school-data
+npm run build
+```
+
+Or copy `p1-school-selector/lib/schools-bundled.json` to `lib/schools-bundled.json` manually.
+
+Commit the updated `lib/schools-bundled.json` so Vercel (and other hosts) serve the new snapshot.
+
+## Deploy to Vercel
+
+1. Push this repo to GitHub (if it is not already).
+2. In [Vercel](https://vercel.com), **Add New Project** and import the repository.
+3. Framework preset: **Next.js**; root directory: this repo root (`v0-school-planning-platform-redesign` if the repo contains only this app).
+4. Deploy. No extra environment variables are required for the static bundled data.
+
 ## Getting Started
 
 First, run the development server:
