@@ -30,9 +30,12 @@ interface AppState {
   selectedSchoolId: string | null;
   setSelectedSchoolId: (id: string | null) => void;
 
-  // Address
+  // Home location (geocoded via OneMap; used for distances on /schools)
   userAddress: string;
+  userLat: number | null;
+  userLng: number | null;
   setUserAddress: (address: string) => void;
+  setGeocodedHome: (address: string, lat: number, lng: number) => void;
 }
 
 const defaultFilters: FilterState = {
@@ -91,15 +94,22 @@ export const useAppStore = create<AppState>()(
       selectedSchoolId: null,
       setSelectedSchoolId: (id) => set({ selectedSchoolId: id }),
 
-      // Address
+      // Address / geocoded home
       userAddress: '',
-      setUserAddress: (address) => set({ userAddress: address }),
+      userLat: null,
+      userLng: null,
+      setUserAddress: (address) =>
+        set({ userAddress: address, userLat: null, userLng: null }),
+      setGeocodedHome: (address, lat, lng) =>
+        set({ userAddress: address, userLat: lat, userLng: lng }),
     }),
     {
       name: 'schoolmatch-storage',
       partialize: (state) => ({
         favorites: state.favorites,
         userAddress: state.userAddress,
+        userLat: state.userLat,
+        userLng: state.userLng,
         filters: state.filters,
       }),
     }

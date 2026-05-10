@@ -29,9 +29,12 @@ Commit the updated `lib/schools-bundled.json` so Vercel (and other hosts) serve 
 1. Push this repo to GitHub (if it is not already).
 2. In [Vercel](https://vercel.com), **Add New Project** and import the repository.
 3. Framework preset: **Next.js**; root directory: this repo root (`v0-school-planning-platform-redesign` if the repo contains only this app).
-4. Deploy. No extra environment variables are required for the static bundled data.
+4. Under **Environment Variables**, add **`ONEMAP_ACCESS_TOKEN`** with your [OneMap](https://www.onemap.gov.sg/) API token (same as `p1-school-selector`). Home search, postal lookup, and “use my location” call `/api/onemap/search` and `/api/onemap/reverse` on the server; without the token those routes return 500.
+5. Deploy.
 
 ## Getting Started
+
+For address and postal geocoding locally, create `.env.local` with `ONEMAP_ACCESS_TOKEN=` (same token as `p1-school-selector`).
 
 First, run the development server:
 

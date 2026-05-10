@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -62,9 +62,21 @@ export function HomePageClient({
   yearRangeLabel: string;
 }) {
   const router = useRouter();
-  const { setUserAddress, userAddress } = useAppStore();
+  const { setUserAddress, setGeocodedHome, userAddress } = useAppStore();
   const [address, setAddress] = useState(userAddress);
   const [isSearching, setIsSearching] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
+  const [geoError, setGeoError] = useState('');
+
+  useEffect(() => {
+    setAddress(userAddress);
+  }, [userAddress]);
+
+  const onAddressChange = (value: string) => {
+    setAddress(value);
+    setUserAddress(value);
+    setGeoError('');
+  };
 
   const stats = [
     { value: String(schoolCount), label: 'Schools Tracked' },
@@ -73,13 +85,89 @@ export function HomePageClient({
     { value: 'Periodic', label: 'MOE data refresh' },
   ];
 
-  const handleSearch = () => {
-    if (!address.trim()) return;
+  const handleSearch = async () => {
+    const q = address.trim();
+    if (!q) return;
     setIsSearching(true);
-    setUserAddress(address);
-    setTimeout(() => {
+    setGeoError('');
+    try {
+      const res = await fetch(`/api/onemap/search?q=${encodeURIComponent(q)}`);
+      const data = (await res.json()) as
+        | { lat: number; lng: number; address: string; postalCode?: string }
+        | { error: string };
+
+      if (!res.ok || !('lat' in data)) {
+        setGeoError(
+          'error' in data
+            ? data.error
+            : 'Could not find that address or postal code. Try a full address or 6-digit postal code.'
+        );
+        return;
+      }
+
+      const display = data.address?.trim() || q;
+      setGeocodedHome(display, data.lat, data.lng);
+      setAddress(display);
       router.push('/schools');
-    }, 500);
+    } catch {
+      setGeoError('Network error while looking up your address.');
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleUseMyLocation = async () => {
+    if (typeof navigator === 'undefined' || !navigator.geolocation) {
+      setGeoError('Location is not available in this browser.');
+      return;
+    }
+    setIsLocating(true);
+    setGeoError('');
+    try {
+      const pos = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 15_000,
+          maximumAge: 0,
+        });
+      });
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+      let label = '';
+      try {
+        const res = await fetch(
+          `/api/onemap/reverse?lat=${encodeURIComponent(String(lat))}&lng=${encodeURIComponent(String(lng))}`
+        );
+        const data = (await res.json()) as
+          | { postalCode?: string; address?: string }
+          | { error: string };
+        if (res.ok && 'postalCode' in data && data.postalCode) {
+          label = `Singapore ${data.postalCode}`;
+        } else if (res.ok && 'address' in data && data.address) {
+          label = data.address;
+        }
+      } catch {
+        /* OneMap reverse optional; fall back to coordinates */
+      }
+      if (!label) {
+        label = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+      }
+      setGeocodedHome(label, lat, lng);
+      setAddress(label);
+      router.push('/schools');
+    } catch (e) {
+      const msg =
+        e instanceof GeolocationPositionError
+          ? e.code === 1
+            ? 'Location permission denied. Allow location for this site in your browser settings.'
+            : e.code === 2
+              ? 'Location unavailable.'
+              : 'Location request timed out.'
+          : 'Could not read your location.';
+      setGeoError(msg);
+    } finally {
+      setIsLocating(false);
+    }
   };
 
   return (
@@ -102,13 +190,20 @@ export function HomePageClient({
               ballot pressures, and make informed decisions.
             </p>
 
-            <div className="mx-auto mt-8 max-w-xl">
+            <div className="mx-auto mt-8 max-w-xl text-left">
               <SearchInput
                 value={address}
-                onChange={setAddress}
-                onSearch={handleSearch}
+                onChange={onAddressChange}
+                onSearch={() => void handleSearch()}
                 isLoading={isSearching}
+                onUseMyLocation={handleUseMyLocation}
+                isLocating={isLocating}
               />
+              {geoError ? (
+                <p className="mt-3 text-sm text-destructive" role="alert">
+                  {geoError}
+                </p>
+              ) : null}
             </div>
 
             <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">

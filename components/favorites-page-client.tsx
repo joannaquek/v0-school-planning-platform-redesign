@@ -12,14 +12,18 @@ import { CompareDrawer } from '@/components/compare-drawer';
 import { useAppStore } from '@/lib/store';
 import { detailsToSchools } from '@/lib/map-detail-to-school';
 import type { SchoolDetailData } from '@/lib/bundled-types';
+import type { GeoPoint } from '@/lib/geo';
 
 export function FavoritesPageClient({ details }: { details: SchoolDetailData[] }) {
-  const { favorites, toggleFavorite, filters } = useAppStore();
+  const { favorites, toggleFavorite, filters, userLat, userLng } = useAppStore();
+
+  const home: GeoPoint | null =
+    userLat != null && userLng != null ? { lat: userLat, lng: userLng } : null;
 
   const schoolsById = useMemo(() => {
-    const list = detailsToSchools(details, Number(filters.year), filters.phase);
+    const list = detailsToSchools(details, Number(filters.year), filters.phase, home);
     return new Map(list.map((s) => [s.id, s]));
-  }, [details, filters.year, filters.phase]);
+  }, [details, filters.year, filters.phase, home]);
 
   const favoriteSchools = favorites
     .map((id) => schoolsById.get(id))

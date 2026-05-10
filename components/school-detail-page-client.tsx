@@ -38,12 +38,15 @@ function normalizePhase(phase: string): '2A' | '2B' | '2C' {
 }
 
 export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData }) {
-  const { filters, toggleFavorite, isFavorite, addToCompare, isInCompare, removeFromCompare } =
+  const { filters, toggleFavorite, isFavorite, addToCompare, isInCompare, removeFromCompare, userLat, userLng } =
     useAppStore();
 
+  const home =
+    userLat != null && userLng != null ? { lat: userLat, lng: userLng } : null;
+
   const school = useMemo(
-    () => detailToSchool(detail, Number(filters.year), filters.phase),
-    [detail, filters.year, filters.phase]
+    () => detailToSchool(detail, Number(filters.year), filters.phase, home),
+    [detail, filters.year, filters.phase, home]
   );
 
   const phaseKey = normalizePhase(filters.phase);

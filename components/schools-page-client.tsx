@@ -14,6 +14,7 @@ import { CompareDrawer } from '@/components/compare-drawer';
 import { useAppStore } from '@/lib/store';
 import { detailsToSchools } from '@/lib/map-detail-to-school';
 import type { SchoolDetailData } from '@/lib/bundled-types';
+import type { GeoPoint } from '@/lib/geo';
 import { cn } from '@/lib/utils';
 
 type ViewMode = 'grid' | 'list' | 'map';
@@ -25,13 +26,17 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
   const [viewMode, setViewMode] = useState<ViewMode>(initialView || 'grid');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const { filters, selectedSchoolId, setSelectedSchoolId } = useAppStore();
+  const { filters, selectedSchoolId, setSelectedSchoolId, userLat, userLng } = useAppStore();
+
+  const home: GeoPoint | null =
+    userLat != null && userLng != null ? { lat: userLat, lng: userLng } : null;
 
   const filteredSchools = useMemo(() => {
     const allSchools = detailsToSchools(
       details,
       Number(filters.year),
-      filters.phase
+      filters.phase,
+      home
     );
     let result = [...allSchools];
 
@@ -44,12 +49,13 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
       );
     }
 
-    if (filters.distanceBand !== 'all') {
+    if (filters.distanceBand !== 'all' && home) {
       result = result.filter((school) => {
-        if (school.distanceBand === 'unknown') return true;
-        if (filters.distanceBand === '1') return school.distanceBand === '1km';
-        if (filters.distanceBand === '2') return school.distanceBand === '1-2km';
-        if (filters.distanceBand === '3') return school.distanceBand === '2km+';
+        const d = school.distance;
+        if (d == null) return false;
+        if (filters.distanceBand === '1') return d <= 1;
+        if (filters.distanceBand === '2') return d > 1 && d <= 2;
+        if (filters.distanceBand === '3') return d > 2;
         return true;
       });
     }
@@ -76,7 +82,7 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
     }
 
     return result;
-  }, [details, searchQuery, filters]);
+  }, [details, searchQuery, filters, home]);
 
   const sortLabels = {
     distance: 'Distance',
