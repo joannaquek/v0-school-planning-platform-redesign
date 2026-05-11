@@ -14,6 +14,8 @@ interface SearchInputProps {
   className?: string;
   showLocationButton?: boolean;
   isLoading?: boolean;
+  onUseMyLocation?: () => void | Promise<void>;
+  isLocating?: boolean;
 }
 
 export function SearchInput({
@@ -24,6 +26,8 @@ export function SearchInput({
   className,
   showLocationButton = true,
   isLoading = false,
+  onUseMyLocation,
+  isLocating = false,
 }: SearchInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -89,16 +93,19 @@ export function SearchInput({
         </div>
       </div>
 
-      {showLocationButton && (
+      {showLocationButton && onUseMyLocation && (
         <button
-          className="mt-3 inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors"
-          onClick={() => {
-            // Simulate using current location
-            onChange('Singapore 238801');
-          }}
+          type="button"
+          disabled={isLocating || isLoading}
+          className="mt-3 inline-flex items-center gap-2 text-sm text-primary transition-colors hover:text-primary/80 disabled:pointer-events-none disabled:opacity-50"
+          onClick={() => void onUseMyLocation()}
         >
-          <MapPin className="h-4 w-4" />
-          Use my current location
+          {isLocating ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <MapPin className="h-4 w-4" />
+          )}
+          {isLocating ? 'Getting location…' : 'Use my current location'}
         </button>
       )}
     </div>

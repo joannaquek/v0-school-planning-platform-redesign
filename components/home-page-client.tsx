@@ -21,6 +21,7 @@ import { Badge } from '@/components/ui/badge';
 import { Header } from '@/components/header';
 import { MobileNav } from '@/components/mobile-nav';
 import { SearchInput } from '@/components/search-input';
+import { RegistrationTimeline } from '@/components/registration-timeline';
 import { PressureBadge } from '@/components/pressure-badge';
 import { useAppStore } from '@/lib/store';
 import type { School } from '@/lib/types';
@@ -220,6 +221,8 @@ export function HomePageClient({
           </div>
         </div>
       </section>
+
+      <RegistrationTimeline />
 
       <section className="border-t border-border bg-card/50 py-16">
         <div className="container mx-auto px-4">

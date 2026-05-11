@@ -30,9 +30,12 @@ interface AppState {
   selectedSchoolId: string | null;
   setSelectedSchoolId: (id: string | null) => void;
 
-  // Address
+  // Home location (OneMap geocode; drives distances on /schools)
   userAddress: string;
+  userLat: number | null;
+  userLng: number | null;
   setUserAddress: (address: string) => void;
+  setGeocodedHome: (address: string, lat: number, lng: number) => void;
 }
 
 const defaultFilters: FilterState = {
@@ -47,7 +50,6 @@ const defaultFilters: FilterState = {
 export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
-      // Filters
       filters: defaultFilters,
       setFilters: (newFilters) =>
         set((state) => ({
@@ -55,7 +57,6 @@ export const useAppStore = create<AppState>()(
         })),
       resetFilters: () => set({ filters: defaultFilters }),
 
-      // Compare
       compareList: [],
       addToCompare: (school) =>
         set((state) => {
@@ -73,7 +74,6 @@ export const useAppStore = create<AppState>()(
       clearCompare: () => set({ compareList: [], showCompareDrawer: false }),
       isInCompare: (schoolId) => get().compareList.some((item) => item.school.id === schoolId),
 
-      // Favorites
       favorites: [],
       toggleFavorite: (schoolId) =>
         set((state) => ({
@@ -83,7 +83,6 @@ export const useAppStore = create<AppState>()(
         })),
       isFavorite: (schoolId) => get().favorites.includes(schoolId),
 
-      // UI
       showCompareDrawer: false,
       setShowCompareDrawer: (show) => set({ showCompareDrawer: show }),
       showMapView: false,
@@ -91,15 +90,21 @@ export const useAppStore = create<AppState>()(
       selectedSchoolId: null,
       setSelectedSchoolId: (id) => set({ selectedSchoolId: id }),
 
-      // Address
       userAddress: '',
-      setUserAddress: (address) => set({ userAddress: address }),
+      userLat: null,
+      userLng: null,
+      setUserAddress: (address) =>
+        set({ userAddress: address, userLat: null, userLng: null }),
+      setGeocodedHome: (address, lat, lng) =>
+        set({ userAddress: address, userLat: lat, userLng: lng }),
     }),
     {
       name: 'schoolmatch-storage',
       partialize: (state) => ({
         favorites: state.favorites,
         userAddress: state.userAddress,
+        userLat: state.userLat,
+        userLng: state.userLng,
         filters: state.filters,
       }),
     }

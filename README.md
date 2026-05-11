@@ -10,6 +10,8 @@ This repository is linked to a [v0](https://v0.app) project. You can continue de
 
 ## Getting Started
 
+School data lives in `lib/schools-bundled.json` (from the `p1-school-selector` build pipeline). Home search and “use my location” need **`ONEMAP_ACCESS_TOKEN`** in `.env.local` (and in Vercel env) for `/api/onemap/search` and `/api/onemap/reverse`.
+
 First, run the development server:
 
 ```bash

@@ -1,75 +1,7 @@
-'use client';
-
-import Link from 'next/link';
-import { Heart, Search, Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Header } from '@/components/header';
-import { MobileNav } from '@/components/mobile-nav';
-import { SchoolCard } from '@/components/school-card';
-import { CompareDrawer } from '@/components/compare-drawer';
-import { useAppStore } from '@/lib/store';
-import { mockSchools } from '@/lib/mock-data';
+import { getAllSchoolDetails } from '@/lib/school-data';
+import { FavoritesPageClient } from '@/components/favorites-page-client';
 
 export default function FavoritesPage() {
-  const { favorites, toggleFavorite } = useAppStore();
-
-  const favoriteSchools = mockSchools.filter((school) => favorites.includes(school.id));
-
-  return (
-    <div className="min-h-screen bg-background pb-20 md:pb-0">
-      <Header />
-
-      <main className="container mx-auto px-4 py-6">
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Saved Schools</h1>
-            <p className="mt-1 text-muted-foreground">
-              {favoriteSchools.length} school{favoriteSchools.length !== 1 ? 's' : ''} saved
-            </p>
-          </div>
-          {favoriteSchools.length > 0 && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-muted-foreground hover:text-destructive"
-              onClick={() => favorites.forEach((id) => toggleFavorite(id))}
-            >
-              <Trash2 className="mr-1.5 h-4 w-4" />
-              Clear all
-            </Button>
-          )}
-        </div>
-
-        {favoriteSchools.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {favoriteSchools.map((school) => (
-              <SchoolCard key={school.id} school={school} />
-            ))}
-          </div>
-        ) : (
-          <Card className="py-16">
-            <CardContent className="flex flex-col items-center justify-center text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                <Heart className="h-8 w-8 text-muted-foreground" />
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-foreground">No saved schools yet</h3>
-              <p className="mt-2 max-w-sm text-muted-foreground">
-                Start exploring schools and save your favorites to easily compare them later.
-              </p>
-              <Button asChild className="mt-6">
-                <Link href="/schools">
-                  <Search className="mr-2 h-4 w-4" />
-                  Browse schools
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-      </main>
-
-      <CompareDrawer />
-      <MobileNav />
-    </div>
-  );
+  const details = getAllSchoolDetails();
+  return <FavoritesPageClient details={details} />;
 }

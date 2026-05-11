@@ -19,7 +19,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useAppStore } from '@/lib/store';
-import { distanceBands, pressureLevels, years, phases } from '@/lib/mock-data';
+import { distanceBands, pressureLevels, years, phases } from '@/lib/filter-options';
 import { useState } from 'react';
 
 export function FilterPanel() {
@@ -29,7 +29,7 @@ export function FilterPanel() {
   const activeFilterCount = [
     filters.distanceBand !== 'all',
     filters.pressure !== 'all',
-    filters.year !== '2025',
+    filters.year !== years[0],
     filters.phase !== '2C',
   ].filter(Boolean).length;
 
