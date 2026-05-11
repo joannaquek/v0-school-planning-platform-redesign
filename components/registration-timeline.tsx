@@ -1,232 +1,327 @@
 'use client';
 
 import { useState } from 'react';
-import { CheckCircle2, Circle, Clock } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
 const phases = [
   {
     phase: 'Phase 1',
-    shortPhase: 'P1',
+    shortLabel: 'Phase 1',
     description: 'Siblings of current students',
-    registrationStart: '30 Jun, 9am',
-    registrationEnd: '2 Jul, 4:30pm',
+    registrationStart: '9am, 30 Jun',
+    registrationEnd: '4:30pm, 2 Jul',
     results: '8 Jul',
-    startDate: new Date('2026-06-30'),
-    endDate: new Date('2026-07-02'),
+    startDate: new Date('2026-06-30T09:00:00'),
+    endDate: new Date('2026-07-02T16:30:00'),
     resultsDate: new Date('2026-07-08'),
+    color: 'teal',
   },
   {
     phase: 'Phase 2A',
-    shortPhase: '2A',
-    description: 'Children of alumni, school staff & advisory committee',
-    registrationStart: '9 Jul, 9am',
-    registrationEnd: '10 Jul, 4:30pm',
+    shortLabel: 'Phase 2A',
+    description: 'Children of alumni & school staff',
+    registrationStart: '9am, 9 Jul',
+    registrationEnd: '4:30pm, 10 Jul',
     results: '17 Jul',
-    startDate: new Date('2026-07-09'),
-    endDate: new Date('2026-07-10'),
+    startDate: new Date('2026-07-09T09:00:00'),
+    endDate: new Date('2026-07-10T16:30:00'),
     resultsDate: new Date('2026-07-17'),
+    color: 'blue',
   },
   {
     phase: 'Phase 2B',
-    shortPhase: '2B',
-    description: 'Parents who are community volunteers or church/clan members',
-    registrationStart: '20 Jul, 9am',
-    registrationEnd: '21 Jul, 4:30pm',
+    shortLabel: 'Phase 2B',
+    description: 'Community volunteers & church/clan members',
+    registrationStart: '9am, 20 Jul',
+    registrationEnd: '4:30pm, 21 Jul',
     results: '27 Jul',
-    startDate: new Date('2026-07-20'),
-    endDate: new Date('2026-07-21'),
+    startDate: new Date('2026-07-20T09:00:00'),
+    endDate: new Date('2026-07-21T16:30:00'),
     resultsDate: new Date('2026-07-27'),
+    color: 'violet',
   },
   {
     phase: 'Phase 2C',
-    shortPhase: '2C',
-    description: 'Open to all Singapore Citizens and PRs',
-    registrationStart: '28 Jul, 9am',
-    registrationEnd: '30 Jul, 4:30pm',
+    shortLabel: 'Phase 2C',
+    description: 'Open to all Singapore Citizens & PRs',
+    registrationStart: '9am, 28 Jul',
+    registrationEnd: '4:30pm, 30 Jul',
     results: '11 Aug',
-    startDate: new Date('2026-07-28'),
-    endDate: new Date('2026-07-30'),
+    startDate: new Date('2026-07-28T09:00:00'),
+    endDate: new Date('2026-07-30T16:30:00'),
     resultsDate: new Date('2026-08-11'),
+    color: 'amber',
   },
   {
     phase: 'Phase 2C Supp.',
-    shortPhase: '2C+',
-    description: 'Schools with remaining vacancies after Phase 2C',
-    registrationStart: '17 Aug, 9am',
-    registrationEnd: '18 Aug, 4:30pm',
+    shortLabel: '2C Supp.',
+    description: 'Schools with remaining vacancies',
+    registrationStart: '9am, 17 Aug',
+    registrationEnd: '4:30pm, 18 Aug',
     results: '27 Aug',
-    startDate: new Date('2026-08-17'),
-    endDate: new Date('2026-08-18'),
+    startDate: new Date('2026-08-17T09:00:00'),
+    endDate: new Date('2026-08-18T16:30:00'),
     resultsDate: new Date('2026-08-27'),
+    color: 'rose',
   },
 ];
 
+type ColorKey = 'teal' | 'blue' | 'violet' | 'amber' | 'rose';
+
+const colorMap: Record<ColorKey, { node: string; nodeBorder: string; label: string; card: string; cardBorder: string; dot: string }> = {
+  teal:   { node: 'bg-teal-500',   nodeBorder: 'border-teal-500',   label: 'text-teal-700',   card: 'bg-teal-50',   cardBorder: 'border-teal-200',   dot: 'bg-teal-500' },
+  blue:   { node: 'bg-blue-500',   nodeBorder: 'border-blue-500',   label: 'text-blue-700',   card: 'bg-blue-50',   cardBorder: 'border-blue-200',   dot: 'bg-blue-500' },
+  violet: { node: 'bg-violet-500', nodeBorder: 'border-violet-500', label: 'text-violet-700', card: 'bg-violet-50', cardBorder: 'border-violet-200', dot: 'bg-violet-500' },
+  amber:  { node: 'bg-amber-500',  nodeBorder: 'border-amber-500',  label: 'text-amber-700',  card: 'bg-amber-50',  cardBorder: 'border-amber-200',  dot: 'bg-amber-500' },
+  rose:   { node: 'bg-rose-500',   nodeBorder: 'border-rose-500',   label: 'text-rose-700',   card: 'bg-rose-50',   cardBorder: 'border-rose-200',   dot: 'bg-rose-500' },
+};
+
 function getPhaseStatus(startDate: Date, resultsDate: Date) {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
   if (today > resultsDate) return 'completed';
-  if (today >= startDate && today <= resultsDate) return 'active';
+  if (today >= startDate) return 'active';
   return 'upcoming';
 }
 
+function getDaysUntil(date: Date): number {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(date);
+  target.setHours(0, 0, 0, 0);
+  return Math.ceil((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+}
+
 export function RegistrationTimeline() {
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const [activePhase, setActivePhase] = useState<string | null>(null);
+
+  const phase1 = phases[0];
+  const daysUntilPhase1 = getDaysUntil(phase1.startDate);
+  const phase1Status = getPhaseStatus(phase1.startDate, phase1.resultsDate);
 
   return (
-    <section className="py-12">
+    <section className="py-12 border-t border-border">
       <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-3xl">
-          {/* Section header */}
-          <div className="mb-8 flex items-center justify-between">
+        <div className="mx-auto max-w-5xl">
+
+          {/* Header row */}
+          <div className="mb-10 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
             <div>
-              <h2 className="text-xl font-bold text-foreground sm:text-2xl">
-                2026 Registration Timeline
-              </h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Primary One Registration Exercise key dates
-              </p>
+              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">MOE P1 Registration 2026</p>
+              <h2 className="text-2xl font-bold text-foreground">Registration Timeline</h2>
             </div>
-            <Badge variant="secondary" className="shrink-0 text-xs px-3 py-1.5">
-              <Clock className="mr-1.5 h-3 w-3" />
-              Jun – Aug 2026
-            </Badge>
+
+            {/* Countdown chip — only show if Phase 1 hasn't started */}
+            {phase1Status === 'upcoming' && daysUntilPhase1 > 0 && (
+              <div className="flex items-center gap-3 rounded-2xl border border-teal-200 bg-teal-50 px-4 py-3">
+                <div className="text-center">
+                  <p className="text-2xl font-bold leading-none text-teal-700">{daysUntilPhase1}</p>
+                  <p className="mt-0.5 text-xs text-teal-600">days</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-teal-800">Until Phase 1 opens</p>
+                  <p className="text-xs text-teal-600">Starts {phase1.registrationStart}</p>
+                </div>
+              </div>
+            )}
+            {phase1Status === 'active' && (
+              <div className="flex items-center gap-2 rounded-2xl border border-teal-200 bg-teal-50 px-4 py-3">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-400 opacity-75" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-teal-500" />
+                </span>
+                <p className="text-sm font-semibold text-teal-800">Phase 1 is open now</p>
+              </div>
+            )}
           </div>
 
-          {/* Timeline */}
-          <div className="relative">
-            {/* Vertical connector line */}
-            <div className="absolute left-5 top-5 bottom-5 w-px bg-border sm:left-7" />
+          {/* Horizontal timeline — scrollable on mobile */}
+          <div className="overflow-x-auto pb-4 no-scrollbar">
+            <div className="min-w-[640px]">
 
-            <div className="space-y-3">
-              {phases.map((p, idx) => {
-                const status = getPhaseStatus(p.startDate, p.resultsDate);
-                const isExpanded = expanded === p.phase;
-                const isLast = idx === phases.length - 1;
-
-                return (
-                  <div key={p.phase} className="relative">
+              {/* Top labels (phase name + reg dates) */}
+              <div className="flex">
+                {phases.map((p, idx) => {
+                  const colors = colorMap[p.color as ColorKey];
+                  const status = getPhaseStatus(p.startDate, p.resultsDate);
+                  const isActive = activePhase === p.phase;
+                  return (
                     <button
-                      onClick={() => setExpanded(isExpanded ? null : p.phase)}
-                      className="group relative w-full text-left"
-                      aria-expanded={isExpanded}
-                      aria-label={`Toggle ${p.phase} details`}
+                      key={p.phase}
+                      onClick={() => setActivePhase(isActive ? null : p.phase)}
+                      className={cn(
+                        'group flex-1 cursor-pointer text-left',
+                        idx !== phases.length - 1 && 'pr-2'
+                      )}
                     >
-                      <div
-                        className={cn(
-                          'flex items-start gap-4 rounded-2xl border p-4 transition-all sm:gap-5',
-                          status === 'active'
-                            ? 'border-primary/40 bg-primary/5 shadow-sm'
-                            : status === 'completed'
-                            ? 'border-border/50 bg-card/50'
-                            : 'border-border/50 bg-card hover:border-border hover:shadow-sm',
-                          isExpanded && 'rounded-b-none border-b-0'
-                        )}
+                      {/* Phase label */}
+                      <div className={cn(
+                        'mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition-colors',
+                        isActive
+                          ? `${colors.card} ${colors.label} ${colors.cardBorder} border`
+                          : 'text-muted-foreground hover:text-foreground'
+                      )}>
+                        <span className={cn(
+                          'h-1.5 w-1.5 rounded-full',
+                          status === 'completed' ? 'bg-muted-foreground' : colors.dot
+                        )} />
+                        {p.shortLabel}
+                      </div>
+
+                      {/* Reg dates */}
+                      <p className="text-[11px] leading-tight text-muted-foreground">
+                        {p.registrationStart}
+                      </p>
+                      <p className="text-[11px] leading-tight text-muted-foreground">
+                        to {p.registrationEnd}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Track with nodes */}
+              <div className="relative my-5 flex items-center">
+                {/* Full connecting line */}
+                <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border" />
+
+                {phases.map((p, idx) => {
+                  const colors = colorMap[p.color as ColorKey];
+                  const status = getPhaseStatus(p.startDate, p.resultsDate);
+                  const isActive = activePhase === p.phase;
+                  const isCurrentPhase = status === 'active';
+
+                  return (
+                    <div
+                      key={p.phase}
+                      className={cn('relative z-10 flex flex-1 items-center', idx === phases.length - 1 && 'justify-end')}
+                    >
+                      <button
+                        onClick={() => setActivePhase(isActive ? null : p.phase)}
+                        className="group relative flex flex-col items-center focus:outline-none"
+                        aria-label={`View ${p.phase} details`}
                       >
-                        {/* Step indicator */}
-                        <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 bg-background sm:h-14 sm:w-14">
+                        {/* Node */}
+                        <div className={cn(
+                          'flex h-9 w-9 items-center justify-center rounded-full border-2 bg-background transition-all duration-200 group-hover:scale-110',
+                          isActive
+                            ? `${colors.node} border-transparent text-white shadow-lg`
+                            : status === 'completed'
+                            ? 'border-border bg-muted text-muted-foreground'
+                            : isCurrentPhase
+                            ? `${colors.nodeBorder} text-white ${colors.node} shadow-md`
+                            : 'border-border bg-background'
+                        )}>
                           {status === 'completed' ? (
-                            <CheckCircle2 className="h-5 w-5 text-success sm:h-6 sm:w-6" />
-                          ) : status === 'active' ? (
-                            <>
-                              <div className="absolute inset-0 rounded-full animate-ping bg-primary/20" />
-                              <Circle className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
-                            </>
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                              <path d="M2.5 7L5.5 10L11.5 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
                           ) : (
-                            <span className="text-xs font-bold text-muted-foreground sm:text-sm">{idx + 1}</span>
+                            <span className={cn(
+                              'text-xs font-bold',
+                              isActive || isCurrentPhase ? 'text-white' : 'text-muted-foreground'
+                            )}>
+                              {idx + 1}
+                            </span>
                           )}
                         </div>
 
-                        {/* Content */}
-                        <div className="min-w-0 flex-1">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className={cn(
-                              'font-semibold text-foreground',
-                              status === 'active' && 'text-primary'
-                            )}>
-                              {p.phase}
-                            </span>
-                            {status === 'active' && (
-                              <Badge className="bg-primary/15 text-primary border-0 text-xs">
-                                Ongoing
-                              </Badge>
-                            )}
-                            {status === 'completed' && (
-                              <Badge variant="secondary" className="text-xs">
-                                Completed
-                              </Badge>
-                            )}
-                          </div>
-                          <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
-                            {p.description}
-                          </p>
+                        {/* Pulse ring for active phase */}
+                        {isCurrentPhase && !isActive && (
+                          <span className={cn('absolute inset-0 rounded-full animate-ping opacity-30', colors.node)} />
+                        )}
+                      </button>
 
-                          {/* Dates row — always visible */}
-                          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
-                            <span className="text-muted-foreground">
-                              <span className="font-medium text-foreground">{p.registrationStart}</span>
-                              {' – '}
-                              <span className="font-medium text-foreground">{p.registrationEnd}</span>
-                            </span>
-                            <span className="text-muted-foreground">
-                              Results:{' '}
-                              <span className="font-medium text-foreground">{p.results}</span>
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Expand chevron */}
+                      {/* Progress fill between nodes */}
+                      {idx < phases.length - 1 && (
                         <div className={cn(
-                          'shrink-0 text-muted-foreground transition-transform duration-200',
-                          isExpanded && 'rotate-180'
-                        )}>
-                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </div>
-                      </div>
-
-                      {/* Expanded detail panel */}
-                      {isExpanded && (
-                        <div className="rounded-b-2xl border border-t-0 border-border/50 bg-muted/40 px-4 pb-4 pt-3 sm:px-5">
-                          <div className="grid gap-3 sm:grid-cols-3">
-                            <div className="rounded-xl bg-card p-3 border border-border/50">
-                              <p className="text-xs text-muted-foreground">Registration Opens</p>
-                              <p className="mt-1 font-medium text-foreground">{p.registrationStart}</p>
-                            </div>
-                            <div className="rounded-xl bg-card p-3 border border-border/50">
-                              <p className="text-xs text-muted-foreground">Registration Closes</p>
-                              <p className="mt-1 font-medium text-foreground">{p.registrationEnd}</p>
-                            </div>
-                            <div className={cn(
-                              'rounded-xl p-3 border',
-                              status === 'active' ? 'bg-primary/5 border-primary/20' : 'bg-card border-border/50'
-                            )}>
-                              <p className="text-xs text-muted-foreground">Results Announced</p>
-                              <p className={cn(
-                                'mt-1 font-medium',
-                                status === 'active' ? 'text-primary' : 'text-foreground'
-                              )}>
-                                {p.results}
-                              </p>
-                            </div>
-                          </div>
-                          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                            {p.description}. Registration is done online via the MOE P1 Registration portal.
-                          </p>
-                        </div>
+                          'h-px flex-1 transition-all duration-500',
+                          status === 'completed' ? 'bg-muted-foreground/40' : 'bg-border'
+                        )} />
                       )}
-                    </button>
-                  </div>
-                );
-              })}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Bottom labels (results dates) */}
+              <div className="flex">
+                {phases.map((p, idx) => {
+                  const colors = colorMap[p.color as ColorKey];
+                  const status = getPhaseStatus(p.startDate, p.resultsDate);
+                  return (
+                    <div key={p.phase} className={cn('flex-1', idx !== phases.length - 1 && 'pr-2')}>
+                      <p className="text-[11px] text-muted-foreground">Results</p>
+                      <p className={cn(
+                        'text-[11px] font-semibold',
+                        status === 'active' ? colors.label : 'text-foreground'
+                      )}>
+                        {p.results}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
+          {/* Detail card — shown on node click */}
+          {activePhase && (() => {
+            const p = phases.find(ph => ph.phase === activePhase)!;
+            const colors = colorMap[p.color as ColorKey];
+            const status = getPhaseStatus(p.startDate, p.resultsDate);
+            const daysUntil = getDaysUntil(p.startDate);
+
+            return (
+              <div className={cn(
+                'mt-2 rounded-2xl border p-5 transition-all',
+                colors.card, colors.cardBorder
+              )}>
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className={cn('text-base font-bold', colors.label)}>{p.phase}</h3>
+                      {status === 'active' && (
+                        <span className={cn('flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold', colors.card, colors.label, `border ${colors.cardBorder}`)}>
+                          <span className={cn('h-1.5 w-1.5 rounded-full animate-pulse', colors.dot)} />
+                          Open now
+                        </span>
+                      )}
+                      {status === 'completed' && (
+                        <span className="rounded-full border border-border bg-background px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
+                          Completed
+                        </span>
+                      )}
+                      {status === 'upcoming' && daysUntil > 0 && (
+                        <span className={cn('rounded-full px-2 py-0.5 text-[10px] font-semibold border', colors.card, colors.cardBorder, colors.label)}>
+                          In {daysUntil} days
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-1 text-sm text-muted-foreground">{p.description}</p>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid grid-cols-3 gap-3">
+                  <div className="rounded-xl border border-white/80 bg-white/70 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Opens</p>
+                    <p className="mt-1 text-sm font-semibold text-foreground">{p.registrationStart}</p>
+                  </div>
+                  <div className="rounded-xl border border-white/80 bg-white/70 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Closes</p>
+                    <p className="mt-1 text-sm font-semibold text-foreground">{p.registrationEnd}</p>
+                  </div>
+                  <div className="rounded-xl border border-white/80 bg-white/70 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Results</p>
+                    <p className={cn('mt-1 text-sm font-semibold', colors.label)}>{p.results}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
           {/* Source note */}
           <p className="mt-6 text-center text-xs text-muted-foreground">
-            Dates from MOE P1 Registration Exercise 2026. Subject to change — verify at{' '}
+            Source: MOE P1 Registration Exercise 2026. Verify at{' '}
             <a
               href="https://www.moe.gov.sg/primary/p1-registration"
               target="_blank"
@@ -235,7 +330,6 @@ export function RegistrationTimeline() {
             >
               moe.gov.sg
             </a>
-            .
           </p>
         </div>
       </div>
