@@ -303,7 +303,7 @@ export function HomePageClient({
                     <p className="mt-1 text-sm text-muted-foreground">{school.address}</p>
                     <div className="mt-3 flex items-center gap-4 text-sm">
                       <div>
-                        <span className="text-muted-foreground">Vacancies:</span>{' '}
+                        <span className="text-muted-foreground">Vacancies ({latestYear}):</span>{' '}
                         <span className="font-medium text-foreground">{school.totalVacancies}</span>
                       </div>
                       <div>

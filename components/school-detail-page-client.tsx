@@ -257,7 +257,7 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                   <Users className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Vacancies</p>
+                  <p className="text-sm text-muted-foreground">Vacancies ({filters.year})</p>
                   <p className="text-xl font-bold text-foreground">{school.totalVacancies}</p>
                 </div>
               </div>
@@ -324,8 +324,8 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                       <IntakeIcon className={cn('h-4 w-4', intakeChangeColor)} />
                       <span className={intakeChangeColor}>
                         {school.intakeChange === 'no-change'
-                          ? 'No change from last year'
-                          : `${school.intakeChangeValue && school.intakeChangeValue > 0 ? '+' : ''}${school.intakeChangeValue || 0} vacancies`}
+                          ? `No change from ${filters.year}`
+                          : `${school.intakeChangeValue && school.intakeChangeValue > 0 ? '+' : ''}${school.intakeChangeValue || 0} vacancies (from ${filters.year})`}
                       </span>
                     </div>
                   </div>
