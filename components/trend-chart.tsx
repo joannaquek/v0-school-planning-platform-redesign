@@ -43,6 +43,9 @@ type FormattedBarItem = {
   };
 };
 
+const RATIO_HIGHLIGHT_BG = '#FEE2E2';
+const RATIO_HIGHLIGHT_TEXT = '#B91C1C';
+
 /**
  * Ratio labels: horizontally in the gap between vacancy and registered bars for that year,
  * vertically above both bars (still aligned with each year along the x-axis).
@@ -71,24 +74,35 @@ function TrendGapRatioLabels({
           vacRect.x + vacRect.width + (regRect.x - (vacRect.x + vacRect.width)) / 2;
         const topY = Math.min(vacRect.y, regRect.y);
         const labelY = topY - 14;
-        const ratioFromLabel = parseFloat(row.ratioLabel);
-        const fill =
-          Number.isFinite(ratioFromLabel) && ratioFromLabel > 1
-            ? ratioOversubscriptionFill(ratioFromLabel)
-            : 'var(--muted-foreground)';
+        const text = row.ratioLabel;
+        const textWidth = Math.max(18, text.length * 7);
+        const rectX = gapCenterX - textWidth / 2 - 6;
+        const rectY = labelY - 8;
+        const rectWidth = textWidth + 12;
+        const rectHeight = 16;
         return (
-          <text
-            key={row.year}
-            x={gapCenterX}
-            y={labelY}
-            fill={fill}
-            fontSize={11}
-            fontWeight={600}
-            textAnchor="middle"
-            dominantBaseline="middle"
-          >
-            {row.ratioLabel}
-          </text>
+          <g key={row.year}>
+            <rect
+              x={rectX}
+              y={rectY}
+              width={rectWidth}
+              height={rectHeight}
+              rx={4}
+              ry={4}
+              fill={RATIO_HIGHLIGHT_BG}
+            />
+            <text
+              x={gapCenterX}
+              y={labelY}
+              fill={RATIO_HIGHLIGHT_TEXT}
+              fontSize={11}
+              fontWeight={700}
+              textAnchor="middle"
+              dominantBaseline="middle"
+            >
+              {text}
+            </text>
+          </g>
         );
       })}
     </g>
@@ -131,7 +145,17 @@ export function TrendChart({ data }: TrendChartProps) {
       <CardHeader>
         <CardTitle className="text-lg">Historical Trends</CardTitle>
         <CardDescription>
-          {`Vacancies vs registered applicants by year for Phase ${filters.phase}. Ratio shows the proportion of registered to vacancies; >1 means oversubscribed and balloting is required.`}
+          <span className="block">{`Vacancies vs registered applicants by year for Phase ${filters.phase}.`}</span>
+          <span className="block">
+            <span
+              className="rounded px-1.5 py-0.5 font-semibold"
+              style={{ backgroundColor: RATIO_HIGHLIGHT_BG, color: RATIO_HIGHLIGHT_TEXT }}
+            >
+              Ratio
+            </span>{' '}
+            shows the proportion of registered to vacancies; &gt;1 means oversubscribed and
+            balloting is required.
+          </span>
         </CardDescription>
         <CardAction>
           <div className="flex flex-col items-end gap-1.5">
@@ -290,7 +314,17 @@ export function BallotChart({ data }: BallotChartProps) {
                 name="Ballot Rate"
                 fill="var(--trend-bar-vacancies)"
                 radius={[4, 4, 0, 0]}
-              />
+              >
+                <LabelList
+                  dataKey="ballotRate"
+                  position="insideTop"
+                  offset={10}
+                  fill="var(--foreground)"
+                  fontSize={11}
+                  fontWeight={600}
+                  formatter={(value: number) => `${value}%`}
+                />
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
