@@ -38,13 +38,6 @@ const features = [
   },
 ];
 
-const stats = [
-  { value: '182', label: 'Schools Tracked' },
-  { value: '5 Years', label: 'Historical Data' },
-  { value: '2025', label: 'Latest Year' },
-  { value: 'Real-time', label: 'Updates' },
-];
-
 export default function HomePage() {
   const router = useRouter();
   const { setUserAddress, userAddress } = useAppStore();
@@ -91,16 +84,6 @@ export default function HomePage() {
                 onSearch={handleSearch}
                 isLoading={isSearching}
               />
-            </div>
-
-            {/* Quick Stats */}
-            <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {stats.map((stat) => (
-                <div key={stat.label} className="rounded-xl bg-card/80 backdrop-blur p-4 shadow-sm border border-border/50">
-                  <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
