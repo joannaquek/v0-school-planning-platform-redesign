@@ -1,29 +1,25 @@
 import { NextResponse } from 'next/server';
 
-type OneMapResult = {
-  SEARCHVAL?: string;
-  ADDRESS?: string;
-  POSTAL?: string;
-  LATITUDE?: string;
-  LONGITUDE?: string;
-  /** OneMap typo field seen in some responses */
-  LONGTITUDE?: string;
+type GoogleGeocodeResponse = {
+  status: string;
+  error_message?: string;
+  results?: Array<{
+    formatted_address?: string;
+    address_components?: Array<{
+      long_name: string;
+      short_name: string;
+      types: string[];
+    }>;
+    geometry?: { location?: { lat: number; lng: number } };
+  }>;
 };
 
-type OneMapSearchResponse = {
-  error?: string;
-  results?: OneMapResult[];
-};
-
-/** Prefer a row whose POSTAL matches a 6-digit query so the first elastic hit is not used by mistake. */
-function pickSearchResult(query: string, results: OneMapResult[] | undefined): OneMapResult | undefined {
-  if (!results?.length) return undefined;
-  const digits = query.replace(/\D/g, '');
-  if (digits.length === 6) {
-    const match = results.find((r) => (r.POSTAL ?? '').replace(/\D/g, '') === digits);
-    if (match) return match;
-  }
-  return results[0];
+function postalFromComponents(
+  components: GoogleGeocodeResponse['results'][0]['address_components'] | undefined
+): string {
+  if (!components) return '';
+  const pc = components.find((c) => c.types.includes('postal_code'));
+  return pc?.long_name?.trim() ?? '';
 }
 
 export async function GET(request: Request) {
@@ -33,55 +29,57 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Missing q' }, { status: 400 });
   }
 
-  const token = process.env.ONEMAP_ACCESS_TOKEN;
-  if (!token) {
+  const key = process.env.GOOGLE_MAPS_SERVER_API_KEY;
+  if (!key) {
     return NextResponse.json(
-      { error: 'Missing ONEMAP_ACCESS_TOKEN on server' },
+      { error: 'Missing GOOGLE_MAPS_SERVER_API_KEY on server' },
       { status: 500 }
     );
   }
 
-  const upstreamUrl = new URL('https://www.onemap.gov.sg/api/common/elastic/search');
-  upstreamUrl.searchParams.set('searchVal', q);
-  upstreamUrl.searchParams.set('returnGeom', 'Y');
-  upstreamUrl.searchParams.set('getAddrDetails', 'Y');
-  upstreamUrl.searchParams.set('pageNum', '1');
+  const upstreamUrl = new URL('https://maps.googleapis.com/maps/api/geocode/json');
+  upstreamUrl.searchParams.set('address', q);
+  upstreamUrl.searchParams.set('components', 'country:SG');
+  upstreamUrl.searchParams.set('region', 'sg');
+  upstreamUrl.searchParams.set('key', key);
 
-  const response = await fetch(upstreamUrl.toString(), {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: 'no-store',
-  });
+  const response = await fetch(upstreamUrl.toString(), { cache: 'no-store' });
 
   if (!response.ok) {
     return NextResponse.json(
-      { error: `OneMap search failed (${response.status})` },
+      { error: `Google Geocoding request failed (${response.status})` },
       { status: 502 }
     );
   }
 
-  const payload = (await response.json()) as OneMapSearchResponse;
-  const upstreamError = typeof payload.error === 'string' ? payload.error.trim() : '';
-  const first = pickSearchResult(q, payload.results);
-  const latStr = first?.LATITUDE;
-  const lngStr = first?.LONGITUDE ?? first?.LONGTITUDE;
-  const lat = latStr != null && latStr !== '' ? Number(latStr) : NaN;
-  const lng = lngStr != null && lngStr !== '' ? Number(lngStr) : NaN;
+  const payload = (await response.json()) as GoogleGeocodeResponse;
+  const status = payload.status ?? 'UNKNOWN_ERROR';
 
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-    if (upstreamError) {
-      const authIssue = /token missing|invalid authentication|expired|renew your api token|generate or renew/i.test(
-        upstreamError
-      );
-      return NextResponse.json({ error: upstreamError }, { status: authIssue ? 401 : 404 });
-    }
+  if (status === 'ZERO_RESULTS') {
     return NextResponse.json({ error: 'Address not found' }, { status: 404 });
   }
+
+  if (status !== 'OK' || !payload.results?.length) {
+    const msg = payload.error_message?.trim() || `Geocoding failed (${status})`;
+    const authIssue = /denied|invalid|expired|API key|not authorized|REQUEST_DENIED/i.test(msg);
+    return NextResponse.json({ error: msg }, { status: authIssue ? 401 : 502 });
+  }
+
+  const first = payload.results[0];
+  const loc = first.geometry?.location;
+  const lat = loc?.lat;
+  const lng = loc?.lng;
+  if (typeof lat !== 'number' || typeof lng !== 'number' || !Number.isFinite(lat) || !Number.isFinite(lng)) {
+    return NextResponse.json({ error: 'Address not found' }, { status: 404 });
+  }
+
+  const postalCode = postalFromComponents(first.address_components);
+  const address = first.formatted_address?.trim() || q;
 
   return NextResponse.json({
     lat,
     lng,
-    address: first.ADDRESS ?? first.SEARCHVAL ?? q,
-    postalCode: first.POSTAL ?? '',
-    ...(upstreamError ? { oneMapWarning: upstreamError } : {}),
+    address,
+    postalCode,
   });
 }

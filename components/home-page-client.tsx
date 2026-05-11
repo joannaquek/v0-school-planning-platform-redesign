@@ -153,7 +153,7 @@ export function HomePageClient({
           label = data.address;
         }
       } catch {
-        /* OneMap reverse optional; fall back to coordinates */
+        /* Reverse geocode optional; fall back to coordinates */
       }
       if (!label) {
         label = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
