@@ -109,12 +109,13 @@ export const useAppStore = create<AppState>()(
             : { userAddress: address }
         ),
       setGeocodedHome: (address, lat, lng, oneMapWarning = null) =>
-        set({
+        set((state) => ({
           userAddress: address,
           userLat: lat,
           userLng: lng,
           oneMapLastWarning: oneMapWarning ?? null,
-        }),
+          filters: { ...state.filters, sortBy: 'distance' },
+        })),
       dismissOneMapWarning: () => set({ oneMapLastWarning: null }),
     }),
     {

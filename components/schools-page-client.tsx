@@ -50,11 +50,21 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
     let result = [...allSchools];
 
     if (searchQuery) {
-      const query = searchQuery.toLowerCase();
+      const query = searchQuery.toLowerCase().trim();
+      const normalizedDigits = query.replace(/\D/g, '');
       result = result.filter(
-        (school) =>
-          school.name.toLowerCase().includes(query) ||
-          school.address.toLowerCase().includes(query)
+        (school) => {
+          const schoolPostalDigits = school.postalCode.replace(/\D/g, '');
+          const postalMatch =
+            normalizedDigits.length >= 4 && schoolPostalDigits.includes(normalizedDigits);
+
+          return (
+            school.name.toLowerCase().includes(query) ||
+            school.address.toLowerCase().includes(query) ||
+            school.postalCode.toLowerCase().includes(query) ||
+            postalMatch
+          );
+        }
       );
     }
 
