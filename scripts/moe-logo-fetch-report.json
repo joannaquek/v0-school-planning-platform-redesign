@@ -1,0 +1,60 @@
+{
+  "ok": 129,
+  "skipped": 48,
+  "failed": [
+    {
+      "slug": "casuarina",
+      "name": "CASUARINA PRIMARY SCHOOL",
+      "tried": [
+        "casuarina-primary-school-primary",
+        "casuarina-primary-school-school-primary",
+        "casuarina-primary-school",
+        "casuarina-school-primary",
+        "casuarina"
+      ]
+    },
+    {
+      "slug": "chij-katong",
+      "name": "CHIJ (KATONG) PRIMARY",
+      "tried": [
+        "chij-katong-primary-school",
+        "chij-katong-school-primary",
+        "chij-katong",
+        "chij-primary"
+      ]
+    },
+    {
+      "slug": "chij-toa-payoh",
+      "name": "CHIJ PRIMARY (TOA PAYOH)",
+      "tried": [
+        "chij-toa-payoh-primary-school",
+        "chij-toa-payoh-school-primary",
+        "chij-toa-payoh",
+        "chij-primary"
+      ]
+    },
+    {
+      "slug": "pioneer",
+      "name": "PIONEER PRIMARY SCHOOL",
+      "tried": [
+        "pioneer-primary-school-primary",
+        "pioneer-primary-school-school-primary",
+        "pioneer-primary-school",
+        "pioneer-school-primary",
+        "pioneer"
+      ]
+    },
+    {
+      "slug": "townsville",
+      "name": "TOWNSVILLE PRIMARY SCHOOL",
+      "tried": [
+        "townsville-primary-school-primary",
+        "townsville-primary-school-school-primary",
+        "townsville-primary-school",
+        "townsville-school-primary",
+        "townsville"
+      ]
+    }
+  ],
+  "at": "2026-05-11T03:13:06.434Z"
+}

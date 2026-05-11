@@ -64,6 +64,13 @@ export function HomePageClient({
 }) {
   const router = useRouter();
   const { setUserAddress, setGeocodedHome, userAddress } = useAppStore();
+  type GeocodeSuccess = {
+    lat: number;
+    lng: number;
+    address: string;
+    postalCode?: string;
+    oneMapWarning?: string;
+  };
   const [address, setAddress] = useState(userAddress);
   const [isSearching, setIsSearching] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
@@ -93,9 +100,7 @@ export function HomePageClient({
     setGeoError('');
     try {
       const res = await fetch(`/api/onemap/search?q=${encodeURIComponent(q)}`);
-      const data = (await res.json()) as
-        | { lat: number; lng: number; address: string; postalCode?: string }
-        | { error: string };
+      const data = (await res.json()) as GeocodeSuccess | { error: string };
 
       if (!res.ok || !('lat' in data)) {
         setGeoError(
@@ -107,7 +112,7 @@ export function HomePageClient({
       }
 
       const display = data.address?.trim() || q;
-      setGeocodedHome(display, data.lat, data.lng);
+      setGeocodedHome(display, data.lat, data.lng, data.oneMapWarning ?? null);
       setAddress(display);
       router.push('/schools');
     } catch {
@@ -153,7 +158,7 @@ export function HomePageClient({
       if (!label) {
         label = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
       }
-      setGeocodedHome(label, lat, lng);
+      setGeocodedHome(label, lat, lng, null);
       setAddress(label);
       router.push('/schools');
     } catch (e) {

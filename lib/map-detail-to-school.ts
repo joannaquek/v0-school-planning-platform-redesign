@@ -1,6 +1,7 @@
 import type { SchoolDetailData } from './bundled-types';
 import type { GeoPoint } from './geo';
 import { haversineKm } from './geo';
+import { schoolLogoPathForSlug } from './school-logo-paths';
 import type { School, YearlyData } from './types';
 
 const SG_FALLBACK = { lat: 1.3521, lng: 103.8198 };
@@ -96,6 +97,10 @@ export function detailToSchool(
       lat: detail.lat ?? SG_FALLBACK.lat,
       lng: detail.lng ?? SG_FALLBACK.lng,
     },
+    imageUrl: schoolLogoPathForSlug(detail.slug),
+    websiteUrl: detail.websiteUrl ?? null,
+    phone: detail.phone ?? null,
+    email: detail.email ?? null,
   };
 }
 

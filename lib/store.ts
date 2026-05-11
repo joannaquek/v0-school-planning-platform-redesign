@@ -34,8 +34,16 @@ interface AppState {
   userAddress: string;
   userLat: number | null;
   userLng: number | null;
+  /** OneMap `error` text when coordinates were still returned (e.g. token expiry warning). */
+  oneMapLastWarning: string | null;
   setUserAddress: (address: string) => void;
-  setGeocodedHome: (address: string, lat: number, lng: number) => void;
+  setGeocodedHome: (
+    address: string,
+    lat: number,
+    lng: number,
+    oneMapWarning?: string | null
+  ) => void;
+  dismissOneMapWarning: () => void;
 }
 
 const defaultFilters: FilterState = {
@@ -93,10 +101,21 @@ export const useAppStore = create<AppState>()(
       userAddress: '',
       userLat: null,
       userLng: null,
+      oneMapLastWarning: null,
       setUserAddress: (address) =>
-        set({ userAddress: address, userLat: null, userLng: null }),
-      setGeocodedHome: (address, lat, lng) =>
-        set({ userAddress: address, userLat: lat, userLng: lng }),
+        set(
+          address.trim() === ''
+            ? { userAddress: address, userLat: null, userLng: null, oneMapLastWarning: null }
+            : { userAddress: address }
+        ),
+      setGeocodedHome: (address, lat, lng, oneMapWarning = null) =>
+        set({
+          userAddress: address,
+          userLat: lat,
+          userLng: lng,
+          oneMapLastWarning: oneMapWarning ?? null,
+        }),
+      dismissOneMapWarning: () => set({ oneMapLastWarning: null }),
     }),
     {
       name: 'schoolmatch-storage',

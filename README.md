@@ -12,6 +12,17 @@ This repository is linked to a [v0](https://v0.app) project. You can continue de
 
 School data lives in `lib/schools-bundled.json` (from the `p1-school-selector` build pipeline). Home search and “use my location” need **`ONEMAP_ACCESS_TOKEN`** in `.env.local` (and in Vercel env) for `/api/onemap/search` and `/api/onemap/reverse`.
 
+### Checking the OneMap token
+
+Tokens usually expire after **about three days**. After a home / postal search, if school distances look wrong, check whether OneMap returned a warning (amber banner on **Browse Schools**) or run:
+
+```bash
+curl -sS "https://www.onemap.gov.sg/api/common/elastic/search?searchVal=368051&returnGeom=Y&getAddrDetails=Y&pageNum=1" \
+  -H "Authorization: Bearer $ONEMAP_ACCESS_TOKEN" | head -c 500
+```
+
+Load `ONEMAP_ACCESS_TOKEN` from `.env.local` first, or paste your token in place of `$ONEMAP_ACCESS_TOKEN`. If the JSON body includes an `"error"` field about **missing**, **invalid**, or **expired** authentication, renew the token on [onemap.gov.sg](https://www.onemap.gov.sg/) and update `.env.local`.
+
 First, run the development server:
 
 ```bash

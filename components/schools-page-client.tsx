@@ -2,8 +2,9 @@
 
 import { useState, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { LayoutGrid, Map as MapIcon, List, ArrowUpDown } from 'lucide-react';
+import { LayoutGrid, Map as MapIcon, List, ArrowUpDown, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Header } from '@/components/header';
 import { MobileNav } from '@/components/mobile-nav';
 import { SchoolCard } from '@/components/school-card';
@@ -26,7 +27,15 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
   const [viewMode, setViewMode] = useState<ViewMode>(initialView || 'grid');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const { filters, selectedSchoolId, setSelectedSchoolId, userLat, userLng } = useAppStore();
+  const {
+    filters,
+    selectedSchoolId,
+    setSelectedSchoolId,
+    userLat,
+    userLng,
+    oneMapLastWarning,
+    dismissOneMapWarning,
+  } = useAppStore();
 
   const home: GeoPoint | null =
     userLat != null && userLng != null ? { lat: userLat, lng: userLng } : null;
@@ -96,6 +105,32 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
       <Header />
 
       <main className="container mx-auto px-4 py-6">
+        {oneMapLastWarning ? (
+          <Alert className="mb-6 border-amber-200 bg-amber-50 text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-50">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>OneMap / home location notice</AlertTitle>
+            <AlertDescription className="space-y-3">
+              <p className="text-amber-950/90 dark:text-amber-50/90">{oneMapLastWarning}</p>
+              <p className="text-xs text-amber-950/80 dark:text-amber-50/80">
+                If this mentions an invalid or expired token, generate a new API token at{' '}
+                <a
+                  href="https://www.onemap.gov.sg/"
+                  className="font-medium underline underline-offset-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  onemap.gov.sg
+                </a>{' '}
+                and update <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[11px]">ONEMAP_ACCESS_TOKEN</code> in{' '}
+                <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[11px]">.env.local</code>, then restart{' '}
+                <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[11px]">npm run dev</code>. Tokens typically last about three days.
+              </p>
+              <Button type="button" variant="outline" size="sm" onClick={() => dismissOneMapWarning()}>
+                Dismiss
+              </Button>
+            </AlertDescription>
+          </Alert>
+        ) : null}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-foreground">Browse Schools</h1>
           <p className="mt-1 text-muted-foreground">
