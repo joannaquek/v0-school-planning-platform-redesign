@@ -35,7 +35,7 @@ export function SearchInput({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const displayPlaceholder = isMobile ? 'Enter address or postal code' : placeholder;
+  const displayPlaceholder = isMobile ? 'Find schools' : placeholder;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -56,7 +56,7 @@ export function SearchInput({
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={displayPlaceholder}
-          className="h-14 rounded-2xl border-border bg-card pl-12 pr-32 text-base shadow-sm transition-shadow focus-visible:shadow-md"
+          className="h-14 rounded-2xl border-border bg-card pl-12 pr-24 text-base shadow-sm transition-shadow focus-visible:shadow-md sm:pr-32"
         />
         <div className="absolute right-2 flex items-center gap-2">
           {value && (
