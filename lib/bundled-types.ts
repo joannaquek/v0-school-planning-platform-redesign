@@ -20,6 +20,9 @@ export type SchoolDetailData = {
   name: string;
   address: string;
   postalCode: string;
+  websiteUrl?: string | null;
+  phone?: string | null;
+  email?: string | null;
   lat: number | null;
   lng: number | null;
   distanceKm: number | null;

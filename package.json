@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "fetch:moe-logos": "node scripts/fetch-moe-school-logos.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

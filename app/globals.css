@@ -40,6 +40,9 @@
   --chart-3: oklch(0.75 0.15 75);
   --chart-4: oklch(0.62 0.2 25);
   --chart-5: oklch(0.6 0.15 280);
+  /* Trend chart: vacancies lighter, registered darker (same teal hue as primary) */
+  --trend-bar-vacancies: color-mix(in oklch, var(--primary) 42%, white);
+  --trend-bar-registered: color-mix(in oklch, var(--primary) 72%, oklch(0.28 0.08 215));
   --radius: 0.75rem;
   /* Sidebar */
   --sidebar: oklch(0.995 0 0);
@@ -83,6 +86,8 @@
   --chart-3: oklch(0.7 0.12 75);
   --chart-4: oklch(0.55 0.2 25);
   --chart-5: oklch(0.6 0.15 280);
+  --trend-bar-vacancies: color-mix(in oklch, var(--primary) 38%, oklch(0.42 0.02 250));
+  --trend-bar-registered: color-mix(in oklch, var(--primary) 82%, oklch(0.12 0.03 220));
   --sidebar: oklch(0.18 0.01 250);
   --sidebar-foreground: oklch(0.95 0.005 70);
   --sidebar-primary: oklch(0.65 0.12 200);

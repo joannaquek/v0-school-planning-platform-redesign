@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { Heart, MapPin, TrendingUp, TrendingDown, Minus, Plus, Scale, GraduationCap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -32,6 +33,9 @@ export function SchoolCard({ school, variant = 'default' }: SchoolCardProps) {
       ? 'text-destructive'
       : 'text-muted-foreground';
 
+  const distanceKmLabel =
+    school.distance != null ? `${school.distance.toFixed(1)}km` : null;
+
   if (variant === 'compact') {
     return (
       <Card className="group overflow-hidden transition-all hover:shadow-md hover:border-border">
@@ -46,7 +50,7 @@ export function SchoolCard({ school, variant = 'default' }: SchoolCardProps) {
               <div className="mt-1.5 flex items-center gap-2 text-xs text-muted-foreground">
                 <MapPin className="h-3 w-3 shrink-0" />
                 <span className="truncate">
-                  {school.distance ? `${school.distance}km away` : 'Distance unknown'}
+                  {distanceKmLabel ? `${distanceKmLabel} away` : 'Distance unknown'}
                 </span>
               </div>
             </div>
@@ -62,9 +66,21 @@ export function SchoolCard({ school, variant = 'default' }: SchoolCardProps) {
       <CardContent className="p-0">
         {/* School Image/Placeholder */}
         <div className="relative h-32 overflow-hidden bg-muted">
-          <div className="absolute inset-0 flex items-center justify-center bg-secondary">
-            <GraduationCap className="h-12 w-12 text-secondary-foreground/40" />
-          </div>
+          {school.imageUrl ? (
+            <div className="absolute inset-0 flex items-center justify-center bg-secondary p-4">
+              <Image
+                src={school.imageUrl}
+                alt=""
+                width={120}
+                height={120}
+                className="max-h-full w-auto max-w-full object-contain"
+              />
+            </div>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-secondary">
+              <GraduationCap className="h-12 w-12 text-secondary-foreground/40" />
+            </div>
+          )}
           <div className="absolute right-2 top-2 flex gap-1.5">
             <Button
               variant="secondary"
@@ -95,7 +111,7 @@ export function SchoolCard({ school, variant = 'default' }: SchoolCardProps) {
           <div className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
             <MapPin className="h-3.5 w-3.5 shrink-0" />
             <span className="truncate">
-              {school.distance ? `${school.distance}km` : '—'} · {school.distanceBand === '1km' ? 'Within 1km' : school.distanceBand === '1-2km' ? '1-2km' : 'Over 2km'}
+              {distanceKmLabel ?? '—'} · {school.distanceBand === '1km' ? 'Within 1km' : school.distanceBand === '1-2km' ? '1-2km' : 'Over 2km'}
             </span>
           </div>
 

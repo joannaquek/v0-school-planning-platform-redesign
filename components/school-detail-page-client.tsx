@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { Fragment, useMemo, type ReactNode } from 'react';
 import Link from 'next/link';
 import {
   ChevronLeft,
@@ -9,6 +9,9 @@ import {
   Scale,
   Share2,
   ExternalLink,
+  Globe,
+  Phone,
+  Mail,
   TrendingUp,
   TrendingDown,
   Minus,
@@ -112,6 +115,84 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                   {school.address}, Singapore {school.postalCode}
                 </span>
               </div>
+              {(school.websiteUrl || school.phone || school.email) && (
+                <div className="mt-2 flex flex-wrap items-center gap-x-1 text-sm text-muted-foreground">
+                  {(
+                    [
+                      school.websiteUrl
+                        ? {
+                            id: 'web',
+                            node: (
+                              <span className="inline-flex min-w-0 items-center gap-1.5">
+                                <Globe className="h-4 w-4 shrink-0" aria-hidden />
+                                <a
+                                  href={school.websiteUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="min-w-0 break-all text-primary underline-offset-4 hover:underline"
+                                >
+                                  <span className="sr-only">School website: </span>
+                                  {(() => {
+                                    try {
+                                      return new URL(school.websiteUrl).host;
+                                    } catch {
+                                      return school.websiteUrl;
+                                    }
+                                  })()}
+                                </a>
+                              </span>
+                            ),
+                          }
+                        : null,
+                      school.phone
+                        ? {
+                            id: 'phone',
+                            node: (
+                              <span className="inline-flex items-center gap-1.5">
+                                <Phone className="h-4 w-4 shrink-0" aria-hidden />
+                                <a
+                                  href={`tel:${school.phone.replace(/[^\d+]/g, '')}`}
+                                  className="text-primary underline-offset-4 hover:underline"
+                                >
+                                  <span className="sr-only">Phone: </span>
+                                  {school.phone}
+                                </a>
+                              </span>
+                            ),
+                          }
+                        : null,
+                      school.email
+                        ? {
+                            id: 'email',
+                            node: (
+                              <span className="inline-flex min-w-0 items-center gap-1.5">
+                                <Mail className="h-4 w-4 shrink-0" aria-hidden />
+                                <a
+                                  href={`mailto:${school.email}`}
+                                  className="min-w-0 break-all text-primary underline-offset-4 hover:underline"
+                                >
+                                  <span className="sr-only">Email: </span>
+                                  {school.email}
+                                </a>
+                              </span>
+                            ),
+                          }
+                        : null,
+                    ]
+                  )
+                    .filter((p): p is { id: string; node: ReactNode } => p != null)
+                    .map((part, i) => (
+                      <Fragment key={part.id}>
+                        {i > 0 ? (
+                          <span className="select-none px-1 text-muted-foreground/50" aria-hidden>
+                            |
+                          </span>
+                        ) : null}
+                        {part.node}
+                      </Fragment>
+                    ))}
+                </div>
+              )}
               {school.affiliation && (
                 <div className="mt-2 flex items-center gap-2">
                   <Badge variant="secondary" className="text-sm">
@@ -268,11 +349,7 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
               </CardContent>
             </Card>
 
-            <TrendChart
-              data={school.historicalData}
-              schoolName={school.name}
-              phase={phaseKey}
-            />
+            <TrendChart data={school.historicalData} />
 
             <BallotChart data={school.historicalData} phase={phaseKey} />
 

@@ -20,6 +20,9 @@ export interface School {
     lng: number;
   };
   imageUrl?: string;
+  websiteUrl?: string | null;
+  phone?: string | null;
+  email?: string | null;
 }
 
 export interface YearlyData {

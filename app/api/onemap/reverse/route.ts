@@ -50,14 +50,23 @@ export async function GET(request: Request) {
 
   const response = await fetch(upstreamUrl.toString(), {
     headers: { Authorization: `Bearer ${token}` },
-    next: { revalidate: 0 },
+    cache: 'no-store',
   });
 
   if (!response.ok) {
-    return NextResponse.json(
-      { error: `OneMap reverse geocode failed (${response.status})` },
-      { status: 502 }
-    );
+    let detail = `OneMap reverse geocode failed (${response.status})`;
+    try {
+      const errBody = (await response.json()) as { message?: string; error?: string };
+      if (errBody.message) detail = errBody.message;
+      else if (typeof errBody.error === 'string') detail = errBody.error;
+    } catch {
+      /* ignore */
+    }
+    const authIssue =
+      response.status === 401 ||
+      response.status === 403 ||
+      /token|authentication|expired|missing authentication/i.test(detail);
+    return NextResponse.json({ error: detail }, { status: authIssue ? 401 : 502 });
   }
 
   const payload = (await response.json()) as RevGeoPayload;
