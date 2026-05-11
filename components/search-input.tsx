@@ -35,7 +35,7 @@ export function SearchInput({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const displayPlaceholder = isMobile ? 'Find schools' : placeholder;
+  const displayPlaceholder = isMobile ? 'Enter address or postal code' : placeholder;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -73,12 +73,17 @@ export function SearchInput({
           <Button
             onClick={onSearch}
             disabled={isLoading || !value.trim()}
-            className="h-10 rounded-xl px-5"
+            className="h-10 rounded-xl px-5 sm:px-5"
+            size="icon"
+            variant="default"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              'Search'
+              <>
+                <Search className="h-4 w-4 sm:hidden" />
+                <span className="hidden sm:inline">Search</span>
+              </>
             )}
           </Button>
         </div>
