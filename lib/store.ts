@@ -30,11 +30,11 @@ interface AppState {
   selectedSchoolId: string | null;
   setSelectedSchoolId: (id: string | null) => void;
 
-  // Home location (OneMap geocode; drives distances on /schools)
+  // Home location (Google Geocoding via server; drives distances on /schools)
   userAddress: string;
   userLat: number | null;
   userLng: number | null;
-  /** OneMap `error` text when coordinates were still returned (e.g. token expiry warning). */
+  /** Optional upstream warning text (legacy field name). */
   oneMapLastWarning: string | null;
   setUserAddress: (address: string) => void;
   setGeocodedHome: (

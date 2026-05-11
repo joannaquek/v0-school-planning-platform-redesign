@@ -1,31 +1,25 @@
 import { NextResponse } from 'next/server';
 
-type GeocodeRow = {
-  POSTALCODE?: string;
-  POSTAL?: string;
-  BLOCK?: string;
-  ROAD?: string;
-  BUILDINGNAME?: string;
-  ADDRESS?: string;
+type GoogleGeocodeResponse = {
+  status: string;
+  error_message?: string;
+  results?: Array<{
+    formatted_address?: string;
+    address_components?: Array<{
+      long_name: string;
+      short_name: string;
+      types: string[];
+    }>;
+    geometry?: { location?: { lat: number; lng: number } };
+  }>;
 };
 
-type RevGeoPayload = {
-  GeocodeInfo?: GeocodeRow[];
-};
-
-function formatRow(row: GeocodeRow): { postalCode: string; address: string } {
-  const postal = (row.POSTALCODE ?? row.POSTAL ?? '').trim();
-  const block = (row.BLOCK ?? '').trim();
-  const road = (row.ROAD ?? '').trim();
-  const building = (row.BUILDINGNAME ?? '').trim();
-  const line =
-    row.ADDRESS?.trim() ||
-    [block, road].filter(Boolean).join(' ').trim() ||
-    building ||
-    '';
-  const address =
-    postal && line ? `${line} Singapore ${postal}` : postal ? `Singapore ${postal}` : line;
-  return { postalCode: postal, address: address || `${postal}` };
+function postalFromComponents(
+  components: GoogleGeocodeResponse['results'][0]['address_components'] | undefined
+): string {
+  if (!components) return '';
+  const pc = components.find((c) => c.types.includes('postal_code'));
+  return pc?.long_name?.trim() ?? '';
 }
 
 export async function GET(request: Request) {
@@ -36,54 +30,58 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Invalid lat/lng' }, { status: 400 });
   }
 
-  const token = process.env.ONEMAP_ACCESS_TOKEN;
-  if (!token) {
+  const key = process.env.GOOGLE_MAPS_SERVER_API_KEY;
+  if (!key) {
     return NextResponse.json(
-      { error: 'Missing ONEMAP_ACCESS_TOKEN on server' },
+      { error: 'Missing GOOGLE_MAPS_SERVER_API_KEY on server' },
       { status: 500 }
     );
   }
 
-  const upstreamUrl = new URL('https://www.onemap.gov.sg/api/private/commonsvc/revgeocode');
-  upstreamUrl.searchParams.set('location', `${lat},${lng}`);
-  upstreamUrl.searchParams.set('token', token);
+  const upstreamUrl = new URL('https://maps.googleapis.com/maps/api/geocode/json');
+  upstreamUrl.searchParams.set('latlng', `${lat},${lng}`);
+  upstreamUrl.searchParams.set('key', key);
 
-  const response = await fetch(upstreamUrl.toString(), {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: 'no-store',
-  });
+  const response = await fetch(upstreamUrl.toString(), { cache: 'no-store' });
 
   if (!response.ok) {
-    let detail = `OneMap reverse geocode failed (${response.status})`;
-    try {
-      const errBody = (await response.json()) as { message?: string; error?: string };
-      if (errBody.message) detail = errBody.message;
-      else if (typeof errBody.error === 'string') detail = errBody.error;
-    } catch {
-      /* ignore */
-    }
-    const authIssue =
-      response.status === 401 ||
-      response.status === 403 ||
-      /token|authentication|expired|missing authentication/i.test(detail);
-    return NextResponse.json({ error: detail }, { status: authIssue ? 401 : 502 });
+    return NextResponse.json(
+      { error: `Google reverse geocode failed (${response.status})` },
+      { status: 502 }
+    );
   }
 
-  const payload = (await response.json()) as RevGeoPayload;
-  const rows = payload.GeocodeInfo;
-  const first = Array.isArray(rows) ? rows[0] : undefined;
-  if (!first) {
+  const payload = (await response.json()) as GoogleGeocodeResponse;
+  const status = payload.status ?? 'UNKNOWN_ERROR';
+
+  if (status === 'ZERO_RESULTS' || !payload.results?.length) {
     return NextResponse.json(
       { error: 'No address for coordinates', lat, lng },
       { status: 404 }
     );
   }
 
-  const { postalCode, address } = formatRow(first);
+  if (status !== 'OK') {
+    const msg = payload.error_message?.trim() || `Reverse geocode failed (${status})`;
+    const authIssue = /denied|invalid|expired|API key|not authorized|REQUEST_DENIED/i.test(msg);
+    return NextResponse.json({ error: msg }, { status: authIssue ? 401 : 502 });
+  }
+
+  const first = payload.results[0];
+  const postalCode = postalFromComponents(first.address_components);
+  const address = first.formatted_address?.trim() || '';
+
+  if (!address && !postalCode) {
+    return NextResponse.json(
+      { error: 'No address for coordinates', lat, lng },
+      { status: 404 }
+    );
+  }
+
   return NextResponse.json({
     lat,
     lng,
     postalCode,
-    address: address || `Singapore ${postalCode}`.trim(),
+    address: address || (postalCode ? `Singapore ${postalCode}` : ''),
   });
 }

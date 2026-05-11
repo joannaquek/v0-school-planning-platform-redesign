@@ -108,22 +108,22 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
         {oneMapLastWarning ? (
           <Alert className="mb-6 border-amber-200 bg-amber-50 text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-50">
             <AlertTriangle className="h-4 w-4" />
-            <AlertTitle>OneMap / home location notice</AlertTitle>
+            <AlertTitle>Home location notice</AlertTitle>
             <AlertDescription className="space-y-3">
               <p className="text-amber-950/90 dark:text-amber-50/90">{oneMapLastWarning}</p>
               <p className="text-xs text-amber-950/80 dark:text-amber-50/80">
-                If this mentions an invalid or expired token, generate a new API token at{' '}
+                If this mentions the Geocoding API or your key, confirm the Geocoding API is enabled and billing is active in{' '}
                 <a
-                  href="https://www.onemap.gov.sg/"
+                  href="https://console.cloud.google.com/apis/library/geocoding-backend.googleapis.com"
                   className="font-medium underline underline-offset-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  onemap.gov.sg
-                </a>{' '}
-                and update <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[11px]">ONEMAP_ACCESS_TOKEN</code> in{' '}
-                <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[11px]">.env.local</code>, then restart{' '}
-                <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[11px]">npm run dev</code>. Tokens typically last about three days.
+                  Google Cloud Console
+                </a>
+                , then update <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[11px]">GOOGLE_MAPS_SERVER_API_KEY</code> in{' '}
+                <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[11px]">.env.local</code> and restart{' '}
+                <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[11px]">npm run dev</code>.
               </p>
               <Button type="button" variant="outline" size="sm" onClick={() => dismissOneMapWarning()}>
                 Dismiss
