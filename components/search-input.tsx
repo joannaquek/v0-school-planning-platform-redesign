@@ -26,6 +26,16 @@ export function SearchInput({
   isLoading = false,
 }: SearchInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const displayPlaceholder = isMobile ? 'Enter address or postal code' : placeholder;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -45,7 +55,7 @@ export function SearchInput({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={placeholder}
+          placeholder={displayPlaceholder}
           className="h-14 rounded-2xl border-border bg-card pl-12 pr-32 text-base shadow-sm transition-shadow focus-visible:shadow-md"
         />
         <div className="absolute right-2 flex items-center gap-2">
