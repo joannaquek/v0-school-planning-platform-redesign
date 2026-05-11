@@ -33,6 +33,45 @@ function normalizePhase(phase: string): '2A' | '2B' | '2C' {
   return '2C';
 }
 
+function totalVacanciesForYear(detail: SchoolDetailData, year: number): number {
+  const override = detail.annualTotalVacancies?.[String(year)];
+  if (typeof override === 'number' && Number.isFinite(override)) {
+    return override;
+  }
+
+  return detail.ballotingHistory
+    .filter((h) => h.year === year)
+    .reduce((sum, h) => sum + h.vacancies, 0);
+}
+
+function totalRegisteredForYear(detail: SchoolDetailData, year: number): number {
+  const override = detail.annualTotalRegistered?.[String(year)];
+  if (typeof override === 'number' && Number.isFinite(override)) {
+    return override;
+  }
+
+  return detail.ballotingHistory
+    .filter((h) => h.year === year)
+    .reduce((sum, h) => sum + h.applicants, 0);
+}
+
+function intakeChangeFromTotals(
+  detail: SchoolDetailData,
+  year: number
+): { direction: School['intakeChange']; delta: number } {
+  const current = totalVacanciesForYear(detail, year);
+  const next = totalVacanciesForYear(detail, year + 1);
+
+  if (current > 0 && next > 0) {
+    const delta = next - current;
+    if (delta > 0) return { direction: 'increase', delta };
+    if (delta < 0) return { direction: 'decrease', delta };
+    return { direction: 'no-change', delta: 0 };
+  }
+
+  return { direction: detail.intakeDirection, delta: detail.intakeDelta };
+}
+
 function historyToYearlyData(history: SchoolDetailData['ballotingHistory']): YearlyData[] {
   return [...history]
     .sort((a, b) => b.year - a.year || b.phase.localeCompare(a.phase))
@@ -61,6 +100,9 @@ export function detailToSchool(
 ): School {
   const ph = normalizePhase(phase);
   const rec = detail.ballotingHistory.find((h) => h.year === year && h.phase === ph);
+  const totalVacanciesYear = totalVacanciesForYear(detail, year);
+  const totalRegisteredYear = totalRegisteredForYear(detail, year);
+  const intakeChange = intakeChangeFromTotals(detail, year);
   const pressureRaw =
     rec && rec.vacancies > 0
       ? ballotingPressureFromRatio(rec.applicants, rec.vacancies)
@@ -84,10 +126,10 @@ export function detailToSchool(
     distance: distanceKm ?? undefined,
     distanceBand: distanceBandFromKm(distanceKm),
     pressure: pressureToUi(pressureRaw),
-    intakeChange: detail.intakeDirection,
-    intakeChangeValue: detail.intakeDelta,
-    totalVacancies: rec?.vacancies ?? 0,
-    registeredStudents: rec?.applicants ?? 0,
+    intakeChange: intakeChange.direction,
+    intakeChangeValue: intakeChange.delta,
+    totalVacancies: totalVacanciesYear,
+    registeredStudents: totalRegisteredYear,
     ballotChance,
     ccas: detail.ccas,
     affiliation: detail.affiliation ?? undefined,

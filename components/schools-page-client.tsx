@@ -216,6 +216,7 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
                 key={school.id}
                 school={school}
                 variant={viewMode === 'list' ? 'compact' : 'default'}
+                vacancyYearLabel={filters.year}
               />
             ))}
           </div>

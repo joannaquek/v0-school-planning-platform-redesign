@@ -14,12 +14,15 @@ import { cn } from '@/lib/utils';
 interface SchoolCardProps {
   school: School;
   variant?: 'default' | 'compact';
+  vacancyYearLabel?: string;
 }
 
-export function SchoolCard({ school, variant = 'default' }: SchoolCardProps) {
+export function SchoolCard({ school, variant = 'default', vacancyYearLabel }: SchoolCardProps) {
   const { toggleFavorite, isFavorite, addToCompare, isInCompare, removeFromCompare } = useAppStore();
   const favorite = isFavorite(school.id);
   const inCompare = isInCompare(school.id);
+  const displayYear =
+    vacancyYearLabel ?? String(Math.max(...school.historicalData.map((row) => row.year)));
 
   const IntakeIcon = school.intakeChange === 'increase' 
     ? TrendingUp 
@@ -118,7 +121,9 @@ export function SchoolCard({ school, variant = 'default' }: SchoolCardProps) {
           {/* Stats Grid */}
           <div className="mt-3 grid grid-cols-2 gap-2">
             <div className="rounded-lg bg-muted/50 px-3 py-2">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Vacancies</p>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                Vacancies ({displayYear})
+              </p>
               <p className="text-lg font-semibold text-foreground">{school.totalVacancies}</p>
             </div>
             <div className="rounded-lg bg-muted/50 px-3 py-2">
@@ -135,7 +140,7 @@ export function SchoolCard({ school, variant = 'default' }: SchoolCardProps) {
             <span className={intakeChangeColor}>
               {school.intakeChange === 'no-change' 
                 ? 'No intake change' 
-                : `${school.intakeChangeValue && school.intakeChangeValue > 0 ? '+' : ''}${school.intakeChangeValue || 0} vacancies`}
+                : `${school.intakeChangeValue && school.intakeChangeValue > 0 ? '+' : ''}${school.intakeChangeValue || 0} vacancies (from ${displayYear})`}
             </span>
           </div>
 

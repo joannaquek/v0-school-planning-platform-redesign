@@ -58,7 +58,7 @@ export function FavoritesPageClient({ details }: { details: SchoolDetailData[] }
         {favoriteSchools.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {favoriteSchools.map((school) => (
-              <SchoolCard key={school.id} school={school} />
+              <SchoolCard key={school.id} school={school} vacancyYearLabel={filters.year} />
             ))}
           </div>
         ) : (

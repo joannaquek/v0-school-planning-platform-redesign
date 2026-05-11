@@ -61,6 +61,23 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
     [school.historicalData, filters.year, phaseKey]
   );
 
+  const pivotRows = useMemo(() => {
+    const byYear = new Map<number, Map<string, (typeof school.historicalData)[number]>>();
+    for (const row of school.historicalData) {
+      if (!byYear.has(row.year)) byYear.set(row.year, new Map());
+      byYear.get(row.year)!.set(row.phase, row);
+    }
+
+    return Array.from(byYear.entries())
+      .sort((a, b) => b[0] - a[0])
+      .map(([year, phaseMap]) => ({
+        year,
+        p2a: phaseMap.get('2A'),
+        p2b: phaseMap.get('2B'),
+        p2c: phaseMap.get('2C'),
+      }));
+  }, [school.historicalData]);
+
   const favorite = isFavorite(school.id);
   const inCompare = isInCompare(school.id);
 
@@ -257,7 +274,7 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                   <Users className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Vacancies</p>
+                  <p className="text-sm text-muted-foreground">Vacancies ({filters.year})</p>
                   <p className="text-xl font-bold text-foreground">{school.totalVacancies}</p>
                 </div>
               </div>
@@ -324,8 +341,8 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                       <IntakeIcon className={cn('h-4 w-4', intakeChangeColor)} />
                       <span className={intakeChangeColor}>
                         {school.intakeChange === 'no-change'
-                          ? 'No change from last year'
-                          : `${school.intakeChangeValue && school.intakeChangeValue > 0 ? '+' : ''}${school.intakeChangeValue || 0} vacancies`}
+                          ? `No change from ${filters.year}`
+                          : `${school.intakeChangeValue && school.intakeChangeValue > 0 ? '+' : ''}${school.intakeChangeValue || 0} vacancies (from ${filters.year})`}
                       </span>
                     </div>
                   </div>
@@ -351,7 +368,7 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
 
             <TrendChart data={school.historicalData} />
 
-            <BallotChart data={school.historicalData} phase={phaseKey} />
+            <BallotChart data={school.historicalData} />
 
             <Card>
               <CardHeader>
@@ -365,43 +382,47 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                         <th className="pb-3 pr-4 text-left font-medium text-muted-foreground">
                           Year
                         </th>
-                        <th className="pb-3 px-4 text-center font-medium text-muted-foreground">
-                          Phase
-                        </th>
-                        <th className="pb-3 px-4 text-center font-medium text-muted-foreground">
-                          Vacancies
-                        </th>
-                        <th className="pb-3 px-4 text-center font-medium text-muted-foreground">
-                          Registered
-                        </th>
-                        <th className="pb-3 px-4 text-center font-medium text-muted-foreground">
-                          Balloted
-                        </th>
-                        <th className="pb-3 pl-4 text-center font-medium text-muted-foreground">
-                          Success Rate
-                        </th>
+                        <th className="pb-3 px-4 text-center font-medium text-muted-foreground">Phase 2A</th>
+                        <th className="pb-3 px-4 text-center font-medium text-muted-foreground">Phase 2B</th>
+                        <th className="pb-3 pl-4 text-center font-medium text-muted-foreground">Phase 2C</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border">
-                      {school.historicalData.map((row) => (
-                        <tr key={`${row.year}-${row.phase}`}>
-                          <td className="py-3 pr-4 font-medium text-foreground">{row.year}</td>
-                          <td className="py-3 px-4 text-center">{row.phase}</td>
-                          <td className="py-3 px-4 text-center">{row.vacancies}</td>
-                          <td className="py-3 px-4 text-center">{row.registered}</td>
-                          <td className="py-3 px-4 text-center">
-                            <Badge
-                              variant={row.balloted ? 'destructive' : 'secondary'}
-                              className="text-xs"
-                            >
-                              {row.balloted ? 'Yes' : 'No'}
-                            </Badge>
-                          </td>
-                          <td className="py-3 pl-4 text-center font-medium">
-                            {row.ballotRate != null ? `${row.ballotRate}%` : '—'}
-                          </td>
-                        </tr>
-                      ))}
+                      {pivotRows.map((row) => {
+                        const renderPhaseCell = (
+                          phaseRow:
+                            | {
+                                vacancies: number;
+                                registered: number;
+                                ballotRate?: number;
+                              }
+                            | undefined
+                        ) => {
+                          if (!phaseRow) {
+                            return <span className="text-muted-foreground">—</span>;
+                          }
+
+                          return (
+                            <div className="flex flex-col items-center gap-1">
+                              <span className="text-[11px] text-muted-foreground">
+                                {phaseRow.vacancies}/{phaseRow.registered}
+                              </span>
+                              <span className="text-base font-semibold text-foreground">
+                                {phaseRow.ballotRate != null ? `${phaseRow.ballotRate}%` : '—'}
+                              </span>
+                            </div>
+                          );
+                        };
+
+                        return (
+                          <tr key={row.year}>
+                            <td className="py-3 pr-4 font-medium text-foreground">{row.year}</td>
+                            <td className="py-3 px-4 text-center">{renderPhaseCell(row.p2a)}</td>
+                            <td className="py-3 px-4 text-center">{renderPhaseCell(row.p2b)}</td>
+                            <td className="py-3 pl-4 text-center">{renderPhaseCell(row.p2c)}</td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
