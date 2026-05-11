@@ -14,9 +14,6 @@ interface SearchInputProps {
   className?: string;
   showLocationButton?: boolean;
   isLoading?: boolean;
-  /** Geolocation + reverse geocode (parent implements). */
-  onUseMyLocation?: () => void | Promise<void>;
-  isLocating?: boolean;
 }
 
 export function SearchInput({
@@ -27,10 +24,18 @@ export function SearchInput({
   className,
   showLocationButton = true,
   isLoading = false,
-  onUseMyLocation,
-  isLocating = false,
 }: SearchInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const displayPlaceholder = isMobile ? 'Enter address or postal code' : placeholder;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -50,8 +55,8 @@ export function SearchInput({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={placeholder}
-          className="h-14 rounded-2xl border-border bg-card pl-12 pr-32 text-base shadow-sm transition-shadow focus-visible:shadow-md"
+          placeholder={displayPlaceholder}
+          className="h-14 rounded-2xl border-border bg-card pl-12 pr-24 text-base shadow-sm transition-shadow focus-visible:shadow-md sm:pr-32"
         />
         <div className="absolute right-2 flex items-center gap-2">
           {value && (
@@ -68,30 +73,32 @@ export function SearchInput({
           <Button
             onClick={onSearch}
             disabled={isLoading || !value.trim()}
-            className="h-10 rounded-xl px-5"
+            className="h-10 rounded-xl px-5 sm:px-5"
+            size="icon"
+            variant="default"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              'Search'
+              <>
+                <Search className="h-4 w-4 sm:hidden" />
+                <span className="hidden sm:inline">Search</span>
+              </>
             )}
           </Button>
         </div>
       </div>
 
-      {showLocationButton && onUseMyLocation && (
+      {showLocationButton && (
         <button
-          type="button"
-          disabled={isLocating || isLoading}
-          className="mt-3 inline-flex items-center gap-2 text-sm text-primary transition-colors hover:text-primary/80 disabled:pointer-events-none disabled:opacity-50"
-          onClick={() => void onUseMyLocation()}
+          className="mt-3 inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors"
+          onClick={() => {
+            // Simulate using current location
+            onChange('Singapore 238801');
+          }}
         >
-          {isLocating ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <MapPin className="h-4 w-4" />
-          )}
-          {isLocating ? 'Getting location…' : 'Use my current location'}
+          <MapPin className="h-4 w-4" />
+          Use my current location
         </button>
       )}
     </div>
