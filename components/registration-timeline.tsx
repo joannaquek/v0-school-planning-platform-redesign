@@ -356,9 +356,8 @@ export function RegistrationTimeline() {
             </div>
           </div>
 
-          </div>
-
-          {/* Detail card — shown on node click */}
+          {/* Detail card — shown on node click (desktop only) */}
+          <div className="hidden sm:block">
           {activePhase && (() => {
             const p = phases.find(ph => ph.phase === activePhase)!;
             const colors = colorMap[p.color as ColorKey];
@@ -412,6 +411,7 @@ export function RegistrationTimeline() {
               </div>
             );
           })()}
+          </div>
 
           {/* Source note */}
           <p className="mt-6 text-center text-xs text-muted-foreground">
