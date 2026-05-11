@@ -44,6 +44,23 @@ function totalVacanciesForYear(detail: SchoolDetailData, year: number): number {
     .reduce((sum, h) => sum + h.vacancies, 0);
 }
 
+function intakeChangeFromTotals(
+  detail: SchoolDetailData,
+  year: number
+): { direction: School['intakeChange']; delta: number } {
+  const current = totalVacanciesForYear(detail, year);
+  const next = totalVacanciesForYear(detail, year + 1);
+
+  if (current > 0 && next > 0) {
+    const delta = next - current;
+    if (delta > 0) return { direction: 'increase', delta };
+    if (delta < 0) return { direction: 'decrease', delta };
+    return { direction: 'no-change', delta: 0 };
+  }
+
+  return { direction: detail.intakeDirection, delta: detail.intakeDelta };
+}
+
 function historyToYearlyData(history: SchoolDetailData['ballotingHistory']): YearlyData[] {
   return [...history]
     .sort((a, b) => b.year - a.year || b.phase.localeCompare(a.phase))
@@ -73,6 +90,7 @@ export function detailToSchool(
   const ph = normalizePhase(phase);
   const rec = detail.ballotingHistory.find((h) => h.year === year && h.phase === ph);
   const totalVacanciesYear = totalVacanciesForYear(detail, year);
+  const intakeChange = intakeChangeFromTotals(detail, year);
   const pressureRaw =
     rec && rec.vacancies > 0
       ? ballotingPressureFromRatio(rec.applicants, rec.vacancies)
@@ -96,8 +114,8 @@ export function detailToSchool(
     distance: distanceKm ?? undefined,
     distanceBand: distanceBandFromKm(distanceKm),
     pressure: pressureToUi(pressureRaw),
-    intakeChange: detail.intakeDirection,
-    intakeChangeValue: detail.intakeDelta,
+    intakeChange: intakeChange.direction,
+    intakeChangeValue: intakeChange.delta,
     totalVacancies: totalVacanciesYear,
     registeredStudents: rec?.applicants ?? 0,
     ballotChance,
