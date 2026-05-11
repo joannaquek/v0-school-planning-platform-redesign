@@ -4,13 +4,13 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   ResponsiveContainer,
   Legend,
   BarChart,
   Bar,
   LabelList,
   Customized,
+  ReferenceLine,
 } from 'recharts';
 import {
   Card,
@@ -173,13 +173,6 @@ export function TrendChart({ data }: TrendChartProps) {
                 tickLine={false}
                 axisLine={false}
                 allowDecimals={false}
-                label={{
-                  value: 'Slots',
-                  angle: -90,
-                  position: 'left',
-                  offset: 4,
-                  style: { fill: 'hsl(var(--muted-foreground))', fontSize: 12, fontWeight: 500 },
-                }}
               />
               <Legend
                 wrapperStyle={{ fontSize: '12px', paddingTop: '16px' }}
@@ -235,10 +228,11 @@ export function TrendChart({ data }: TrendChartProps) {
 
 interface BallotChartProps {
   data: YearlyData[];
-  phase?: '2A' | '2B' | '2C';
 }
 
-export function BallotChart({ data, phase = '2C' }: BallotChartProps) {
+export function BallotChart({ data }: BallotChartProps) {
+  const { filters } = useAppStore();
+  const phase = normalizePhase(filters.phase);
   const filtered = data.filter((d) => d.phase === phase);
   const chartData = [...filtered].reverse().map((d) => ({
     year: d.year.toString(),
@@ -246,11 +240,17 @@ export function BallotChart({ data, phase = '2C' }: BallotChartProps) {
     balloted: d.balloted,
   }));
 
+  const maxRate = chartData.reduce((max, row) => Math.max(max, row.ballotRate), 100);
+  const yMax = Math.max(120, Math.ceil(maxRate / 10) * 10);
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="text-lg">Ballot Success Rate</CardTitle>
-        <CardDescription>Chance of securing a place through ballot</CardDescription>
+        <CardDescription>
+          <span className="block">{`Chance of securing a place through ballot for Phase ${phase}.`}</span>
+          <span className="block">{`Success rate = vacancies ÷ registered applicants × 100%.`}</span>
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="h-[250px] w-full">
@@ -268,25 +268,27 @@ export function BallotChart({ data, phase = '2C' }: BallotChartProps) {
                 className="text-muted-foreground"
                 tickLine={false}
                 axisLine={false}
-                domain={[0, 100]}
+                domain={[0, yMax]}
                 tickFormatter={(value) => `${value}%`}
               />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: 'hsl(var(--card))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '8px',
-                  fontSize: '12px',
+              <ReferenceLine
+                y={100}
+                stroke="#ef4444"
+                strokeOpacity={0.9}
+                strokeWidth={2.5}
+                isFront
+                ifOverflow="extendDomain"
+                label={{
+                  value: '100%',
+                  position: 'insideTopRight',
+                  fill: '#ef4444',
+                  fontSize: 10,
                 }}
-                formatter={(value: number, name: string) => [
-                  `${value}%`,
-                  'Ballot Rate',
-                ]}
               />
               <Bar
                 dataKey="ballotRate"
                 name="Ballot Rate"
-                fill="hsl(var(--chart-1))"
+                fill="var(--trend-bar-vacancies)"
                 radius={[4, 4, 0, 0]}
               />
             </BarChart>

@@ -42,4 +42,6 @@ export type SchoolDetailData = {
    * full registration exercise including phases outside the bundled 2A/2B/2C split).
    */
   annualTotalVacancies?: Record<string, number>;
+  /** Optional year-level total registered applicants override. */
+  annualTotalRegistered?: Record<string, number>;
 };

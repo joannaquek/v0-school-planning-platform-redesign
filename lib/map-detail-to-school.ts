@@ -44,6 +44,17 @@ function totalVacanciesForYear(detail: SchoolDetailData, year: number): number {
     .reduce((sum, h) => sum + h.vacancies, 0);
 }
 
+function totalRegisteredForYear(detail: SchoolDetailData, year: number): number {
+  const override = detail.annualTotalRegistered?.[String(year)];
+  if (typeof override === 'number' && Number.isFinite(override)) {
+    return override;
+  }
+
+  return detail.ballotingHistory
+    .filter((h) => h.year === year)
+    .reduce((sum, h) => sum + h.applicants, 0);
+}
+
 function intakeChangeFromTotals(
   detail: SchoolDetailData,
   year: number
@@ -90,6 +101,7 @@ export function detailToSchool(
   const ph = normalizePhase(phase);
   const rec = detail.ballotingHistory.find((h) => h.year === year && h.phase === ph);
   const totalVacanciesYear = totalVacanciesForYear(detail, year);
+  const totalRegisteredYear = totalRegisteredForYear(detail, year);
   const intakeChange = intakeChangeFromTotals(detail, year);
   const pressureRaw =
     rec && rec.vacancies > 0
@@ -117,7 +129,7 @@ export function detailToSchool(
     intakeChange: intakeChange.direction,
     intakeChangeValue: intakeChange.delta,
     totalVacancies: totalVacanciesYear,
-    registeredStudents: rec?.applicants ?? 0,
+    registeredStudents: totalRegisteredYear,
     ballotChance,
     ccas: detail.ccas,
     affiliation: detail.affiliation ?? undefined,

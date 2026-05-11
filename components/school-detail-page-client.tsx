@@ -351,7 +351,7 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
 
             <TrendChart data={school.historicalData} />
 
-            <BallotChart data={school.historicalData} phase={phaseKey} />
+            <BallotChart data={school.historicalData} />
 
             <Card>
               <CardHeader>
