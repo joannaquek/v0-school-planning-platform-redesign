@@ -33,6 +33,17 @@ function normalizePhase(phase: string): '2A' | '2B' | '2C' {
   return '2C';
 }
 
+function totalVacanciesForYear(detail: SchoolDetailData, year: number): number {
+  const override = detail.annualTotalVacancies?.[String(year)];
+  if (typeof override === 'number' && Number.isFinite(override)) {
+    return override;
+  }
+
+  return detail.ballotingHistory
+    .filter((h) => h.year === year)
+    .reduce((sum, h) => sum + h.vacancies, 0);
+}
+
 function historyToYearlyData(history: SchoolDetailData['ballotingHistory']): YearlyData[] {
   return [...history]
     .sort((a, b) => b.year - a.year || b.phase.localeCompare(a.phase))
@@ -61,6 +72,7 @@ export function detailToSchool(
 ): School {
   const ph = normalizePhase(phase);
   const rec = detail.ballotingHistory.find((h) => h.year === year && h.phase === ph);
+  const totalVacanciesYear = totalVacanciesForYear(detail, year);
   const pressureRaw =
     rec && rec.vacancies > 0
       ? ballotingPressureFromRatio(rec.applicants, rec.vacancies)
@@ -86,7 +98,7 @@ export function detailToSchool(
     pressure: pressureToUi(pressureRaw),
     intakeChange: detail.intakeDirection,
     intakeChangeValue: detail.intakeDelta,
-    totalVacancies: rec?.vacancies ?? 0,
+    totalVacancies: totalVacanciesYear,
     registeredStudents: rec?.applicants ?? 0,
     ballotChance,
     ccas: detail.ccas,

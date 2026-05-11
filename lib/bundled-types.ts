@@ -37,4 +37,9 @@ export type SchoolDetailData = {
   affiliationNotes: string;
   ballotingHistory: BallotingPhaseRecord[];
   sourceLinks: SourceLink[];
+  /**
+   * Optional year-level total intake/vacancy override (for example MOE total for the
+   * full registration exercise including phases outside the bundled 2A/2B/2C split).
+   */
+  annualTotalVacancies?: Record<string, number>;
 };
