@@ -134,8 +134,100 @@ export function RegistrationTimeline() {
             )}
           </div>
 
-          {/* Horizontal timeline — scrollable on mobile */}
-          <div className="overflow-x-auto pb-4 no-scrollbar">
+          {/* Vertical timeline — mobile only */}
+          <div className="sm:hidden">
+            <div className="relative pl-8">
+              {/* Vertical line */}
+              <div className="absolute left-[14px] top-2 bottom-2 w-px bg-border" />
+
+              {phases.map((p, idx) => {
+                const colors = colorMap[p.color as ColorKey];
+                const status = getPhaseStatus(p.startDate, p.resultsDate);
+                const isActive = activePhase === p.phase;
+                const isCurrentPhase = status === 'active';
+                const daysUntil = getDaysUntil(p.startDate);
+
+                return (
+                  <div key={p.phase} className={cn('relative mb-5 last:mb-0')}>
+                    {/* Node */}
+                    <div className="absolute -left-8 flex h-7 w-7 items-center justify-center">
+                      <button
+                        onClick={() => setActivePhase(isActive ? null : p.phase)}
+                        className={cn(
+                          'flex h-7 w-7 items-center justify-center rounded-full border-2 bg-background transition-all',
+                          isActive
+                            ? `${colors.node} border-transparent text-white shadow-md`
+                            : status === 'completed'
+                            ? 'border-border bg-muted text-muted-foreground'
+                            : isCurrentPhase
+                            ? `${colors.nodeBorder} ${colors.node} text-white shadow-md`
+                            : 'border-border bg-background'
+                        )}
+                        aria-label={`View ${p.phase} details`}
+                      >
+                        {status === 'completed' ? (
+                          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                            <path d="M2.5 7L5.5 10L11.5 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        ) : (
+                          <span className={cn(
+                            'text-[10px] font-bold',
+                            isActive || isCurrentPhase ? 'text-white' : 'text-muted-foreground'
+                          )}>
+                            {idx + 1}
+                          </span>
+                        )}
+                      </button>
+                      {isCurrentPhase && !isActive && (
+                        <span className={cn('absolute inset-0 rounded-full animate-ping opacity-30', colors.node)} />
+                      )}
+                    </div>
+
+                    {/* Content card */}
+                    <button
+                      onClick={() => setActivePhase(isActive ? null : p.phase)}
+                      className={cn(
+                        'w-full rounded-xl border p-3 text-left transition-all',
+                        isActive
+                          ? `${colors.card} ${colors.cardBorder}`
+                          : 'border-border bg-card hover:border-primary/30'
+                      )}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className={cn('text-sm font-bold', isActive ? colors.label : 'text-foreground')}>
+                              {p.phase}
+                            </span>
+                            {status === 'active' && (
+                              <span className={cn('flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold border', colors.card, colors.cardBorder, colors.label)}>
+                                <span className={cn('h-1.5 w-1.5 rounded-full animate-pulse', colors.dot)} />
+                                Open
+                              </span>
+                            )}
+                            {status === 'upcoming' && daysUntil > 0 && idx === 0 && (
+                              <span className={cn('rounded-full px-2 py-0.5 text-[10px] font-semibold border', colors.card, colors.cardBorder, colors.label)}>
+                                In {daysUntil}d
+                              </span>
+                            )}
+                          </div>
+                          <p className="mt-0.5 text-xs text-muted-foreground">{p.description}</p>
+                        </div>
+                        <div className="shrink-0 text-right">
+                          <p className="text-[11px] text-muted-foreground">{p.registrationStart}</p>
+                          <p className="text-[11px] text-muted-foreground">– {p.registrationEnd}</p>
+                          <p className={cn('mt-0.5 text-[11px] font-semibold', colors.label)}>Results: {p.results}</p>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Horizontal timeline — desktop only */}
+          <div className="hidden sm:block overflow-x-auto pb-4 no-scrollbar">
             <div className="min-w-[640px]">
 
               {/* Top labels (phase name + reg dates) */}
@@ -262,6 +354,8 @@ export function RegistrationTimeline() {
                 })}
               </div>
             </div>
+          </div>
+
           </div>
 
           {/* Detail card — shown on node click */}
