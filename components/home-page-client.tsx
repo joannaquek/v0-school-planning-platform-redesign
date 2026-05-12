@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   GraduationCap,
   Search,
@@ -288,7 +289,17 @@ export function HomePageClient({
                 <CardContent className="p-0">
                   <div className="relative h-28 bg-secondary">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <GraduationCap className="h-10 w-10 text-secondary-foreground/30" />
+                      {school.imageUrl ? (
+                        <Image
+                          src={school.imageUrl}
+                          alt=""
+                          width={112}
+                          height={112}
+                          className="max-h-full w-auto max-w-full object-contain p-3"
+                        />
+                      ) : (
+                        <GraduationCap className="h-10 w-10 text-secondary-foreground/30" />
+                      )}
                     </div>
                     <div className="absolute bottom-2 left-2">
                       <PressureBadge pressure={school.pressure} size="sm" />
