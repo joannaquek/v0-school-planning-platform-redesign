@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const phases = [
   {
@@ -196,7 +197,7 @@ export function RegistrationTimeline() {
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className={cn('text-sm font-bold', isActive ? colors.label : 'text-foreground')}>
+                            <span className={cn('text-base font-bold', isActive ? colors.label : 'text-foreground')}>
                               {p.phase}
                             </span>
                             {status === 'active' && (
@@ -211,7 +212,11 @@ export function RegistrationTimeline() {
                               </span>
                             )}
                           </div>
-                          <p className="mt-0.5 text-xs text-muted-foreground">{p.description}</p>
+                          {isActive && (
+                            <p className="mt-1 rounded-md bg-background/70 px-2 py-1 text-xs text-muted-foreground">
+                              {p.description}
+                            </p>
+                          )}
                         </div>
                         <div className="shrink-0 text-right">
                           <p className="text-[11px] text-muted-foreground">{p.registrationStart}</p>
@@ -237,36 +242,42 @@ export function RegistrationTimeline() {
                   const status = getPhaseStatus(p.startDate, p.resultsDate);
                   const isActive = activePhase === p.phase;
                   return (
-                    <button
-                      key={p.phase}
-                      onClick={() => setActivePhase(isActive ? null : p.phase)}
-                      className={cn(
-                        'group flex-1 cursor-pointer text-left',
-                        idx !== phases.length - 1 && 'pr-2'
-                      )}
-                    >
-                      {/* Phase label */}
-                      <div className={cn(
-                        'mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition-colors',
-                        isActive
-                          ? `${colors.card} ${colors.label} ${colors.cardBorder} border`
-                          : 'text-muted-foreground hover:text-foreground'
-                      )}>
-                        <span className={cn(
-                          'h-1.5 w-1.5 rounded-full',
-                          status === 'completed' ? 'bg-muted-foreground' : colors.dot
-                        )} />
-                        {p.shortLabel}
-                      </div>
+                    <Tooltip key={p.phase}>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => setActivePhase(isActive ? null : p.phase)}
+                          className={cn(
+                            'group flex-1 cursor-pointer text-left',
+                            idx !== phases.length - 1 && 'pr-2'
+                          )}
+                        >
+                          {/* Phase label */}
+                          <div className={cn(
+                            'mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm font-semibold transition-colors',
+                            isActive
+                              ? `${colors.card} ${colors.label} ${colors.cardBorder} border`
+                              : 'text-muted-foreground hover:text-foreground'
+                          )}>
+                            <span className={cn(
+                              'h-1.5 w-1.5 rounded-full',
+                              status === 'completed' ? 'bg-muted-foreground' : colors.dot
+                            )} />
+                            {p.shortLabel}
+                          </div>
 
-                      {/* Reg dates */}
-                      <p className="text-[11px] leading-tight text-muted-foreground">
-                        {p.registrationStart}
-                      </p>
-                      <p className="text-[11px] leading-tight text-muted-foreground">
-                        to {p.registrationEnd}
-                      </p>
-                    </button>
+                          {/* Reg dates */}
+                          <p className="text-[11px] leading-tight text-muted-foreground">
+                            {p.registrationStart}
+                          </p>
+                          <p className="text-[11px] leading-tight text-muted-foreground">
+                            to {p.registrationEnd}
+                          </p>
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" sideOffset={8}>
+                        {p.description}
+                      </TooltipContent>
+                    </Tooltip>
                   );
                 })}
               </div>
@@ -287,41 +298,48 @@ export function RegistrationTimeline() {
                       key={p.phase}
                       className={cn('relative z-10 flex flex-1 items-center', idx === phases.length - 1 && 'justify-end')}
                     >
-                      <button
-                        onClick={() => setActivePhase(isActive ? null : p.phase)}
-                        className="group relative flex flex-col items-center focus:outline-none"
-                        aria-label={`View ${p.phase} details`}
-                      >
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button
+                            onClick={() => setActivePhase(isActive ? null : p.phase)}
+                            className="group relative flex flex-col items-center focus:outline-none"
+                            aria-label={`View ${p.phase} details`}
+                          >
                         {/* Node */}
-                        <div className={cn(
-                          'flex h-9 w-9 items-center justify-center rounded-full border-2 bg-background transition-all duration-200 group-hover:scale-110',
-                          isActive
-                            ? `${colors.node} border-transparent text-white shadow-lg`
-                            : status === 'completed'
-                            ? 'border-border bg-muted text-muted-foreground'
-                            : isCurrentPhase
-                            ? `${colors.nodeBorder} text-white ${colors.node} shadow-md`
-                            : 'border-border bg-background'
-                        )}>
-                          {status === 'completed' ? (
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                              <path d="M2.5 7L5.5 10L11.5 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          ) : (
-                            <span className={cn(
-                              'text-xs font-bold',
-                              isActive || isCurrentPhase ? 'text-white' : 'text-muted-foreground'
+                            <div className={cn(
+                              'flex h-9 w-9 items-center justify-center rounded-full border-2 bg-background transition-all duration-200 group-hover:scale-110',
+                              isActive
+                                ? `${colors.node} border-transparent text-white shadow-lg`
+                                : status === 'completed'
+                                ? 'border-border bg-muted text-muted-foreground'
+                                : isCurrentPhase
+                                ? `${colors.nodeBorder} text-white ${colors.node} shadow-md`
+                                : 'border-border bg-background'
                             )}>
-                              {idx + 1}
-                            </span>
-                          )}
-                        </div>
+                              {status === 'completed' ? (
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                  <path d="M2.5 7L5.5 10L11.5 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              ) : (
+                                <span className={cn(
+                                  'text-xs font-bold',
+                                  isActive || isCurrentPhase ? 'text-white' : 'text-muted-foreground'
+                                )}>
+                                  {idx + 1}
+                                </span>
+                              )}
+                            </div>
 
-                        {/* Pulse ring for active phase */}
-                        {isCurrentPhase && !isActive && (
-                          <span className={cn('absolute inset-0 rounded-full animate-ping opacity-30', colors.node)} />
-                        )}
-                      </button>
+                            {/* Pulse ring for active phase */}
+                            {isCurrentPhase && !isActive && (
+                              <span className={cn('absolute inset-0 rounded-full animate-ping opacity-30', colors.node)} />
+                            )}
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" sideOffset={8}>
+                          {p.description}
+                        </TooltipContent>
+                      </Tooltip>
 
                       {/* Progress fill between nodes */}
                       {idx < phases.length - 1 && (

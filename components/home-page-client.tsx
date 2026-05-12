@@ -269,7 +269,7 @@ export function HomePageClient({
             <div>
               <h2 className="text-2xl font-bold text-foreground">Featured Schools</h2>
               <p className="mt-1 text-muted-foreground">
-                A sample of schools from the official directory (Phase 2C, {latestYear})
+                Top schools by ballot pressure (Phase 2C, {latestYear})
               </p>
             </div>
             <Button variant="ghost" asChild className="hidden sm:flex">
@@ -280,7 +280,7 @@ export function HomePageClient({
             </Button>
           </div>
 
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {featuredSchools.map((school) => (
               <Card
                 key={school.id}

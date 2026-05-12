@@ -77,17 +77,14 @@ export function SearchInput({
           <Button
             onClick={onSearch}
             disabled={isLoading || !value.trim()}
-            className="h-10 rounded-xl px-5 sm:px-5"
+            className="h-10 w-10 rounded-xl"
             size="icon"
             variant="default"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              <>
-                <Search className="h-4 w-4 sm:hidden" />
-                <span className="hidden sm:inline">Search</span>
-              </>
+              <Search className="h-4 w-4" />
             )}
           </Button>
         </div>
