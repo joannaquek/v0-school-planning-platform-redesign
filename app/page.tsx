@@ -5,11 +5,22 @@ import { HomePageClient } from '@/components/home-page-client';
 
 export default function HomePage() {
   const details = getAllSchoolDetails();
-  const sorted = [...details].sort((a, b) => a.name.localeCompare(b.name));
   const latestYear = years[0];
-  const featuredSchools = sorted
-    .slice(0, 3)
-    .map((d) => detailToSchool(d, Number(latestYear), '2C'));
+  const pressureRank: Record<'low' | 'moderate' | 'high', number> = {
+    high: 3,
+    moderate: 2,
+    low: 1,
+  };
+  const featuredSchools = details
+    .map((d) => detailToSchool(d, Number(latestYear), '2C'))
+    .sort((a, b) => {
+      const pressureDiff = pressureRank[b.pressure] - pressureRank[a.pressure];
+      if (pressureDiff !== 0) return pressureDiff;
+      const ballotDiff = (b.ballotChance ?? -1) - (a.ballotChance ?? -1);
+      if (ballotDiff !== 0) return ballotDiff;
+      return a.name.localeCompare(b.name);
+    })
+    .slice(0, 4);
   const schoolCount = getSchoolCount();
   const yearRangeLabel =
     years.length > 1 ? `${years[years.length - 1]}–${years[0]}` : years[0];

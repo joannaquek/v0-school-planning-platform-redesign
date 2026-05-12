@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   GraduationCap,
   Search,
@@ -268,7 +269,7 @@ export function HomePageClient({
             <div>
               <h2 className="text-2xl font-bold text-foreground">Featured Schools</h2>
               <p className="mt-1 text-muted-foreground">
-                A sample of schools from the official directory (Phase 2C, {latestYear})
+                Top schools by ballot pressure (Phase 2C, {latestYear})
               </p>
             </div>
             <Button variant="ghost" asChild className="hidden sm:flex">
@@ -279,7 +280,7 @@ export function HomePageClient({
             </Button>
           </div>
 
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {featuredSchools.map((school) => (
               <Card
                 key={school.id}
@@ -288,7 +289,17 @@ export function HomePageClient({
                 <CardContent className="p-0">
                   <div className="relative h-28 bg-secondary">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <GraduationCap className="h-10 w-10 text-secondary-foreground/30" />
+                      {school.imageUrl ? (
+                        <Image
+                          src={school.imageUrl}
+                          alt=""
+                          width={112}
+                          height={112}
+                          className="max-h-full w-auto max-w-full object-contain p-3"
+                        />
+                      ) : (
+                        <GraduationCap className="h-10 w-10 text-secondary-foreground/30" />
+                      )}
                     </div>
                     <div className="absolute bottom-2 left-2">
                       <PressureBadge pressure={school.pressure} size="sm" />

@@ -43,8 +43,10 @@ type FormattedBarItem = {
   };
 };
 
-const RATIO_HIGHLIGHT_BG = '#FEE2E2';
-const RATIO_HIGHLIGHT_TEXT = '#B91C1C';
+const RATIO_HIGHLIGHT_BG = '#DBEEEC';
+const RATIO_HIGHLIGHT_TEXT = '#0F766E';
+const RATIO_ALERT_BG = '#FEE2E2';
+const RATIO_ALERT_TEXT = '#B91C1C';
 
 /**
  * Ratio labels: horizontally in the gap between vacancy and registered bars for that year,
@@ -75,6 +77,7 @@ function TrendGapRatioLabels({
         const topY = Math.min(vacRect.y, regRect.y);
         const labelY = topY - 14;
         const text = row.ratioLabel;
+        const isOversubscribed = (row.ratioNumeric ?? 0) > 1;
         const textWidth = Math.max(18, text.length * 7);
         const rectX = gapCenterX - textWidth / 2 - 6;
         const rectY = labelY - 8;
@@ -89,12 +92,12 @@ function TrendGapRatioLabels({
               height={rectHeight}
               rx={4}
               ry={4}
-              fill={RATIO_HIGHLIGHT_BG}
+              fill={isOversubscribed ? RATIO_ALERT_BG : RATIO_HIGHLIGHT_BG}
             />
             <text
               x={gapCenterX}
               y={labelY}
-              fill={RATIO_HIGHLIGHT_TEXT}
+              fill={isOversubscribed ? RATIO_ALERT_TEXT : RATIO_HIGHLIGHT_TEXT}
               fontSize={11}
               fontWeight={700}
               textAnchor="middle"

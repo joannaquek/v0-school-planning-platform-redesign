@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronLeft, Plus, X, Scale, MapPin, GraduationCap, Check, Minus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -32,7 +33,7 @@ export default function ComparePage() {
 
     switch (metricKey) {
       case 'distance':
-        return school.distance ? `${school.distance}km` : '—';
+        return school.distance != null ? `${school.distance.toFixed(1)}km` : '—';
       case 'distanceBand':
         return school.distanceBand === '1km' ? 'Within 1km' : 
                school.distanceBand === '1-2km' ? '1-2km' : 'Over 2km';
@@ -150,8 +151,18 @@ export default function ComparePage() {
                       <X className="h-3.5 w-3.5" />
                     </button>
                     <CardContent className="p-4">
-                      <div className="h-16 w-full flex items-center justify-center rounded-lg bg-secondary mb-3">
-                        <GraduationCap className="h-8 w-8 text-secondary-foreground/40" />
+                      <div className="h-16 w-full flex items-center justify-center rounded-lg bg-secondary mb-3 overflow-hidden">
+                        {school.imageUrl ? (
+                          <Image
+                            src={school.imageUrl}
+                            alt=""
+                            width={72}
+                            height={72}
+                            className="max-h-full w-auto max-w-full object-contain p-2"
+                          />
+                        ) : (
+                          <GraduationCap className="h-8 w-8 text-secondary-foreground/40" />
+                        )}
                       </div>
                       <Link href={`/schools/${school.id}`}>
                         <h3 className="font-semibold text-foreground hover:text-primary transition-colors line-clamp-2 text-sm">
