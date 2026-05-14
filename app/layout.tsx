@@ -10,7 +10,8 @@ const karla = Karla({
 
 export const metadata: Metadata = {
   title: 'SchoolMatch SG | Find Your Perfect Primary School',
-  description: 'Singapore\'s trusted platform for Primary 1 registration planning. Explore schools, compare registration pressure, and make confident decisions for your child\'s education.',
+  description:
+    'Singapore P1 registration planner: browse MOE primary schools, ballot pressure and vacancy data, multi-year trends, distance search and map, plus side-by-side school comparison for informed choices.',
   generator: 'v0.app',
   keywords: ['P1 registration', 'Singapore primary school', 'school finder', 'MOE', 'primary 1', 'school registration'],
   icons: {
