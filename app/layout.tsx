@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 import { Karla } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { RootWebApplicationJsonLd } from '@/components/structured-data'
+import { SITE_DESCRIPTION, SITE_NAME } from '@/lib/seo-constants'
+import { getSiteUrl } from '@/lib/site'
 import './globals.css'
 
 const karla = Karla({ 
@@ -9,9 +12,9 @@ const karla = Karla({
 });
 
 export const metadata: Metadata = {
-  title: 'SchoolMatch SG | Find Your Perfect Primary School',
-  description:
-    'Singapore P1 registration planner: browse MOE primary schools, ballot pressure and vacancy data, multi-year trends, distance search and map, plus side-by-side school comparison for informed choices.',
+  metadataBase: new URL(getSiteUrl()),
+  title: `${SITE_NAME} | Find Your Perfect Primary School`,
+  description: SITE_DESCRIPTION,
   generator: 'v0.app',
   keywords: ['P1 registration', 'Singapore primary school', 'school finder', 'MOE', 'primary 1', 'school registration'],
   icons: {
@@ -49,6 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-background" data-scroll-behavior="smooth">
       <body className={`${karla.variable} font-sans antialiased`}>
+        <RootWebApplicationJsonLd />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
