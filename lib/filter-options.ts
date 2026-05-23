@@ -1,3 +1,5 @@
+import type { EligibilityFilter } from './types';
+
 /** Matches phases present in p1-school-selector ballot scrape / bundled JSON. */
 export const phases = ['2A', '2B', '2C'] as const;
 
@@ -17,3 +19,53 @@ export const pressureLevels = [
   { value: 'moderate', label: 'Moderate pressure' },
   { value: 'high', label: 'High pressure' },
 ] as const;
+
+export const eligibilityOptions = [
+  {
+    value: 'all',
+    label: 'Any eligibility',
+    phase: null,
+    description: 'Keep the selected phase without applying a parent profile.',
+  },
+  {
+    value: 'alumni',
+    label: 'Alumni / former sibling',
+    phase: '2A',
+    description: 'Usually considered under Phase 2A.',
+  },
+  {
+    value: 'staff',
+    label: 'School staff / MOE Kindergarten',
+    phase: '2A',
+    description: 'Usually considered under Phase 2A.',
+  },
+  {
+    value: 'parent-volunteer',
+    label: 'Parent volunteer',
+    phase: '2B',
+    description: 'Usually considered under Phase 2B.',
+  },
+  {
+    value: 'association-sponsor',
+    label: 'Association / clan / church endorsement',
+    phase: '2B',
+    description: 'Usually considered under Phase 2B.',
+  },
+  {
+    value: 'community-leader',
+    label: 'Active community leader',
+    phase: '2B',
+    description: 'Usually considered under Phase 2B.',
+  },
+  {
+    value: 'no-priority',
+    label: 'No priority eligibility',
+    phase: '2C',
+    description: 'Use Phase 2C as the open application baseline.',
+  },
+] as const satisfies ReadonlyArray<{
+  value: EligibilityFilter;
+  label: string;
+  phase: (typeof phases)[number] | null;
+  description: string;
+}>;

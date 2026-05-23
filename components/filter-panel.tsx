@@ -19,18 +19,31 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useAppStore } from '@/lib/store';
-import { distanceBands, pressureLevels, years, phases } from '@/lib/filter-options';
+import { distanceBands, pressureLevels, years, phases, eligibilityOptions } from '@/lib/filter-options';
+import type { EligibilityFilter } from '@/lib/types';
 import { useState } from 'react';
 
 export function FilterPanel() {
   const { filters, setFilters, resetFilters } = useAppStore();
   const [open, setOpen] = useState(false);
+  const currentEligibility = filters.eligibility ?? 'all';
+  const selectedEligibility = eligibilityOptions.find((option) => option.value === currentEligibility);
+
+  const handleEligibilityChange = (value: EligibilityFilter) => {
+    const option = eligibilityOptions.find((entry) => entry.value === value);
+
+    setFilters({
+      eligibility: value,
+      ...(option?.phase ? { phase: option.phase } : {}),
+    });
+  };
 
   const activeFilterCount = [
     filters.distanceBand !== 'all',
     filters.pressure !== 'all',
     filters.year !== years[0],
     filters.phase !== '2C',
+    currentEligibility !== 'all',
   ].filter(Boolean).length;
 
   return (
@@ -135,6 +148,33 @@ export function FilterPanel() {
             </Select>
           </div>
 
+          {/* Eligibility */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Parent Eligibility</label>
+            <Select
+              value={currentEligibility}
+              onValueChange={(value) => handleEligibilityChange(value as EligibilityFilter)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select eligibility" />
+              </SelectTrigger>
+              <SelectContent>
+                {eligibilityOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                    {option.phase ? ` · Phase ${option.phase}` : ''}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {selectedEligibility && (
+              <p className="text-xs text-muted-foreground">
+                {selectedEligibility.description}
+                {selectedEligibility.phase ? ' The phase filter updates automatically.' : ''}
+              </p>
+            )}
+          </div>
+
           {/* Sort */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-foreground">Sort By</label>
@@ -178,6 +218,8 @@ export function FilterPanel() {
 
 export function FilterChips() {
   const { filters, setFilters } = useAppStore();
+  const currentEligibility = filters.eligibility ?? 'all';
+  const selectedEligibility = eligibilityOptions.find((option) => option.value === currentEligibility);
 
   const chips = [
     filters.distanceBand !== 'all' && {
@@ -187,6 +229,10 @@ export function FilterChips() {
     filters.pressure !== 'all' && {
       label: pressureLevels.find((p) => p.value === filters.pressure)?.label,
       onRemove: () => setFilters({ pressure: 'all' }),
+    },
+    currentEligibility !== 'all' && selectedEligibility && {
+      label: `Eligibility: ${selectedEligibility.label}`,
+      onRemove: () => setFilters({ eligibility: 'all' }),
     },
   ].filter(Boolean) as { label: string; onRemove: () => void }[];
 

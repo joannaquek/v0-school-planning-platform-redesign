@@ -14,6 +14,7 @@ import { MapView } from '@/components/map-view';
 import { CompareDrawer } from '@/components/compare-drawer';
 import { useAppStore } from '@/lib/store';
 import { detailsToSchools } from '@/lib/map-detail-to-school';
+import { eligibilityOptions } from '@/lib/filter-options';
 import type { SchoolDetailData } from '@/lib/bundled-types';
 import type { GeoPoint } from '@/lib/geo';
 import { cn } from '@/lib/utils';
@@ -39,6 +40,8 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
 
   const home: GeoPoint | null =
     userLat != null && userLng != null ? { lat: userLat, lng: userLng } : null;
+  const currentEligibility = filters.eligibility ?? 'all';
+  const selectedEligibility = eligibilityOptions.find((option) => option.value === currentEligibility);
 
   const filteredSchools = useMemo(() => {
     const allSchools = detailsToSchools(
@@ -147,6 +150,12 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
             {filteredSchools.length} school{filteredSchools.length !== 1 ? 's' : ''} found · Phase{' '}
             {filters.phase} · Year {filters.year}
           </p>
+          {selectedEligibility && selectedEligibility.value !== 'all' ? (
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              Showing Phase {filters.phase} historical demand for {selectedEligibility.label.toLowerCase()} eligibility.
+              Confirm final eligibility with the school and MOE before applying.
+            </p>
+          ) : null}
         </div>
 
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
