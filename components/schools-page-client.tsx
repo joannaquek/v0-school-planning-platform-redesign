@@ -151,10 +151,11 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
             {filters.phase} · Year {filters.year}
           </p>
           {selectedEligibility && selectedEligibility.value !== 'all' ? (
-            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-              Showing Phase {filters.phase} historical demand for {selectedEligibility.label.toLowerCase()} eligibility.
+            <div className="mt-3 max-w-2xl rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">Eligibility context:</span> Phase{' '}
+              {filters.phase} historical demand for {selectedEligibility.label.toLowerCase()} applicants.
               Confirm final eligibility with the school and MOE before applying.
-            </p>
+            </div>
           ) : null}
         </div>
 
