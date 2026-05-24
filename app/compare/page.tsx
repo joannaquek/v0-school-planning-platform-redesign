@@ -137,7 +137,157 @@ export default function ComparePage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="overflow-x-auto">
+          <>
+          <section className="space-y-4 md:hidden">
+            <div className="sticky top-0 z-20 -mx-4 border-y border-border bg-background/95 px-4 py-3 backdrop-blur">
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {compareList.map(({ school }) => (
+                  <Card key={school.id} className="min-w-[9.5rem] max-w-[9.5rem] shrink-0">
+                    <CardContent className="relative p-3">
+                      <button
+                        onClick={() => removeFromCompare(school.id)}
+                        className="absolute right-2 top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-muted text-muted-foreground hover:bg-destructive hover:text-destructive-foreground"
+                        aria-label={`Remove ${school.name} from comparison`}
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                      <div className="mb-2 flex h-10 w-full items-center justify-center overflow-hidden rounded-md bg-secondary">
+                        {school.imageUrl ? (
+                          <Image
+                            src={school.imageUrl}
+                            alt=""
+                            width={48}
+                            height={48}
+                            className="max-h-full w-auto max-w-full object-contain p-1"
+                          />
+                        ) : (
+                          <GraduationCap className="h-5 w-5 text-secondary-foreground/40" />
+                        )}
+                      </div>
+                      <Link href={`/schools/${school.id}`}>
+                        <h3 className="line-clamp-2 pr-4 text-xs font-semibold text-foreground hover:text-primary">
+                          {school.name}
+                        </h3>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                ))}
+
+                {compareList.length < 4 && (
+                  <Button asChild variant="outline" className="h-auto min-w-[8rem] shrink-0 flex-col py-4">
+                    <Link href="/schools">
+                      <Plus className="h-4 w-4" />
+                      Add school
+                    </Link>
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {compareList.length < 2 && (
+              <Card>
+                <CardContent className="p-4 text-sm text-muted-foreground">
+                  Add one more school to compare metrics side by side.
+                </CardContent>
+              </Card>
+            )}
+
+            <div className="space-y-3">
+              {comparisonMetrics.map((metric) => {
+                const bestIndices = getBestValue(metric.key);
+
+                return (
+                  <Card key={metric.key}>
+                    <CardHeader className="p-4 pb-2">
+                      <CardTitle className="text-base">{metric.label}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2 p-4 pt-0">
+                      {compareList.map(({ school }, index) => {
+                        const value = getMetricValue(index, metric.key);
+                        const isBest = bestIndices.includes(index);
+
+                        return (
+                          <div
+                            key={school.id}
+                            className={cn(
+                              'flex items-center justify-between gap-3 rounded-lg border border-border px-3 py-2',
+                              isBest && compareList.length > 1 ? 'border-success/30 bg-success/10' : 'bg-card'
+                            )}
+                          >
+                            <span className="line-clamp-1 text-sm font-medium text-foreground">{school.name}</span>
+                            {metric.key === 'pressure' ? (
+                              <PressureBadge pressure={value as 'low' | 'moderate' | 'high'} size="sm" />
+                            ) : (
+                              <span
+                                className={cn(
+                                  'flex shrink-0 items-center gap-1.5 text-sm font-semibold',
+                                  isBest && compareList.length > 1 ? 'text-success' : 'text-foreground'
+                                )}
+                              >
+                                {isBest && compareList.length > 1 && <Check className="h-4 w-4" />}
+                                {value}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+
+            <Card>
+              <CardHeader className="p-4 pb-2">
+                <CardTitle className="text-base">Co-Curricular Activities</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 p-4 pt-0">
+                {compareList.map(({ school }) => (
+                  <div key={school.id}>
+                    <h3 className="mb-2 text-sm font-semibold text-foreground">{school.name}</h3>
+                    <div className="flex flex-wrap gap-1.5">
+                      {school.ccas.length > 0 ? (
+                        school.ccas.map((cca) => (
+                          <Badge key={cca} variant="outline" className="text-xs">
+                            {cca}
+                          </Badge>
+                        ))
+                      ) : (
+                        <span className="text-sm text-muted-foreground">None listed</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="p-4 pb-2">
+                <CardTitle className="text-base">Special Programmes</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 p-4 pt-0">
+                {compareList.map(({ school }) => (
+                  <div key={school.id}>
+                    <h3 className="mb-2 text-sm font-semibold text-foreground">{school.name}</h3>
+                    {school.specialPrograms && school.specialPrograms.length > 0 ? (
+                      <ul className="space-y-1">
+                        {school.specialPrograms.map((program) => (
+                          <li key={program} className="flex items-start gap-1.5 text-sm">
+                            <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" />
+                            <span>{program}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <span className="text-sm text-muted-foreground">None listed</span>
+                    )}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </section>
+
+          <div className="hidden overflow-x-auto md:block">
             <div className="min-w-[600px]">
               {/* School Headers */}
               <div className="grid grid-cols-[200px_repeat(4,1fr)] gap-4 mb-4">
@@ -303,6 +453,7 @@ export default function ComparePage() {
               </Card>
             </div>
           </div>
+          </>
         )}
       </main>
 

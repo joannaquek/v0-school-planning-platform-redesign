@@ -1,10 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { X, Scale, ChevronUp, ChevronDown, MapPin, Trash2, GraduationCap } from 'lucide-react';
+import { ArrowRight, X, Scale, ChevronUp, ChevronDown, MapPin, Trash2, GraduationCap, Plus } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { PressureBadge } from '@/components/pressure-badge';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
@@ -68,12 +67,80 @@ export function CompareDrawer() {
         <div
           className={cn(
             'overflow-hidden transition-all duration-300 ease-out',
-            expanded ? 'max-h-[500px]' : 'max-h-0'
+            expanded ? 'max-h-[75vh] overflow-y-auto md:max-h-[500px]' : 'max-h-0'
           )}
         >
           <div className="border-t border-border p-4">
-            {/* School Cards Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {/* Mobile compare actions */}
+            <div className="space-y-3 md:hidden">
+              {compareList.length >= 2 ? (
+                <Button asChild className="w-full justify-between">
+                  <Link href="/compare">
+                    View comparison
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              ) : (
+                <p className="rounded-lg bg-muted px-3 py-2 text-sm text-muted-foreground">
+                  Add one more school to unlock the comparison view.
+                </p>
+              )}
+
+              <div className="space-y-2">
+                {compareList.map(({ school }) => (
+                  <Card key={school.id} className="relative">
+                    <CardContent className="flex items-center gap-3 p-3 pr-10">
+                      <div className="flex h-12 w-14 shrink-0 items-center justify-center overflow-hidden rounded-md bg-secondary">
+                        {school.imageUrl ? (
+                          <Image
+                            src={school.imageUrl}
+                            alt=""
+                            width={48}
+                            height={48}
+                            className="max-h-full w-auto max-w-full object-contain p-1"
+                          />
+                        ) : (
+                          <GraduationCap className="h-6 w-6 text-secondary-foreground/40" />
+                        )}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <Link href={`/schools/${school.id}`}>
+                          <h4 className="line-clamp-1 text-sm font-medium text-foreground hover:text-primary">
+                            {school.name}
+                          </h4>
+                        </Link>
+                        <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
+                          <span className="inline-flex items-center gap-1">
+                            <MapPin className="h-3 w-3" />
+                            {school.distance != null ? `${school.distance.toFixed(2)}km` : '—'}
+                          </span>
+                          <PressureBadge pressure={school.pressure} size="sm" />
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => removeFromCompare(school.id)}
+                        className="absolute right-3 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-muted text-muted-foreground hover:bg-destructive hover:text-destructive-foreground"
+                        aria-label={`Remove ${school.name} from comparison`}
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {compareList.length < 4 && (
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/schools">
+                    <Plus className="h-4 w-4" />
+                    Add another school
+                  </Link>
+                </Button>
+              )}
+            </div>
+
+            {/* Desktop school cards grid */}
+            <div className="hidden grid-cols-2 gap-3 md:grid md:grid-cols-4">
               {compareList.map(({ school }) => (
                 <Card key={school.id} className="relative">
                   <button
@@ -124,7 +191,7 @@ export function CompareDrawer() {
 
             {/* Comparison Table Preview */}
             {compareList.length >= 2 && (
-              <div className="mt-4 overflow-x-auto">
+              <div className="mt-4 hidden overflow-x-auto md:block">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border">
@@ -176,7 +243,7 @@ export function CompareDrawer() {
 
             {/* View Full Comparison Button */}
             {compareList.length >= 2 && (
-              <div className="mt-4">
+              <div className="mt-4 hidden md:block">
                 <Button asChild className="w-full">
                   <Link href="/compare">View Full Comparison</Link>
                 </Button>
