@@ -42,18 +42,18 @@ export function CompareDrawer() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
             <Button
               variant="ghost"
               size="sm"
-              className="text-muted-foreground hover:text-destructive"
+              className="h-8 px-2 text-muted-foreground hover:text-destructive md:px-3"
               onClick={(e) => {
                 e.stopPropagation();
                 clearCompare();
               }}
             >
-              <Trash2 className="h-4 w-4 mr-1.5" />
-              Clear
+              <Trash2 className="h-4 w-4 md:mr-1.5" />
+              <span className="hidden md:inline">Clear</span>
             </Button>
             {expanded ? (
               <ChevronDown className="h-5 w-5 text-muted-foreground" />
