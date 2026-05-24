@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/sheet';
 import { useAppStore } from '@/lib/store';
 import { distanceBands, pressureLevels, years, phases } from '@/lib/filter-options';
+import { isNearbyDistanceBand } from '@/lib/nearby-radius';
 import { useState } from 'react';
 
 export function FilterPanel() {
@@ -176,11 +177,14 @@ export function FilterPanel() {
   );
 }
 
-export function FilterChips() {
+export function FilterChips({ hideNearbyRadius = false }: { hideNearbyRadius?: boolean }) {
   const { filters, setFilters } = useAppStore();
 
+  const showDistanceChip =
+    filters.distanceBand !== 'all' && !(hideNearbyRadius && isNearbyDistanceBand(filters.distanceBand));
+
   const chips = [
-    filters.distanceBand !== 'all' && {
+    showDistanceChip && {
       label: distanceBands.find((b) => b.value === filters.distanceBand)?.label,
       onRemove: () => setFilters({ distanceBand: 'all' }),
     },
