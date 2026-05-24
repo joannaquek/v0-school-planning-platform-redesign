@@ -140,7 +140,7 @@ export default function ComparePage() {
         ) : (
           <>
           <section className="space-y-4 md:hidden">
-            <div className="sticky top-0 z-20 -mx-4 border-y border-border bg-background/95 px-4 py-3 backdrop-blur">
+            <div className="-mx-4 border-y border-border bg-background/95 px-4 py-3">
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {compareList.map(({ school }) => (
                   <Card key={school.id} className="min-w-[9.5rem] max-w-[9.5rem] shrink-0">
@@ -211,17 +211,17 @@ export default function ComparePage() {
                           <div
                             key={school.id}
                             className={cn(
-                              'flex items-center justify-between gap-3 rounded-lg border border-border px-3 py-2',
+                              'flex items-start justify-between gap-3 rounded-lg border border-border px-3 py-2',
                               isBest && compareList.length > 1 ? 'border-success/30 bg-success/10' : 'bg-card'
                             )}
                           >
-                            <span className="line-clamp-1 text-sm font-medium text-foreground">{school.name}</span>
+                            <span className="line-clamp-2 text-sm font-medium leading-snug text-foreground">{school.name}</span>
                             {metric.key === 'pressure' ? (
                               <PressureBadge pressure={value as 'low' | 'moderate' | 'high'} size="sm" />
                             ) : (
                               <span
                                 className={cn(
-                                  'flex shrink-0 items-center gap-1.5 text-sm font-semibold',
+                                  'flex shrink-0 items-center gap-1.5 pt-0.5 text-sm font-semibold',
                                   isBest && compareList.length > 1 ? 'text-success' : 'text-foreground'
                                 )}
                               >
