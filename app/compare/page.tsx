@@ -33,10 +33,11 @@ export default function ComparePage() {
 
     switch (metricKey) {
       case 'distance':
-        return school.distance != null ? `${school.distance.toFixed(2)}km` : '—';
+        return school.distance != null ? `${school.distance.toFixed(2)}km` : 'Set location';
       case 'distanceBand':
         return school.distanceBand === '1km' ? 'Within 1km' : 
-               school.distanceBand === '1-2km' ? '1-2km' : 'Over 2km';
+               school.distanceBand === '1-2km' ? '1-2km' :
+               school.distanceBand === '2km+' ? 'Over 2km' : 'Set location';
       case 'pressure':
         return school.pressure;
       case 'totalVacancies':
@@ -44,7 +45,7 @@ export default function ComparePage() {
       case 'registeredStudents':
         return school.registeredStudents;
       case 'ballotChance':
-        return school.ballotChance ? `${school.ballotChance}%` : '—';
+        return school.ballotChance != null ? `${school.ballotChance}%` : 'Not available';
       case 'intakeChange':
         return school.intakeChange === 'no-change' 
           ? 'No change' 
