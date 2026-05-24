@@ -1,7 +1,8 @@
 'use client';
 
+import { Suspense } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Home, Search, Map, Heart, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/lib/store';
@@ -14,18 +15,26 @@ const navItems = [
   { href: '/guide', icon: BookOpen, label: 'Guide' },
 ];
 
-export function MobileNav() {
+function MobileNavInner() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { favorites } = useAppStore();
+  const schoolsView = searchParams.get('view');
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80 md:hidden">
       <div className="flex h-16 items-center justify-around px-2 pb-safe">
         {navItems.map((item) => {
-          const isActive = 
-            item.href === '/' 
-              ? pathname === '/' 
-              : pathname.startsWith(item.href.split('?')[0]);
+          const isActive = (() => {
+            if (item.href === '/') return pathname === '/';
+            if (item.href === '/schools?view=map') {
+              return pathname.startsWith('/schools') && schoolsView === 'map';
+            }
+            if (item.href === '/schools') {
+              return pathname.startsWith('/schools') && schoolsView !== 'map';
+            }
+            return pathname.startsWith(item.href.split('?')[0]);
+          })();
           
           return (
             <Link
@@ -50,5 +59,17 @@ export function MobileNav() {
         })}
       </div>
     </nav>
+  );
+}
+
+function MobileNavFallback() {
+  return <nav className="fixed bottom-0 left-0 right-0 z-50 h-16 border-t border-border bg-card/95 md:hidden" />;
+}
+
+export function MobileNav() {
+  return (
+    <Suspense fallback={<MobileNavFallback />}>
+      <MobileNavInner />
+    </Suspense>
   );
 }

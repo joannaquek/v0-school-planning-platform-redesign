@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { LayoutGrid, Map as MapIcon, List, ArrowUpDown, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -12,7 +12,14 @@ import { FilterPanel, FilterChips } from '@/components/filter-panel';
 import { SchoolSearchInput } from '@/components/search-input';
 import { MapView } from '@/components/map-view';
 import { CompareDrawer } from '@/components/compare-drawer';
+import { NearbyRadiusToggle } from '@/components/nearby-radius-toggle';
 import { useAppStore } from '@/lib/store';
+import {
+  NEARBY_WITHIN_2,
+  isNearbyDistanceBand,
+  nearbyRadiusKm,
+  nearbyRadiusLabelKm,
+} from '@/lib/nearby-radius';
 import { detailsToSchools } from '@/lib/map-detail-to-school';
 import type { SchoolDetailData } from '@/lib/bundled-types';
 import type { GeoPoint } from '@/lib/geo';
@@ -20,12 +27,38 @@ import { cn } from '@/lib/utils';
 
 type ViewMode = 'grid' | 'list' | 'map';
 
+function viewFromSearchParams(params: URLSearchParams): ViewMode {
+  const view = params.get('view');
+  if (view === 'map' || view === 'list' || view === 'grid') return view;
+  return 'grid';
+}
+
 export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) {
   const searchParams = useSearchParams();
-  const initialView = searchParams.get('view') as ViewMode | null;
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const [viewMode, setViewMode] = useState<ViewMode>(initialView || 'grid');
+  const [viewMode, setViewMode] = useState<ViewMode>(() => viewFromSearchParams(searchParams));
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    setViewMode(viewFromSearchParams(searchParams));
+  }, [searchParams]);
+
+  const setViewModeAndUrl = useCallback(
+    (mode: ViewMode) => {
+      setViewMode(mode);
+      const params = new URLSearchParams(searchParams.toString());
+      if (mode === 'grid') {
+        params.delete('view');
+      } else {
+        params.set('view', mode);
+      }
+      const qs = params.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
 
   const {
     filters,
@@ -72,7 +105,8 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
       result = result.filter((school) => {
         const d = school.distance;
         if (d == null) return false;
-        if (filters.distanceBand === '1') return d <= 1;
+        if (filters.distanceBand === 'within-1' || filters.distanceBand === '1') return d <= 1;
+        if (filters.distanceBand === 'within-2') return d <= 2;
         if (filters.distanceBand === '2') return d > 1 && d <= 2;
         if (filters.distanceBand === '3') return d > 2;
         return true;
@@ -110,6 +144,12 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
     name: 'Name',
   };
 
+  const activeNearbyBand = isNearbyDistanceBand(filters.distanceBand)
+    ? filters.distanceBand
+    : NEARBY_WITHIN_2;
+  const mapRadiusKm = home ? (nearbyRadiusKm(activeNearbyBand) ?? 2) : 2;
+  const nearbyLabel = home ? nearbyRadiusLabelKm(activeNearbyBand) : null;
+
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
       <Header />
@@ -146,22 +186,24 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
           <p className="mt-1 text-muted-foreground">
             {filteredSchools.length} school{filteredSchools.length !== 1 ? 's' : ''} found · Phase{' '}
             {filters.phase} · Year {filters.year}
+            {nearbyLabel ? ` · Within ${nearbyLabel} of your home` : ''}
           </p>
         </div>
 
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-1 gap-3">
+        <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:items-end">
             <SchoolSearchInput onSearch={setSearchQuery} className="max-w-md flex-1" />
+            {home ? <NearbyRadiusToggle className="w-full sm:w-auto sm:min-w-[200px]" /> : null}
             <FilterPanel />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <div className="flex rounded-lg border border-border bg-card p-1">
               <Button
                 variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
                 size="sm"
                 className="h-8 w-8 p-0"
-                onClick={() => setViewMode('grid')}
+                onClick={() => setViewModeAndUrl('grid')}
               >
                 <LayoutGrid className="h-4 w-4" />
                 <span className="sr-only">Grid view</span>
@@ -170,7 +212,7 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
                 variant={viewMode === 'list' ? 'secondary' : 'ghost'}
                 size="sm"
                 className="h-8 w-8 p-0"
-                onClick={() => setViewMode('list')}
+                onClick={() => setViewModeAndUrl('list')}
               >
                 <List className="h-4 w-4" />
                 <span className="sr-only">List view</span>
@@ -179,7 +221,7 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
                 variant={viewMode === 'map' ? 'secondary' : 'ghost'}
                 size="sm"
                 className="h-8 w-8 p-0"
-                onClick={() => setViewMode('map')}
+                onClick={() => setViewModeAndUrl('map')}
               >
                 <MapIcon className="h-4 w-4" />
                 <span className="sr-only">Map view</span>
@@ -188,7 +230,7 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
           </div>
         </div>
 
-        <FilterChips />
+        <FilterChips hideNearbyRadius={home != null} />
 
         <div className="mb-4 mt-4 flex items-center gap-2 text-sm text-muted-foreground">
           <ArrowUpDown className="h-4 w-4" />
@@ -199,6 +241,8 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
           <div className="h-[calc(100vh-280px)] min-h-[500px]">
             <MapView
               schools={filteredSchools}
+              home={home}
+              radiusKm={mapRadiusKm as 1 | 2}
               selectedSchoolId={selectedSchoolId}
               onSelectSchool={setSelectedSchoolId}
             />

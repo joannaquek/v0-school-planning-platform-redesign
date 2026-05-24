@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { School, FilterState, CompareItem } from './types';
+import { NEARBY_WITHIN_2 } from './nearby-radius';
 
 interface AppState {
   // Filters
@@ -103,9 +104,15 @@ export const useAppStore = create<AppState>()(
       userLng: null,
       oneMapLastWarning: null,
       setUserAddress: (address) =>
-        set(
+        set((state) =>
           address.trim() === ''
-            ? { userAddress: address, userLat: null, userLng: null, oneMapLastWarning: null }
+            ? {
+                userAddress: address,
+                userLat: null,
+                userLng: null,
+                oneMapLastWarning: null,
+                filters: { ...state.filters, distanceBand: 'all' },
+              }
             : { userAddress: address }
         ),
       setGeocodedHome: (address, lat, lng, oneMapWarning = null) =>
@@ -114,7 +121,7 @@ export const useAppStore = create<AppState>()(
           userLat: lat,
           userLng: lng,
           oneMapLastWarning: oneMapWarning ?? null,
-          filters: { ...state.filters, sortBy: 'distance' },
+          filters: { ...state.filters, sortBy: 'distance', distanceBand: NEARBY_WITHIN_2 },
         })),
       dismissOneMapWarning: () => set({ oneMapLastWarning: null }),
     }),
