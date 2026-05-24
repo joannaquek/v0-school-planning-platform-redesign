@@ -33,7 +33,7 @@ export default function ComparePage() {
 
     switch (metricKey) {
       case 'distance':
-        return school.distance != null ? `${school.distance.toFixed(1)}km` : '—';
+        return school.distance != null ? `${school.distance.toFixed(2)}km` : '—';
       case 'distanceBand':
         return school.distanceBand === '1km' ? 'Within 1km' : 
                school.distanceBand === '1-2km' ? '1-2km' : 'Over 2km';

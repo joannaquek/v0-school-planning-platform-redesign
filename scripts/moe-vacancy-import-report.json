@@ -1,0 +1,3039 @@
+{
+  "importedAt": "2026-05-24T09:20:23.561Z",
+  "currentYear": 2026,
+  "pastYear": 2025,
+  "moeCurrentSchools": 179,
+  "moePastSchools": 179,
+  "matched": [
+    {
+      "school": "ADMIRALTY PRIMARY SCHOOL",
+      "slug": "admiralty",
+      "moeCurrentName": "ADMIRALTY PRIMARY SCHOOL",
+      "moePastName": "ADMIRALTY PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "AHMAD IBRAHIM PRIMARY SCHOOL",
+      "slug": "ahmad-ibrahim",
+      "moeCurrentName": "AHMAD IBRAHIM PRIMARY SCHOOL",
+      "moePastName": "AHMAD IBRAHIM PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 220,
+        "2026": 240
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 20
+    },
+    {
+      "school": "AI TONG SCHOOL",
+      "slug": "ai-tong",
+      "moeCurrentName": "AI TONG SCHOOL",
+      "moePastName": "AI TONG SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 300,
+        "2026": 300
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ALEXANDRA PRIMARY SCHOOL",
+      "slug": "alexandra",
+      "moeCurrentName": "ALEXANDRA PRIMARY SCHOOL",
+      "moePastName": "ALEXANDRA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 200
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ANCHOR GREEN PRIMARY SCHOOL",
+      "slug": "anchor-green",
+      "moeCurrentName": "ANCHOR GREEN PRIMARY SCHOOL",
+      "moePastName": "ANCHOR GREEN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "ANDERSON PRIMARY SCHOOL",
+      "slug": "anderson",
+      "moeCurrentName": "ANDERSON PRIMARY SCHOOL",
+      "moePastName": "ANDERSON PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ANG MO KIO PRIMARY SCHOOL",
+      "slug": "ang-mo-kio",
+      "moeCurrentName": "ANG MO KIO PRIMARY SCHOOL",
+      "moePastName": "ANG MO KIO PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ANGLO-CHINESE SCHOOL (JUNIOR)",
+      "slug": "anglo-chinese-junior",
+      "moeCurrentName": "ANGLO-CHINESE SCHOOL (JUNIOR)",
+      "moePastName": "ANGLO-CHINESE SCHOOL (JUNIOR)",
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 270
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ANGLO-CHINESE SCHOOL (PRIMARY)",
+      "slug": "anglo-chinese-primary",
+      "moeCurrentName": "ANGLO-CHINESE SCHOOL (PRIMARY)",
+      "moePastName": "ANGLO-CHINESE SCHOOL (PRIMARY)",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ANGSANA PRIMARY SCHOOL",
+      "slug": "angsana",
+      "moeCurrentName": "ANGSANA PRIMARY SCHOOL",
+      "moePastName": "ANGSANA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 280
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "BEACON PRIMARY SCHOOL",
+      "slug": "beacon",
+      "moeCurrentName": "BEACON PRIMARY SCHOOL",
+      "moePastName": "BEACON PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 150
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "BEDOK GREEN PRIMARY SCHOOL",
+      "slug": "bedok-green",
+      "moeCurrentName": "BEDOK GREEN PRIMARY SCHOOL",
+      "moePastName": "BEDOK GREEN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "BENDEMEER PRIMARY SCHOOL",
+      "slug": "bendemeer",
+      "moeCurrentName": "BENDEMEER PRIMARY SCHOOL",
+      "moePastName": "BENDEMEER PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 190
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 10
+    },
+    {
+      "school": "BLANGAH RISE PRIMARY SCHOOL",
+      "slug": "blangah-rise",
+      "moeCurrentName": "BLANGAH RISE PRIMARY SCHOOL",
+      "moePastName": "BLANGAH RISE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 120,
+        "2026": 120
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "BOON LAY GARDEN PRIMARY SCHOOL",
+      "slug": "boon-lay-garden",
+      "moeCurrentName": "BOON LAY GARDEN PRIMARY SCHOOL",
+      "moePastName": "BOON LAY GARDEN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 150
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "BUKIT PANJANG PRIMARY SCHOOL",
+      "slug": "bukit-panjang",
+      "moeCurrentName": "BUKIT PANJANG PRIMARY SCHOOL",
+      "moePastName": "BUKIT PANJANG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "BUKIT TIMAH PRIMARY SCHOOL",
+      "slug": "bukit-timah",
+      "moeCurrentName": "BUKIT TIMAH PRIMARY SCHOOL",
+      "moePastName": "BUKIT TIMAH PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "BUKIT VIEW PRIMARY SCHOOL",
+      "slug": "bukit-view",
+      "moeCurrentName": "BUKIT VIEW PRIMARY SCHOOL",
+      "moePastName": "BUKIT VIEW PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 320
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 40
+    },
+    {
+      "school": "CANBERRA PRIMARY SCHOOL",
+      "slug": "canberra",
+      "moeCurrentName": "CANBERRA PRIMARY SCHOOL",
+      "moePastName": "CANBERRA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CANOSSA CATHOLIC PRIMARY SCHOOL",
+      "slug": "canossa-catholic",
+      "moeCurrentName": "CANOSSA CATHOLIC PRIMARY SCHOOL",
+      "moePastName": "CANOSSA CATHOLIC PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 120,
+        "2026": 120
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CANTONMENT PRIMARY SCHOOL",
+      "slug": "cantonment",
+      "moeCurrentName": "CANTONMENT PRIMARY SCHOOL",
+      "moePastName": "CANTONMENT PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 120
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "CASUARINA PRIMARY SCHOOL",
+      "slug": "casuarina",
+      "moeCurrentName": "CASUARINA PRIMARY SCHOOL",
+      "moePastName": "CASUARINA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 160,
+        "2026": 150
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -10
+    },
+    {
+      "school": "CATHOLIC HIGH SCHOOL",
+      "slug": "catholic-high",
+      "moeCurrentName": "CATHOLIC HIGH SCHOOL (PRIMARY SECTION)",
+      "moePastName": null,
+      "annualTotalVacancies": {
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CEDAR PRIMARY SCHOOL",
+      "slug": "cedar",
+      "moeCurrentName": "CEDAR PRIMARY SCHOOL",
+      "moePastName": "CEDAR PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CHANGKAT PRIMARY SCHOOL",
+      "slug": "changkat",
+      "moeCurrentName": "CHANGKAT PRIMARY SCHOOL",
+      "moePastName": "CHANGKAT PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 280
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CHIJ (KATONG) PRIMARY",
+      "slug": "chij-katong",
+      "moeCurrentName": "CHIJ (KATONG) PRIMARY",
+      "moePastName": "CHIJ (KATONG) PRIMARY",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 200
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CHIJ (KELLOCK)",
+      "slug": "chij-kellock",
+      "moeCurrentName": "CHIJ (KELLOCK)",
+      "moePastName": "CHIJ (KELLOCK)",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 150
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "CHIJ OUR LADY OF GOOD COUNSEL",
+      "slug": "chij-our-lady-of-good-counsel",
+      "moeCurrentName": "CHIJ OUR LADY OF GOOD COUNSEL",
+      "moePastName": "CHIJ OUR LADY OF GOOD COUNSEL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 150
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CHIJ OUR LADY OF THE NATIVITY",
+      "slug": "chij-our-lady-of-the-nativity",
+      "moeCurrentName": "CHIJ OUR LADY OF THE NATIVITY",
+      "moePastName": "CHIJ OUR LADY OF THE NATIVITY",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CHIJ OUR LADY QUEEN OF PEACE",
+      "slug": "chij-our-lady-queen-of-peace",
+      "moeCurrentName": "CHIJ OUR LADY QUEEN OF PEACE",
+      "moePastName": "CHIJ OUR LADY QUEEN OF PEACE",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CHIJ PRIMARY (TOA PAYOH)",
+      "slug": "chij-toa-payoh",
+      "moeCurrentName": "CHIJ PRIMARY (TOA PAYOH)",
+      "moePastName": "CHIJ PRIMARY (TOA PAYOH)",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CHIJ ST. NICHOLAS GIRLS' SCHOOL",
+      "slug": "chij-st-nicholas-girls",
+      "moeCurrentName": "CHIJ ST NICHOLAS GIRLS SCHOOL (PRIMARY SECTION)",
+      "moePastName": null,
+      "annualTotalVacancies": {
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CHONGFU SCHOOL",
+      "slug": "chongfu",
+      "moeCurrentName": "CHONGFU SCHOOL",
+      "moePastName": "CHONGFU SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 300,
+        "2026": 300
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CHONGZHENG PRIMARY SCHOOL",
+      "slug": "chongzheng",
+      "moeCurrentName": "CHONGZHENG PRIMARY SCHOOL",
+      "moePastName": "CHONGZHENG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 280
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 40
+    },
+    {
+      "school": "CHUA CHU KANG PRIMARY SCHOOL",
+      "slug": "chua-chu-kang",
+      "moeCurrentName": "CHUA CHU KANG PRIMARY SCHOOL",
+      "moePastName": "CHUA CHU KANG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CLEMENTI PRIMARY SCHOOL",
+      "slug": "clementi",
+      "moeCurrentName": "CLEMENTI PRIMARY SCHOOL",
+      "moePastName": "CLEMENTI PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 320,
+        "2026": 240
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -80
+    },
+    {
+      "school": "COMPASSVALE PRIMARY SCHOOL",
+      "slug": "compassvale",
+      "moeCurrentName": "COMPASSVALE PRIMARY SCHOOL",
+      "moePastName": "COMPASSVALE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "CONCORD PRIMARY SCHOOL",
+      "slug": "concord",
+      "moeCurrentName": "CONCORD PRIMARY SCHOOL",
+      "moePastName": "CONCORD PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "CORPORATION PRIMARY SCHOOL",
+      "slug": "corporation",
+      "moeCurrentName": "CORPORATION PRIMARY SCHOOL",
+      "moePastName": "CORPORATION PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 150
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "DAZHONG PRIMARY SCHOOL",
+      "slug": "dazhong",
+      "moeCurrentName": "DAZHONG PRIMARY SCHOOL",
+      "moePastName": "DAZHONG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 200
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "DE LA SALLE SCHOOL",
+      "slug": "de-la-salle",
+      "moeCurrentName": "DE LA SALLE SCHOOL",
+      "moePastName": "DE LA SALLE SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "EAST SPRING PRIMARY SCHOOL",
+      "slug": "east-spring",
+      "moeCurrentName": "EAST SPRING PRIMARY SCHOOL",
+      "moePastName": "EAST SPRING PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "EDGEFIELD PRIMARY SCHOOL",
+      "slug": "edgefield",
+      "moeCurrentName": "EDGEFIELD PRIMARY SCHOOL",
+      "moePastName": "EDGEFIELD PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "ELIAS PARK PRIMARY SCHOOL",
+      "slug": "elias-park",
+      "moeCurrentName": "ELIAS PARK PRIMARY SCHOOL",
+      "moePastName": "ELIAS PARK PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 160,
+        "2026": 160
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ENDEAVOUR PRIMARY SCHOOL",
+      "slug": "endeavour",
+      "moeCurrentName": "ENDEAVOUR PRIMARY SCHOOL",
+      "moePastName": "ENDEAVOUR PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "EVERGREEN PRIMARY SCHOOL",
+      "slug": "evergreen",
+      "moeCurrentName": "EVERGREEN PRIMARY SCHOOL",
+      "moePastName": "EVERGREEN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "FAIRFIELD METHODIST SCHOOL (PRIMARY)",
+      "slug": "fairfield-methodist",
+      "moeCurrentName": "FAIRFIELD METHODIST SCHOOL (PRIMARY)",
+      "moePastName": "FAIRFIELD METHODIST SCHOOL (PRIMARY)",
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 270
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "FARRER PARK PRIMARY SCHOOL",
+      "slug": "farrer-park",
+      "moeCurrentName": "FARRER PARK PRIMARY SCHOOL",
+      "moePastName": "FARRER PARK PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 190
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 10
+    },
+    {
+      "school": "FENGSHAN PRIMARY SCHOOL",
+      "slug": "fengshan",
+      "moeCurrentName": "FENGSHAN PRIMARY SCHOOL",
+      "moePastName": "FENGSHAN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "FERN GREEN PRIMARY SCHOOL",
+      "slug": "fern-green",
+      "moeCurrentName": "FERN GREEN PRIMARY SCHOOL",
+      "moePastName": "FERN GREEN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 280
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "FERNVALE PRIMARY SCHOOL",
+      "slug": "fernvale",
+      "moeCurrentName": "FERNVALE PRIMARY SCHOOL",
+      "moePastName": "FERNVALE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 240
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -40
+    },
+    {
+      "school": "FIRST TOA PAYOH PRIMARY SCHOOL",
+      "slug": "first-toa-payoh",
+      "moeCurrentName": "FIRST TOA PAYOH PRIMARY SCHOOL",
+      "moePastName": "FIRST TOA PAYOH PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 150
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "FRONTIER PRIMARY SCHOOL",
+      "slug": "frontier",
+      "moeCurrentName": "FRONTIER PRIMARY SCHOOL",
+      "moePastName": "FRONTIER PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "FUCHUN PRIMARY SCHOOL",
+      "slug": "fuchun",
+      "moeCurrentName": "FUCHUN PRIMARY SCHOOL",
+      "moePastName": "FUCHUN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "FUHUA PRIMARY SCHOOL",
+      "slug": "fuhua",
+      "moeCurrentName": "FUHUA PRIMARY SCHOOL",
+      "moePastName": "FUHUA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 220,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -10
+    },
+    {
+      "school": "GAN ENG SENG PRIMARY SCHOOL",
+      "slug": "gan-eng-seng",
+      "moeCurrentName": "GAN ENG SENG PRIMARY SCHOOL",
+      "moePastName": "GAN ENG SENG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 120
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "GEYLANG METHODIST SCHOOL (PRIMARY)",
+      "slug": "geylang-methodist",
+      "moeCurrentName": "GEYLANG METHODIST SCHOOL (PRIMARY)",
+      "moePastName": "GEYLANG METHODIST SCHOOL (PRIMARY)",
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 270
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "GONGSHANG PRIMARY SCHOOL",
+      "slug": "gongshang",
+      "moeCurrentName": "GONGSHANG PRIMARY SCHOOL",
+      "moePastName": "GONGSHANG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 280
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 40
+    },
+    {
+      "school": "GREENDALE PRIMARY SCHOOL",
+      "slug": "greendale",
+      "moeCurrentName": "GREENDALE PRIMARY SCHOOL",
+      "moePastName": "GREENDALE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "GREENRIDGE PRIMARY SCHOOL",
+      "slug": "greenridge",
+      "moeCurrentName": "GREENRIDGE PRIMARY SCHOOL",
+      "moePastName": "GREENRIDGE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 150
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "GREENWOOD PRIMARY SCHOOL",
+      "slug": "greenwood",
+      "moeCurrentName": "GREENWOOD PRIMARY SCHOOL",
+      "moePastName": "GREENWOOD PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "HAIG GIRLS' SCHOOL",
+      "slug": "haig-girls",
+      "moeCurrentName": "HAIG GIRLS SCHOOL",
+      "moePastName": "HAIG GIRLS SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 190,
+        "2026": 190
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "HENRY PARK PRIMARY SCHOOL",
+      "slug": "henry-park",
+      "moeCurrentName": "HENRY PARK PRIMARY SCHOOL",
+      "moePastName": "HENRY PARK PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 300,
+        "2026": 300
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "HOLY INNOCENTS' PRIMARY SCHOOL",
+      "slug": "holy-innocents",
+      "moeCurrentName": "HOLY INNOCENTS PRIMARY SCHOOL",
+      "moePastName": "HOLY INNOCENTS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 270
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "HONG WEN SCHOOL",
+      "slug": "hong-wen",
+      "moeCurrentName": "HONG WEN SCHOOL",
+      "moePastName": "HONG WEN SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "HORIZON PRIMARY SCHOOL",
+      "slug": "horizon",
+      "moeCurrentName": "HORIZON PRIMARY SCHOOL",
+      "moePastName": "HORIZON PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "HOUGANG PRIMARY SCHOOL",
+      "slug": "hougang",
+      "moeCurrentName": "HOUGANG PRIMARY SCHOOL",
+      "moePastName": "HOUGANG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 190,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -10
+    },
+    {
+      "school": "HUAMIN PRIMARY SCHOOL",
+      "slug": "huamin",
+      "moeCurrentName": "HUAMIN PRIMARY SCHOOL",
+      "moePastName": "HUAMIN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "INNOVA PRIMARY SCHOOL",
+      "slug": "innova",
+      "moeCurrentName": "INNOVA PRIMARY SCHOOL",
+      "moePastName": "INNOVA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "JIEMIN PRIMARY SCHOOL",
+      "slug": "jiemin",
+      "moeCurrentName": "JIEMIN PRIMARY SCHOOL",
+      "moePastName": "JIEMIN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 190,
+        "2026": 220
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 30
+    },
+    {
+      "school": "JING SHAN PRIMARY SCHOOL",
+      "slug": "jing-shan",
+      "moeCurrentName": "JING SHAN PRIMARY SCHOOL",
+      "moePastName": "JING SHAN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 150
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "JUNYUAN PRIMARY SCHOOL",
+      "slug": "junyuan",
+      "moeCurrentName": "JUNYUAN PRIMARY SCHOOL",
+      "moePastName": "JUNYUAN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 280
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "JURONG PRIMARY SCHOOL",
+      "slug": "jurong",
+      "moeCurrentName": "JURONG PRIMARY SCHOOL",
+      "moePastName": "JURONG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 220,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -40
+    },
+    {
+      "school": "JURONG WEST PRIMARY SCHOOL",
+      "slug": "jurong-west",
+      "moeCurrentName": "JURONG WEST PRIMARY SCHOOL",
+      "moePastName": "JURONG WEST PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 150
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "KEMING PRIMARY SCHOOL",
+      "slug": "keming",
+      "moeCurrentName": "KEMING PRIMARY SCHOOL",
+      "moePastName": "KEMING PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "KHENG CHENG SCHOOL",
+      "slug": "kheng-cheng",
+      "moeCurrentName": "KHENG CHENG SCHOOL",
+      "moePastName": "KHENG CHENG SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "KONG HWA SCHOOL",
+      "slug": "kong-hwa",
+      "moeCurrentName": "KONG HWA SCHOOL",
+      "moePastName": "KONG HWA SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 280
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 10
+    },
+    {
+      "school": "KUO CHUAN PRESBYTERIAN PRIMARY SCHOOL",
+      "slug": "kuo-chuan-presbyterian",
+      "moeCurrentName": "KUO CHUAN PRESBYTERIAN PRIMARY SCHOOL",
+      "moePastName": "KUO CHUAN PRESBYTERIAN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "LAKESIDE PRIMARY SCHOOL",
+      "slug": "lakeside",
+      "moeCurrentName": "LAKESIDE PRIMARY SCHOOL",
+      "moePastName": "LAKESIDE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "LIANHUA PRIMARY SCHOOL",
+      "slug": "lianhua",
+      "moeCurrentName": "LIANHUA PRIMARY SCHOOL",
+      "moePastName": "LIANHUA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 320,
+        "2026": 280
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -40
+    },
+    {
+      "school": "MAHA BODHI SCHOOL",
+      "slug": "maha-bodhi",
+      "moeCurrentName": "MAHA BODHI SCHOOL",
+      "moePastName": "MAHA BODHI SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 330,
+        "2026": 300
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "MARIS STELLA HIGH SCHOOL",
+      "slug": "maris-stella-high",
+      "moeCurrentName": "MARIS STELLA HIGH SCHOOL (PRIMARY SECTION)",
+      "moePastName": null,
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 330
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 60
+    },
+    {
+      "school": "MARSILING PRIMARY SCHOOL",
+      "slug": "marsiling",
+      "moeCurrentName": "MARSILING PRIMARY SCHOOL",
+      "moePastName": "MARSILING PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "MARYMOUNT CONVENT SCHOOL",
+      "slug": "marymount-convent",
+      "moeCurrentName": "MARYMOUNT CONVENT SCHOOL",
+      "moePastName": "MARYMOUNT CONVENT SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "MAYFLOWER PRIMARY SCHOOL",
+      "slug": "mayflower",
+      "moeCurrentName": "MAYFLOWER PRIMARY SCHOOL",
+      "moePastName": "MAYFLOWER PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 150
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "MEE TOH SCHOOL",
+      "slug": "mee-toh",
+      "moeCurrentName": "MEE TOH SCHOOL",
+      "moePastName": "MEE TOH SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 300,
+        "2026": 300
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "MERIDIAN PRIMARY SCHOOL",
+      "slug": "meridian",
+      "moeCurrentName": "MERIDIAN PRIMARY SCHOOL",
+      "moePastName": "MERIDIAN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 220,
+        "2026": 220
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "METHODIST GIRLS' SCHOOL (PRIMARY)",
+      "slug": "methodist-girls",
+      "moeCurrentName": "METHODIST GIRLS SCHOOL (PRIMARY)",
+      "moePastName": "METHODIST GIRLS SCHOOL (PRIMARY)",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "MONTFORT JUNIOR SCHOOL",
+      "slug": "montfort-junior",
+      "moeCurrentName": "MONTFORT JUNIOR SCHOOL",
+      "moePastName": "MONTFORT JUNIOR SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 150
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "NAN CHIAU PRIMARY SCHOOL",
+      "slug": "nan-chiau",
+      "moeCurrentName": "NAN CHIAU PRIMARY SCHOOL",
+      "moePastName": "NAN CHIAU PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 300,
+        "2026": 300
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "NAN HUA PRIMARY SCHOOL",
+      "slug": "nan-hua",
+      "moeCurrentName": "NAN HUA PRIMARY SCHOOL",
+      "moePastName": "NAN HUA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "NANYANG PRIMARY SCHOOL",
+      "slug": "nanyang",
+      "moeCurrentName": "NANYANG PRIMARY SCHOOL",
+      "moePastName": "NANYANG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 390,
+        "2026": 360
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "NAVAL BASE PRIMARY SCHOOL",
+      "slug": "naval-base",
+      "moeCurrentName": "NAVAL BASE PRIMARY SCHOOL",
+      "moePastName": "NAVAL BASE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "NEW TOWN PRIMARY SCHOOL",
+      "slug": "new-town",
+      "moeCurrentName": "NEW TOWN PRIMARY SCHOOL",
+      "moePastName": "NEW TOWN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "NGEE ANN PRIMARY SCHOOL",
+      "slug": "ngee-ann",
+      "moeCurrentName": "NGEE ANN PRIMARY SCHOOL",
+      "moePastName": "NGEE ANN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "NORTH SPRING PRIMARY SCHOOL",
+      "slug": "north-spring",
+      "moeCurrentName": "NORTH SPRING PRIMARY SCHOOL",
+      "moePastName": "NORTH SPRING PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 150
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "NORTH VIEW PRIMARY SCHOOL",
+      "slug": "north-view",
+      "moeCurrentName": "NORTH VIEW PRIMARY SCHOOL",
+      "moePastName": "NORTH VIEW PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "NORTH VISTA PRIMARY SCHOOL",
+      "slug": "north-vista",
+      "moeCurrentName": "NORTH VISTA PRIMARY SCHOOL",
+      "moePastName": "NORTH VISTA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "NORTHLAND PRIMARY SCHOOL",
+      "slug": "northland",
+      "moeCurrentName": "NORTHLAND PRIMARY SCHOOL",
+      "moePastName": "NORTHLAND PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "NORTHOAKS PRIMARY SCHOOL",
+      "slug": "northoaks",
+      "moeCurrentName": "NORTHOAKS PRIMARY SCHOOL",
+      "moePastName": "NORTHOAKS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "NORTHSHORE PRIMARY SCHOOL",
+      "slug": "northshore",
+      "moeCurrentName": "NORTHSHORE PRIMARY SCHOOL",
+      "moePastName": "NORTHSHORE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 280
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "OASIS PRIMARY SCHOOL",
+      "slug": "oasis",
+      "moeCurrentName": "OASIS PRIMARY SCHOOL",
+      "moePastName": "OASIS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "OPERA ESTATE PRIMARY SCHOOL",
+      "slug": "opera-estate",
+      "moeCurrentName": "OPERA ESTATE PRIMARY SCHOOL",
+      "moePastName": "OPERA ESTATE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "PALM VIEW PRIMARY SCHOOL",
+      "slug": "palm-view",
+      "moeCurrentName": "PALM VIEW PRIMARY SCHOOL",
+      "moePastName": "PALM VIEW PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "PARK VIEW PRIMARY SCHOOL",
+      "slug": "park-view",
+      "moeCurrentName": "PARK VIEW PRIMARY SCHOOL",
+      "moePastName": "PARK VIEW PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 190,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -10
+    },
+    {
+      "school": "PASIR RIS PRIMARY SCHOOL",
+      "slug": "pasir-ris",
+      "moeCurrentName": "PASIR RIS PRIMARY SCHOOL",
+      "moePastName": "PASIR RIS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 150
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "PAYA LEBAR METHODIST GIRLS' SCHOOL (PRIMARY)",
+      "slug": "paya-lebar-methodist-girls",
+      "moeCurrentName": "PAYA LEBAR METHODIST GIRLS SCHOOL (PRIMARY)",
+      "moePastName": "PAYA LEBAR METHODIST GIRLS SCHOOL (PRIMARY)",
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 240
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "PEI CHUN PUBLIC SCHOOL",
+      "slug": "pei-chun-public",
+      "moeCurrentName": "PEI CHUN PUBLIC SCHOOL",
+      "moePastName": "PEI CHUN PUBLIC SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 300,
+        "2026": 300
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "PEI HWA PRESBYTERIAN PRIMARY SCHOOL",
+      "slug": "pei-hwa-presbyterian",
+      "moeCurrentName": "PEI HWA PRESBYTERIAN PRIMARY SCHOOL",
+      "moePastName": "PEI HWA PRESBYTERIAN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 224,
+        "2026": 224
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "PEI TONG PRIMARY SCHOOL",
+      "slug": "pei-tong",
+      "moeCurrentName": "PEI TONG PRIMARY SCHOOL",
+      "moePastName": "PEI TONG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 320,
+        "2026": 280
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -40
+    },
+    {
+      "school": "PEIYING PRIMARY SCHOOL",
+      "slug": "peiying",
+      "moeCurrentName": "PEIYING PRIMARY SCHOOL",
+      "moePastName": "PEIYING PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 220
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 20
+    },
+    {
+      "school": "PIONEER PRIMARY SCHOOL",
+      "slug": "pioneer",
+      "moeCurrentName": "PIONEER PRIMARY SCHOOL",
+      "moePastName": "PIONEER PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 350,
+        "2026": 380
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 30
+    },
+    {
+      "school": "POI CHING SCHOOL",
+      "slug": "poi-ching",
+      "moeCurrentName": "POI CHING SCHOOL",
+      "moePastName": "POI CHING SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 280
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "PRINCESS ELIZABETH PRIMARY SCHOOL",
+      "slug": "princess-elizabeth",
+      "moeCurrentName": "PRINCESS ELIZABETH PRIMARY SCHOOL",
+      "moePastName": "PRINCESS ELIZABETH PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 200
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "PUNGGOL COVE PRIMARY SCHOOL",
+      "slug": "punggol-cove",
+      "moeCurrentName": "PUNGGOL COVE PRIMARY SCHOOL",
+      "moePastName": "PUNGGOL COVE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 280
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "PUNGGOL GREEN PRIMARY SCHOOL",
+      "slug": "punggol-green",
+      "moeCurrentName": "PUNGGOL GREEN PRIMARY SCHOOL",
+      "moePastName": "PUNGGOL GREEN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "PUNGGOL PRIMARY SCHOOL",
+      "slug": "punggol",
+      "moeCurrentName": "PUNGGOL PRIMARY SCHOOL",
+      "moePastName": "PUNGGOL PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 190,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -10
+    },
+    {
+      "school": "PUNGGOL VIEW PRIMARY SCHOOL",
+      "slug": "punggol-view",
+      "moeCurrentName": "PUNGGOL VIEW PRIMARY SCHOOL",
+      "moePastName": "PUNGGOL VIEW PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "QIFA PRIMARY SCHOOL",
+      "slug": "qifa",
+      "moeCurrentName": "QIFA PRIMARY SCHOOL",
+      "moePastName": "QIFA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 280
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "QIHUA PRIMARY SCHOOL",
+      "slug": "qihua",
+      "moeCurrentName": "QIHUA PRIMARY SCHOOL",
+      "moePastName": "QIHUA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "QUEENSTOWN PRIMARY SCHOOL",
+      "slug": "queenstown",
+      "moeCurrentName": "QUEENSTOWN PRIMARY SCHOOL",
+      "moePastName": "QUEENSTOWN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "RADIN MAS PRIMARY SCHOOL",
+      "slug": "radin-mas",
+      "moeCurrentName": "RADIN MAS PRIMARY SCHOOL",
+      "moePastName": "RADIN MAS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 200
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "RAFFLES GIRLS' PRIMARY SCHOOL",
+      "slug": "raffles-girls",
+      "moeCurrentName": "RAFFLES GIRLS PRIMARY SCHOOL",
+      "moePastName": "RAFFLES GIRLS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 270
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "RED SWASTIKA SCHOOL",
+      "slug": "red-swastika",
+      "moeCurrentName": "RED SWASTIKA SCHOOL",
+      "moePastName": "RED SWASTIKA SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "RIVER VALLEY PRIMARY SCHOOL",
+      "slug": "river-valley",
+      "moeCurrentName": "RIVER VALLEY PRIMARY SCHOOL",
+      "moePastName": "RIVER VALLEY PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "RIVERSIDE PRIMARY SCHOOL",
+      "slug": "riverside",
+      "moeCurrentName": "RIVERSIDE PRIMARY SCHOOL",
+      "moePastName": "RIVERSIDE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "RIVERVALE PRIMARY SCHOOL",
+      "slug": "rivervale",
+      "moeCurrentName": "RIVERVALE PRIMARY SCHOOL",
+      "moePastName": "RIVERVALE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -20
+    },
+    {
+      "school": "ROSYTH SCHOOL",
+      "slug": "rosyth",
+      "moeCurrentName": "ROSYTH SCHOOL",
+      "moePastName": "ROSYTH SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 270
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "RULANG PRIMARY SCHOOL",
+      "slug": "rulang",
+      "moeCurrentName": "RULANG PRIMARY SCHOOL",
+      "moePastName": "RULANG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 240
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "SEMBAWANG PRIMARY SCHOOL",
+      "slug": "sembawang",
+      "moeCurrentName": "SEMBAWANG PRIMARY SCHOOL",
+      "moePastName": "SEMBAWANG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 200
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "SENG KANG PRIMARY SCHOOL",
+      "slug": "seng-kang",
+      "moeCurrentName": "SENG KANG PRIMARY SCHOOL",
+      "moePastName": "SENG KANG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 150
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "SENGKANG GREEN PRIMARY SCHOOL",
+      "slug": "sengkang-green",
+      "moeCurrentName": "SENGKANG GREEN PRIMARY SCHOOL",
+      "moePastName": "SENGKANG GREEN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "SHUQUN PRIMARY SCHOOL",
+      "slug": "shuqun",
+      "moeCurrentName": "SHUQUN PRIMARY SCHOOL",
+      "moePastName": "SHUQUN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -20
+    },
+    {
+      "school": "SI LING PRIMARY SCHOOL",
+      "slug": "si-ling",
+      "moeCurrentName": "SI LING PRIMARY SCHOOL",
+      "moePastName": "SI LING PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 120
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "SINGAPORE CHINESE GIRLS' PRIMARY SCHOOL",
+      "slug": "singapore-chinese-girls",
+      "moeCurrentName": "SINGAPORE CHINESE GIRLS PRIMARY SCHOOL",
+      "moePastName": "SINGAPORE CHINESE GIRLS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 192,
+        "2026": 192
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "SOUTH VIEW PRIMARY SCHOOL",
+      "slug": "south-view",
+      "moeCurrentName": "SOUTH VIEW PRIMARY SCHOOL",
+      "moePastName": "SOUTH VIEW PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 270,
+        "2026": 270
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "SPRINGDALE PRIMARY SCHOOL",
+      "slug": "springdale",
+      "moeCurrentName": "SPRINGDALE PRIMARY SCHOOL",
+      "moePastName": "SPRINGDALE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "ST ANDREW'S SCHOOL (JUNIOR)",
+      "slug": "st-andrew-junior",
+      "moeCurrentName": "ST ANDREWS SCHOOL (JUNIOR)",
+      "moePastName": null,
+      "annualTotalVacancies": {
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ST. ANTHONY'S CANOSSIAN PRIMARY SCHOOL",
+      "slug": "st-anthony-canossian",
+      "moeCurrentName": "ST ANTHONYS CANOSSIAN PRIMARY SCHOOL",
+      "moePastName": "ST ANTHONYS CANOSSIAN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "ST. ANTHONY'S PRIMARY SCHOOL",
+      "slug": "st-anthony",
+      "moeCurrentName": "ST ANTHONYS PRIMARY SCHOOL",
+      "moePastName": "ST ANTHONYS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ST. GABRIEL'S PRIMARY SCHOOL",
+      "slug": "st-gabriel",
+      "moeCurrentName": "ST GABRIELS PRIMARY SCHOOL",
+      "moePastName": "ST GABRIELS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 150
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ST. HILDA'S PRIMARY SCHOOL",
+      "slug": "st-hilda",
+      "moeCurrentName": "ST HILDAS PRIMARY SCHOOL",
+      "moePastName": "ST HILDAS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 280
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ST. JOSEPH'S INSTITUTION JUNIOR",
+      "slug": "st-joseph-institution-junior",
+      "moeCurrentName": "ST JOSEPHS INSTITUTION JUNIOR",
+      "moePastName": "ST JOSEPHS INSTITUTION JUNIOR",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ST. MARGARET'S SCHOOL (PRIMARY)",
+      "slug": "st-margaret",
+      "moeCurrentName": "ST MARGARETS SCHOOL (PRIMARY)",
+      "moePastName": "ST MARGARETS SCHOOL (PRIMARY)",
+      "annualTotalVacancies": {
+        "2025": 192,
+        "2026": 192
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ST. STEPHEN'S SCHOOL",
+      "slug": "st-stephen",
+      "moeCurrentName": "ST STEPHENS SCHOOL",
+      "moePastName": "ST STEPHENS SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "TAMPINES NORTH PRIMARY SCHOOL",
+      "slug": "tampines-north",
+      "moeCurrentName": "TAMPINES NORTH PRIMARY SCHOOL",
+      "moePastName": "TAMPINES NORTH PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 320,
+        "2026": 280
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -40
+    },
+    {
+      "school": "TAMPINES PRIMARY SCHOOL",
+      "slug": "tampines",
+      "moeCurrentName": "TAMPINES PRIMARY SCHOOL",
+      "moePastName": "TAMPINES PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 320
+      },
+      "intakeDirection": "increase",
+      "intakeDelta": 40
+    },
+    {
+      "school": "TANJONG KATONG PRIMARY SCHOOL",
+      "slug": "tanjong-katong",
+      "moeCurrentName": "TANJONG KATONG PRIMARY SCHOOL",
+      "moePastName": "TANJONG KATONG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 200
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "TAO NAN SCHOOL",
+      "slug": "tao-nan",
+      "moeCurrentName": "TAO NAN SCHOOL",
+      "moePastName": "TAO NAN SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 360,
+        "2026": 330
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "TECK GHEE PRIMARY SCHOOL",
+      "slug": "teck-ghee",
+      "moeCurrentName": "TECK GHEE PRIMARY SCHOOL",
+      "moePastName": "TECK GHEE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "TECK WHYE PRIMARY SCHOOL",
+      "slug": "teck-whye",
+      "moeCurrentName": "TECK WHYE PRIMARY SCHOOL",
+      "moePastName": "TECK WHYE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "TELOK KURAU PRIMARY SCHOOL",
+      "slug": "telok-kurau",
+      "moeCurrentName": "TELOK KURAU PRIMARY SCHOOL",
+      "moePastName": "TELOK KURAU PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "TEMASEK PRIMARY SCHOOL",
+      "slug": "temasek",
+      "moeCurrentName": "TEMASEK PRIMARY SCHOOL",
+      "moePastName": "TEMASEK PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 200,
+        "2026": 200
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "UNITY PRIMARY SCHOOL",
+      "slug": "unity",
+      "moeCurrentName": "UNITY PRIMARY SCHOOL",
+      "moePastName": "UNITY PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "VALOUR PRIMARY SCHOOL",
+      "slug": "valour",
+      "moeCurrentName": "VALOUR PRIMARY SCHOOL",
+      "moePastName": "VALOUR PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "WATERWAY PRIMARY SCHOOL",
+      "slug": "waterway",
+      "moeCurrentName": "WATERWAY PRIMARY SCHOOL",
+      "moePastName": "WATERWAY PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "WELLINGTON PRIMARY SCHOOL",
+      "slug": "wellington",
+      "moeCurrentName": "WELLINGTON PRIMARY SCHOOL",
+      "moePastName": "WELLINGTON PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 240
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "WEST GROVE PRIMARY SCHOOL",
+      "slug": "west-grove",
+      "moeCurrentName": "WEST GROVE PRIMARY SCHOOL",
+      "moePastName": "WEST GROVE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "WEST SPRING PRIMARY SCHOOL",
+      "slug": "west-spring",
+      "moeCurrentName": "WEST SPRING PRIMARY SCHOOL",
+      "moePastName": "WEST SPRING PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "WEST VIEW PRIMARY SCHOOL",
+      "slug": "west-view",
+      "moeCurrentName": "WEST VIEW PRIMARY SCHOOL",
+      "moePastName": "WEST VIEW PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 150
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "WESTWOOD PRIMARY SCHOOL",
+      "slug": "westwood",
+      "moeCurrentName": "WESTWOOD PRIMARY SCHOOL",
+      "moePastName": "WESTWOOD PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "WHITE SANDS PRIMARY SCHOOL",
+      "slug": "white-sands",
+      "moeCurrentName": "WHITE SANDS PRIMARY SCHOOL",
+      "moePastName": "WHITE SANDS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 150
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "WOODGROVE PRIMARY SCHOOL",
+      "slug": "woodgrove",
+      "moeCurrentName": "WOODGROVE PRIMARY SCHOOL",
+      "moePastName": "WOODGROVE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "WOODLANDS PRIMARY SCHOOL",
+      "slug": "woodlands",
+      "moeCurrentName": "WOODLANDS PRIMARY SCHOOL",
+      "moePastName": "WOODLANDS PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "WOODLANDS RING PRIMARY SCHOOL",
+      "slug": "woodlands-ring",
+      "moeCurrentName": "WOODLANDS RING PRIMARY SCHOOL",
+      "moePastName": "WOODLANDS RING PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "XINGHUA PRIMARY SCHOOL",
+      "slug": "xinghua",
+      "moeCurrentName": "XINGHUA PRIMARY SCHOOL",
+      "moePastName": "XINGHUA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "XINGNAN PRIMARY SCHOOL",
+      "slug": "xingnan",
+      "moeCurrentName": "XINGNAN PRIMARY SCHOOL",
+      "moePastName": "XINGNAN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "XINMIN PRIMARY SCHOOL",
+      "slug": "xinmin",
+      "moeCurrentName": "XINMIN PRIMARY SCHOOL",
+      "moePastName": "XINMIN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "XISHAN PRIMARY SCHOOL",
+      "slug": "xishan",
+      "moeCurrentName": "XISHAN PRIMARY SCHOOL",
+      "moePastName": "XISHAN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 220
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -20
+    },
+    {
+      "school": "YANGZHENG PRIMARY SCHOOL",
+      "slug": "yangzheng",
+      "moeCurrentName": "YANGZHENG PRIMARY SCHOOL",
+      "moePastName": "YANGZHENG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 160,
+        "2026": 160
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "YEW TEE PRIMARY SCHOOL",
+      "slug": "yew-tee",
+      "moeCurrentName": "YEW TEE PRIMARY SCHOOL",
+      "moePastName": "YEW TEE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 180
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "YIO CHU KANG PRIMARY SCHOOL",
+      "slug": "yio-chu-kang",
+      "moeCurrentName": "YIO CHU KANG PRIMARY SCHOOL",
+      "moePastName": "YIO CHU KANG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "YISHUN PRIMARY SCHOOL",
+      "slug": "yishun",
+      "moeCurrentName": "YISHUN PRIMARY SCHOOL",
+      "moePastName": "YISHUN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 220,
+        "2026": 190
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "YU NENG PRIMARY SCHOOL",
+      "slug": "yu-neng",
+      "moeCurrentName": "YU NENG PRIMARY SCHOOL",
+      "moePastName": "YU NENG PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 180,
+        "2026": 180
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "YUHUA PRIMARY SCHOOL",
+      "slug": "yuhua",
+      "moeCurrentName": "YUHUA PRIMARY SCHOOL",
+      "moePastName": "YUHUA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 240,
+        "2026": 210
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -30
+    },
+    {
+      "school": "YUMIN PRIMARY SCHOOL",
+      "slug": "yumin",
+      "moeCurrentName": "YUMIN PRIMARY SCHOOL",
+      "moePastName": "YUMIN PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 280,
+        "2026": 240
+      },
+      "intakeDirection": "decrease",
+      "intakeDelta": -40
+    },
+    {
+      "school": "ZHANGDE PRIMARY SCHOOL",
+      "slug": "zhangde",
+      "moeCurrentName": "ZHANGDE PRIMARY SCHOOL",
+      "moePastName": "ZHANGDE PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 150
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ZHENGHUA PRIMARY SCHOOL",
+      "slug": "zhenghua",
+      "moeCurrentName": "ZHENGHUA PRIMARY SCHOOL",
+      "moePastName": "ZHENGHUA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 210,
+        "2026": 210
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    },
+    {
+      "school": "ZHONGHUA PRIMARY SCHOOL",
+      "slug": "zhonghua",
+      "moeCurrentName": "ZHONGHUA PRIMARY SCHOOL",
+      "moePastName": "ZHONGHUA PRIMARY SCHOOL",
+      "annualTotalVacancies": {
+        "2025": 150,
+        "2026": 150
+      },
+      "intakeDirection": "no-change",
+      "intakeDelta": 0
+    }
+  ],
+  "unmatchedBundleSchools": [
+    "DAMAI PRIMARY SCHOOL",
+    "KRANJI PRIMARY SCHOOL",
+    "TOWNSVILLE PRIMARY SCHOOL"
+  ],
+  "unmatchedMoeSchools": [],
+  "missingPhaseZero": [],
+  "updatedBallotingHistory": [
+    {
+      "school": "ADMIRALTY PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "AHMAD IBRAHIM PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "AI TONG SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ALEXANDRA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ANCHOR GREEN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ANDERSON PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ANG MO KIO PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ANGLO-CHINESE SCHOOL (JUNIOR)",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ANGLO-CHINESE SCHOOL (PRIMARY)",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ANGSANA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "BEACON PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "BEDOK GREEN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "BENDEMEER PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "BLANGAH RISE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "BOON LAY GARDEN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "BUKIT PANJANG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "BUKIT TIMAH PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "BUKIT VIEW PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CANBERRA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CANOSSA CATHOLIC PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CANTONMENT PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CASUARINA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CEDAR PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CHANGKAT PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CHIJ (KATONG) PRIMARY",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CHIJ (KELLOCK)",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CHIJ OUR LADY OF GOOD COUNSEL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CHIJ OUR LADY OF THE NATIVITY",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CHIJ OUR LADY QUEEN OF PEACE",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CHIJ PRIMARY (TOA PAYOH)",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CHONGFU SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CHONGZHENG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CHUA CHU KANG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CLEMENTI PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "COMPASSVALE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CONCORD PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "CORPORATION PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "DAZHONG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "DE LA SALLE SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "EAST SPRING PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "EDGEFIELD PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ELIAS PARK PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ENDEAVOUR PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "EVERGREEN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "FAIRFIELD METHODIST SCHOOL (PRIMARY)",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "FARRER PARK PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "FENGSHAN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "FERN GREEN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "FERNVALE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "FIRST TOA PAYOH PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "FRONTIER PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "FUCHUN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "FUHUA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "GAN ENG SENG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "GEYLANG METHODIST SCHOOL (PRIMARY)",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "GONGSHANG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "GREENDALE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "GREENRIDGE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "GREENWOOD PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "HAIG GIRLS' SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "HENRY PARK PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "HOLY INNOCENTS' PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "HONG WEN SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "HORIZON PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "HOUGANG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "HUAMIN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "INNOVA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "JIEMIN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "JING SHAN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "JUNYUAN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "JURONG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "JURONG WEST PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "KEMING PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "KHENG CHENG SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "KONG HWA SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "KUO CHUAN PRESBYTERIAN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "LAKESIDE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "LIANHUA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "MAHA BODHI SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "MARSILING PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "MARYMOUNT CONVENT SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "MAYFLOWER PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "MEE TOH SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "MERIDIAN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "METHODIST GIRLS' SCHOOL (PRIMARY)",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "MONTFORT JUNIOR SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NAN CHIAU PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NAN HUA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NANYANG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NAVAL BASE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NEW TOWN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NGEE ANN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NORTH SPRING PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NORTH VIEW PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NORTH VISTA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NORTHLAND PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NORTHOAKS PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "NORTHSHORE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "OASIS PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "OPERA ESTATE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PALM VIEW PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PARK VIEW PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PASIR RIS PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PAYA LEBAR METHODIST GIRLS' SCHOOL (PRIMARY)",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PEI CHUN PUBLIC SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PEI HWA PRESBYTERIAN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PEI TONG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PEIYING PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PIONEER PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "POI CHING SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PRINCESS ELIZABETH PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PUNGGOL COVE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PUNGGOL GREEN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PUNGGOL PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "PUNGGOL VIEW PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "QIFA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "QIHUA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "QUEENSTOWN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "RADIN MAS PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "RAFFLES GIRLS' PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "RED SWASTIKA SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "RIVER VALLEY PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "RIVERSIDE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "RIVERVALE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ROSYTH SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "RULANG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "SEMBAWANG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "SENG KANG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "SENGKANG GREEN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "SHUQUN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "SI LING PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "SINGAPORE CHINESE GIRLS' PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "SOUTH VIEW PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "SPRINGDALE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ST. ANTHONY'S CANOSSIAN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ST. ANTHONY'S PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ST. GABRIEL'S PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ST. HILDA'S PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ST. JOSEPH'S INSTITUTION JUNIOR",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ST. MARGARET'S SCHOOL (PRIMARY)",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ST. STEPHEN'S SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "TAMPINES NORTH PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "TAMPINES PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "TANJONG KATONG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "TAO NAN SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "TECK GHEE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "TECK WHYE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "TELOK KURAU PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "TEMASEK PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "UNITY PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "VALOUR PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "WATERWAY PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "WELLINGTON PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "WEST GROVE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "WEST SPRING PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "WEST VIEW PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "WESTWOOD PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "WHITE SANDS PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "WOODGROVE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "WOODLANDS PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "WOODLANDS RING PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "XINGHUA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "XINGNAN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "XINMIN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "XISHAN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "YANGZHENG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "YEW TEE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "YIO CHU KANG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "YISHUN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "YU NENG PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "YUHUA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "YUMIN PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ZHANGDE PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ZHENGHUA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    },
+    {
+      "school": "ZHONGHUA PRIMARY SCHOOL",
+      "year": "2025",
+      "phases": 3
+    }
+  ],
+  "snapshotYearsApplied": []
+}

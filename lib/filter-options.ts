@@ -1,8 +1,8 @@
 /** Matches phases present in p1-school-selector ballot scrape / bundled JSON. */
 export const phases = ['2A', '2B', '2C'] as const;
 
-/** Years typically present after running `data:build` in p1-school-selector (update when MOE adds rows). */
-export const years = ['2025', '2024', '2023', '2022', '2021', '2020'] as const;
+/** Years with MOE annual totals after running `npm run import:moe-vacancies` (add year when MOE publishes). */
+export const years = ['2026', '2025', '2024', '2023', '2022', '2021', '2020'] as const;
 
 export const distanceBands = [
   { value: '1', label: 'Within 1km' },

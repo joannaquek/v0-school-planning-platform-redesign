@@ -1,6 +1,7 @@
 'use client';
 
-import { X, Scale, ChevronUp, ChevronDown, MapPin, Trash2 } from 'lucide-react';
+import Image from 'next/image';
+import { X, Scale, ChevronUp, ChevronDown, MapPin, Trash2, GraduationCap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -82,6 +83,19 @@ export function CompareDrawer() {
                     <X className="h-3 w-3" />
                   </button>
                   <CardContent className="p-3">
+                    <div className="mb-2 flex h-12 w-full items-center justify-center overflow-hidden rounded-md bg-secondary">
+                      {school.imageUrl ? (
+                        <Image
+                          src={school.imageUrl}
+                          alt=""
+                          width={48}
+                          height={48}
+                          className="max-h-full w-auto max-w-full object-contain p-1"
+                        />
+                      ) : (
+                        <GraduationCap className="h-6 w-6 text-secondary-foreground/40" />
+                      )}
+                    </div>
                     <Link href={`/schools/${school.id}`}>
                       <h4 className="text-sm font-medium text-foreground line-clamp-2 hover:text-primary transition-colors">
                         {school.name}
@@ -89,7 +103,7 @@ export function CompareDrawer() {
                     </Link>
                     <div className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
                       <MapPin className="h-3 w-3" />
-                      <span>{school.distance ? `${school.distance}km` : '—'}</span>
+                      <span>{school.distance != null ? `${school.distance.toFixed(2)}km` : '—'}</span>
                     </div>
                     <div className="mt-2">
                       <PressureBadge pressure={school.pressure} size="sm" />
@@ -114,10 +128,10 @@ export function CompareDrawer() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="pb-2 pr-4 text-left font-medium text-muted-foreground">Metric</th>
+                      <th className="pb-2 pr-4 text-left font-medium text-muted-foreground">School</th>
                       {compareList.map(({ school }) => (
                         <th key={school.id} className="pb-2 px-2 text-center font-medium text-foreground">
-                          {school.name.split(' ').slice(0, 2).join(' ')}
+                          {school.name}
                         </th>
                       ))}
                     </tr>
@@ -151,7 +165,7 @@ export function CompareDrawer() {
                       <td className="py-2 pr-4 text-muted-foreground">Distance</td>
                       {compareList.map(({ school }) => (
                         <td key={school.id} className="py-2 px-2 text-center font-medium">
-                          {school.distance ? `${school.distance}km` : '—'}
+                          {school.distance != null ? `${school.distance.toFixed(2)}km` : '—'}
                         </td>
                       ))}
                     </tr>
