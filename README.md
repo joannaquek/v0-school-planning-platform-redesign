@@ -10,7 +10,15 @@ This repository is linked to a [v0](https://v0.app) project. You can continue de
 
 ## Getting Started
 
-School data lives in `lib/schools-bundled.json` (from the `p1-school-selector` build pipeline). Home search and “use my location” call **`GOOGLE_MAPS_SERVER_API_KEY`** on the server (routes `/api/onemap/search` and `/api/onemap/reverse` proxy [Google Geocoding](https://developers.google.com/maps/documentation/geocoding/overview)). Enable the **Geocoding API** for that key and restrict the key appropriately (HTTP referrers for browser keys are not used here—prefer a server key with IP restrictions on Vercel). **`NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`** is optional until a client-side map or Places widget is wired up.
+School data lives in `lib/schools-bundled.json` (from the `p1-school-selector` build pipeline). **P1 vacancy totals** are refreshed from official MOE pages:
+
+```bash
+npm run import:moe-vacancies
+```
+
+This fetches all **179** primary schools from [MOE vacancies and balloting](https://www.moe.gov.sg/primary/p1-registration/vacancies-and-balloting) (upcoming exercise) and [MOE past vacancies](https://www.moe.gov.sg/primary/p1-registration/past-vacancies-and-balloting-data) (completed exercise). MOE phase `"0"` is the annual intake total — never sum 2A+2B+2C. To backfill older years when MOE rotates the past page, save HTML snapshots under `scripts/moe-p1-snapshots/{year}.html` and re-run the import.
+
+Home search and “use my location” call **`GOOGLE_MAPS_SERVER_API_KEY`** on the server (routes `/api/onemap/search` and `/api/onemap/reverse` proxy [Google Geocoding](https://developers.google.com/maps/documentation/geocoding/overview)). Enable the **Geocoding API** for that key and restrict the key appropriately (HTTP referrers for browser keys are not used here—prefer a server key with IP restrictions on Vercel). **`NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`** is optional until a client-side map or Places widget is wired up.
 
 First, run the development server:
 

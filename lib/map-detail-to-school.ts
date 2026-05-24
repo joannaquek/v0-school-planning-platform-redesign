@@ -39,6 +39,8 @@ function totalVacanciesForYear(detail: SchoolDetailData, year: number): number {
     return override;
   }
 
+  // Legacy fallback when MOE annual totals are missing for this year (run import:moe-vacancies).
+  // Do not treat this sum as official intake — phase rows are remaining slots, not additive totals.
   return detail.ballotingHistory
     .filter((h) => h.year === year)
     .reduce((sum, h) => sum + h.vacancies, 0);
