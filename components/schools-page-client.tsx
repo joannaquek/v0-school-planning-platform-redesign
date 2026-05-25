@@ -1,18 +1,25 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { LayoutGrid, Map as MapIcon, List, ArrowUpDown, AlertTriangle } from 'lucide-react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { Map as MapIcon, AlertTriangle, Scale } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Header } from '@/components/header';
 import { MobileNav } from '@/components/mobile-nav';
 import { SchoolCard } from '@/components/school-card';
-import { FilterPanel, FilterChips } from '@/components/filter-panel';
-import { SchoolSearchInput } from '@/components/search-input';
+import { SchoolsFilterBar } from '@/components/schools-filter-bar';
 import { MapView } from '@/components/map-view';
 import { CompareDrawer } from '@/components/compare-drawer';
 import { useAppStore } from '@/lib/store';
+import {
+  NEARBY_WITHIN_2,
+  isNearbyDistanceBand,
+  nearbyRadiusKm,
+  nearbyRadiusLabelKm,
+} from '@/lib/nearby-radius';
+import { resolveRegistrationYear } from '@/lib/filter-options';
 import { detailsToSchools } from '@/lib/map-detail-to-school';
 import type { SchoolDetailData } from '@/lib/bundled-types';
 import type { GeoPoint } from '@/lib/geo';
@@ -20,12 +27,38 @@ import { cn } from '@/lib/utils';
 
 type ViewMode = 'grid' | 'list' | 'map';
 
+function viewFromSearchParams(params: URLSearchParams): ViewMode {
+  const view = params.get('view');
+  if (view === 'map' || view === 'list' || view === 'grid') return view;
+  return 'grid';
+}
+
 export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) {
   const searchParams = useSearchParams();
-  const initialView = searchParams.get('view') as ViewMode | null;
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const [viewMode, setViewMode] = useState<ViewMode>(initialView || 'grid');
+  const [viewMode, setViewMode] = useState<ViewMode>(() => viewFromSearchParams(searchParams));
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    setViewMode(viewFromSearchParams(searchParams));
+  }, [searchParams]);
+
+  const setViewModeAndUrl = useCallback(
+    (mode: ViewMode) => {
+      setViewMode(mode);
+      const params = new URLSearchParams(searchParams.toString());
+      if (mode === 'grid') {
+        params.delete('view');
+      } else {
+        params.set('view', mode);
+      }
+      const qs = params.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
 
   const {
     filters,
@@ -40,10 +73,12 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
   const home: GeoPoint | null =
     userLat != null && userLng != null ? { lat: userLat, lng: userLng } : null;
 
+  const registrationYear = resolveRegistrationYear(filters.year);
+
   const filteredSchools = useMemo(() => {
     const allSchools = detailsToSchools(
       details,
-      Number(filters.year),
+      Number(registrationYear),
       filters.phase,
       home
     );
@@ -72,7 +107,8 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
       result = result.filter((school) => {
         const d = school.distance;
         if (d == null) return false;
-        if (filters.distanceBand === '1') return d <= 1;
+        if (filters.distanceBand === 'within-1' || filters.distanceBand === '1') return d <= 1;
+        if (filters.distanceBand === 'within-2') return d <= 2;
         if (filters.distanceBand === '2') return d > 1 && d <= 2;
         if (filters.distanceBand === '3') return d > 2;
         return true;
@@ -101,14 +137,20 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
     }
 
     return result;
-  }, [details, searchQuery, filters, home]);
+  }, [details, searchQuery, filters, home, registrationYear]);
 
   const sortLabels = {
-    distance: 'Distance',
-    pressure: 'Pressure',
-    vacancies: 'Vacancies',
-    name: 'Name',
+    distance: 'distance (nearest first)',
+    pressure: 'pressure (lowest first)',
+    vacancies: 'vacancies (most first)',
+    name: 'name (A–Z)',
   };
+
+  const activeNearbyBand = isNearbyDistanceBand(filters.distanceBand)
+    ? filters.distanceBand
+    : NEARBY_WITHIN_2;
+  const mapRadiusKm = home ? (nearbyRadiusKm(activeNearbyBand) ?? 2) : 2;
+  const nearbyLabel = home ? nearbyRadiusLabelKm(activeNearbyBand) : null;
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
@@ -141,64 +183,41 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
             </AlertDescription>
           </Alert>
         ) : null}
-        <div className="mb-6">
+        <div className="mb-4">
           <h1 className="text-2xl font-bold text-foreground">Browse Schools</h1>
-          <p className="mt-1 text-muted-foreground">
-            {filteredSchools.length} school{filteredSchools.length !== 1 ? 's' : ''} found · Phase{' '}
-            {filters.phase} · Year {filters.year}
+          <p className="mt-1 text-sm text-muted-foreground">
+            {filteredSchools.length} school{filteredSchools.length !== 1 ? 's' : ''}
+            {nearbyLabel ? ` within ${nearbyLabel} of your home` : ''}
+            {' · '}
+            Sorted by {sortLabels[filters.sortBy]}
           </p>
         </div>
 
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-1 gap-3">
-            <SchoolSearchInput onSearch={setSearchQuery} className="max-w-md flex-1" />
-            <FilterPanel />
+        <SchoolsFilterBar
+          className="mb-6"
+          onSearch={setSearchQuery}
+          viewMode={viewMode}
+          onViewModeChange={setViewModeAndUrl}
+          hasHome={home != null}
+        />
+
+        {home != null ? (
+          <div className="mb-6">
+            <Button variant="outline" className="w-full sm:w-auto" asChild>
+              <Link href="/compare" className="inline-flex items-center gap-2">
+                <Scale className="h-4 w-4" />
+                Plan my registration
+              </Link>
+            </Button>
           </div>
-
-          <div className="flex items-center gap-2">
-            <div className="flex rounded-lg border border-border bg-card p-1">
-              <Button
-                variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
-                size="sm"
-                className="h-8 w-8 p-0"
-                onClick={() => setViewMode('grid')}
-              >
-                <LayoutGrid className="h-4 w-4" />
-                <span className="sr-only">Grid view</span>
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-                size="sm"
-                className="h-8 w-8 p-0"
-                onClick={() => setViewMode('list')}
-              >
-                <List className="h-4 w-4" />
-                <span className="sr-only">List view</span>
-              </Button>
-              <Button
-                variant={viewMode === 'map' ? 'secondary' : 'ghost'}
-                size="sm"
-                className="h-8 w-8 p-0"
-                onClick={() => setViewMode('map')}
-              >
-                <MapIcon className="h-4 w-4" />
-                <span className="sr-only">Map view</span>
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        <FilterChips />
-
-        <div className="mb-4 mt-4 flex items-center gap-2 text-sm text-muted-foreground">
-          <ArrowUpDown className="h-4 w-4" />
-          <span>Sorted by {sortLabels[filters.sortBy]}</span>
-        </div>
+        ) : null}
 
         {viewMode === 'map' ? (
-          <div className="h-[calc(100vh-280px)] min-h-[500px]">
+          <div className="h-[calc(100vh-420px)] min-h-[400px]">
             <MapView
               schools={filteredSchools}
+              home={home}
+              radiusKm={mapRadiusKm as 1 | 2}
               selectedSchoolId={selectedSchoolId}
               onSelectSchool={setSelectedSchoolId}
             />
@@ -216,7 +235,7 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
                 key={school.id}
                 school={school}
                 variant={viewMode === 'list' ? 'compact' : 'default'}
-                vacancyYearLabel={filters.year}
+                vacancyYearLabel={registrationYear}
               />
             ))}
           </div>

@@ -2,7 +2,16 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { School, FilterState, CompareItem } from './types';
+import type {
+  School,
+  FilterState,
+  CompareItem,
+  ParentRegistrationProfile,
+  Phase2ATie,
+  Phase2BTie,
+} from './types';
+import { NEARBY_WITHIN_2 } from './nearby-radius';
+import { defaultRegistrationProfile } from './registration-profile';
 
 interface AppState {
   // Filters
@@ -44,6 +53,14 @@ interface AppState {
     oneMapWarning?: string | null
   ) => void;
   dismissOneMapWarning: () => void;
+
+  registrationProfile: ParentRegistrationProfile;
+  setRegistrationProfile: (profile: Partial<ParentRegistrationProfile>) => void;
+  setSchoolPhaseSelection: (
+    schoolId: string,
+    phase: '2A' | '2B',
+    value: Phase2ATie | Phase2BTie | null
+  ) => void;
 }
 
 const defaultFilters: FilterState = {
@@ -103,9 +120,15 @@ export const useAppStore = create<AppState>()(
       userLng: null,
       oneMapLastWarning: null,
       setUserAddress: (address) =>
-        set(
+        set((state) =>
           address.trim() === ''
-            ? { userAddress: address, userLat: null, userLng: null, oneMapLastWarning: null }
+            ? {
+                userAddress: address,
+                userLat: null,
+                userLng: null,
+                oneMapLastWarning: null,
+                filters: { ...state.filters, distanceBand: 'all' },
+              }
             : { userAddress: address }
         ),
       setGeocodedHome: (address, lat, lng, oneMapWarning = null) =>
@@ -114,9 +137,47 @@ export const useAppStore = create<AppState>()(
           userLat: lat,
           userLng: lng,
           oneMapLastWarning: oneMapWarning ?? null,
-          filters: { ...state.filters, sortBy: 'distance' },
+          filters: { ...state.filters, sortBy: 'distance', distanceBand: NEARBY_WITHIN_2 },
         })),
       dismissOneMapWarning: () => set({ oneMapLastWarning: null }),
+
+      registrationProfile: {
+        ...defaultRegistrationProfile,
+        selectionsBySchoolId: {},
+      },
+      setRegistrationProfile: (profile) =>
+        set((state) => ({
+          registrationProfile: { ...state.registrationProfile, ...profile },
+        })),
+      setSchoolPhaseSelection: (schoolId, phase, value) =>
+        set((state) => {
+          const selectionsBySchoolId = {
+            ...state.registrationProfile.selectionsBySchoolId,
+          };
+          const existing = { ...(selectionsBySchoolId[schoolId] ?? {}) };
+
+          if (phase === '2A') {
+            if (value) existing.phase2A = value as Phase2ATie;
+            else delete existing.phase2A;
+          } else if (value) {
+            existing.phase2B = value as Phase2BTie;
+          } else {
+            delete existing.phase2B;
+          }
+
+          if (!existing.phase2A && !existing.phase2B) {
+            delete selectionsBySchoolId[schoolId];
+          } else {
+            selectionsBySchoolId[schoolId] = existing;
+          }
+
+          return {
+            registrationProfile: {
+              ...state.registrationProfile,
+              selectionsBySchoolId,
+            },
+          };
+        }),
     }),
     {
       name: 'schoolmatch-storage',
@@ -126,6 +187,7 @@ export const useAppStore = create<AppState>()(
         userLat: state.userLat,
         userLng: state.userLng,
         filters: state.filters,
+        registrationProfile: state.registrationProfile,
       }),
     }
   )
