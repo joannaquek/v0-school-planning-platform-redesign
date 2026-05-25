@@ -68,6 +68,7 @@ const defaultFilters: FilterState = {
   pressure: 'all',
   year: '2025',
   phase: '2C',
+  eligibility: 'all',
   ccaFilter: [],
   sortBy: 'distance',
 };

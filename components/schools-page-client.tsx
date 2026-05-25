@@ -21,6 +21,7 @@ import {
 } from '@/lib/nearby-radius';
 import { resolveRegistrationYear } from '@/lib/filter-options';
 import { detailsToSchools } from '@/lib/map-detail-to-school';
+import { eligibilityOptions } from '@/lib/filter-options';
 import type { SchoolDetailData } from '@/lib/bundled-types';
 import type { GeoPoint } from '@/lib/geo';
 import { cn } from '@/lib/utils';
@@ -72,6 +73,8 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
 
   const home: GeoPoint | null =
     userLat != null && userLng != null ? { lat: userLat, lng: userLng } : null;
+  const currentEligibility = filters.eligibility ?? 'all';
+  const selectedEligibility = eligibilityOptions.find((option) => option.value === currentEligibility);
 
   const registrationYear = resolveRegistrationYear(filters.year);
 
@@ -191,6 +194,13 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
             {' · '}
             Sorted by {sortLabels[filters.sortBy]}
           </p>
+          {selectedEligibility && selectedEligibility.value !== 'all' ? (
+            <div className="mt-3 max-w-2xl rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">Eligibility context:</span> Phase{' '}
+              {filters.phase} historical demand for {selectedEligibility.label.toLowerCase()} applicants.
+              Confirm final eligibility with the school and MOE before applying.
+            </div>
+          ) : null}
         </div>
 
         <SchoolsFilterBar

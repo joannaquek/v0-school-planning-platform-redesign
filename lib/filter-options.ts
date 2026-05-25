@@ -1,3 +1,4 @@
+import type { EligibilityFilter } from './types';
 import {
   plannerPhases,
   registrationPhaseFootnotes as moeRegistrationPhaseFootnotes,
@@ -54,3 +55,54 @@ export const pressureLevels = [
   { value: 'moderate', label: 'Moderate pressure' },
   { value: 'high', label: 'High pressure' },
 ] as const;
+
+/** Browse filter: one parent profile; aligns phase toggle to MOE pathway (see docs/p1-registration-phases.md). */
+export const eligibilityOptions = [
+  {
+    value: 'all',
+    label: 'Any eligibility',
+    phase: null,
+    description: 'Keep the selected phase without applying a parent profile.',
+  },
+  {
+    value: 'alumni',
+    label: 'Parent or sibling former student',
+    phase: '2A',
+    description: 'Phase 2A — former student of the school.',
+  },
+  {
+    value: 'staff',
+    label: 'Staff / SAC / MOE Kindergarten',
+    phase: '2A',
+    description: 'Phase 2A — school staff, SAC/Management Committee, or child in MOE Kindergarten.',
+  },
+  {
+    value: 'parent-volunteer',
+    label: 'Parent volunteer (40+ hrs)',
+    phase: '2B',
+    description: 'Phase 2B — parent volunteer meeting join-by and hour requirements.',
+  },
+  {
+    value: 'association-sponsor',
+    label: 'Church or clan (endorsed)',
+    phase: '2B',
+    description: 'Phase 2B — parent endorsed by church or clan connected to the school.',
+  },
+  {
+    value: 'community-leader',
+    label: 'Active grassroots leader',
+    phase: '2B',
+    description: 'Phase 2B — parent endorsed as an active grassroots leader.',
+  },
+  {
+    value: 'no-priority',
+    label: 'No priority eligibility',
+    phase: '2C',
+    description: 'Phase 2C — child not yet registered; distance-based registration.',
+  },
+] as const satisfies ReadonlyArray<{
+  value: EligibilityFilter;
+  label: string;
+  phase: (typeof phases)[number] | null;
+  description: string;
+}>;

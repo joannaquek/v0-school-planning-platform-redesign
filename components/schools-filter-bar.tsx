@@ -23,7 +23,9 @@ import {
   resolveRegistrationYear,
   registrationPhaseFootnotes,
   isRegistrationPhase,
+  eligibilityOptions,
 } from '@/lib/filter-options';
+import type { EligibilityFilter } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 type ViewMode = 'grid' | 'list' | 'map';
@@ -76,6 +78,17 @@ export function SchoolsFilterBar({
   const phaseFootnote = isRegistrationPhase(filters.phase)
     ? registrationPhaseFootnotes[filters.phase]
     : null;
+
+  const currentEligibility = filters.eligibility ?? 'all';
+  const selectedEligibility = eligibilityOptions.find((option) => option.value === currentEligibility);
+
+  const handleEligibilityChange = (value: EligibilityFilter) => {
+    const option = eligibilityOptions.find((entry) => entry.value === value);
+    setFilters({
+      eligibility: value,
+      ...(option?.phase ? { phase: option.phase } : {}),
+    });
+  };
 
   return (
     <div className={cn('space-y-3', className)}>
@@ -141,6 +154,32 @@ export function SchoolsFilterBar({
                 <Link href="/guide" className="font-medium text-primary underline-offset-2 hover:underline">
                   Full guide
                 </Link>
+              </p>
+            ) : null}
+          </div>
+
+          <div className="flex min-w-0 w-full flex-col gap-1.5 sm:min-w-[14rem] sm:flex-1">
+            <FilterField label="Parent eligibility" className="w-full">
+              <Select
+                value={currentEligibility}
+                onValueChange={(value) => handleEligibilityChange(value as EligibilityFilter)}
+              >
+                <SelectTrigger className={compactSelectTriggerClass}>
+                  <SelectValue placeholder="Any eligibility" />
+                </SelectTrigger>
+                <SelectContent>
+                  {eligibilityOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FilterField>
+            {selectedEligibility && selectedEligibility.value !== 'all' ? (
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                {selectedEligibility.description}
+                {selectedEligibility.phase ? ' Phase filter updates automatically.' : ''}
               </p>
             ) : null}
           </div>

@@ -34,11 +34,21 @@ export interface YearlyData {
   ballotRate?: number;
 }
 
+export type EligibilityFilter =
+  | 'all'
+  | 'alumni'
+  | 'staff'
+  | 'parent-volunteer'
+  | 'association-sponsor'
+  | 'community-leader'
+  | 'no-priority';
+
 export interface FilterState {
   distanceBand: string;
   pressure: string;
   year: string;
   phase: string;
+  eligibility: EligibilityFilter;
   ccaFilter: string[];
   sortBy: 'distance' | 'pressure' | 'name' | 'vacancies';
 }
