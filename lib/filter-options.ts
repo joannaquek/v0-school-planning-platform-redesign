@@ -1,25 +1,27 @@
-/** Matches phases present in p1-school-selector ballot scrape / bundled JSON. */
-export const phases = ['2A', '2B', '2C'] as const;
+import {
+  plannerPhases,
+  registrationPhaseFootnotes as moeRegistrationPhaseFootnotes,
+} from './p1-registration-phases';
 
-/** Short parent-facing notes for the registration phase selector (see /guide). */
+/** Matches phases present in p1-school-selector ballot scrape / bundled JSON. */
+export const phases = plannerPhases;
+
+/** Short parent-facing notes for the registration phase selector (see /guide, docs/p1-registration-phases.md). */
 export const registrationPhaseFootnotes: Record<
   (typeof phases)[number],
   { label: string; summary: string }
 > = {
   '2A': {
-    label: 'Alumni & parent volunteers',
-    summary:
-      'For children whose parent is school staff or alumni, or has completed the school’s parent volunteer programme (often 40+ hours).',
+    label: moeRegistrationPhaseFootnotes['2A'].label,
+    summary: moeRegistrationPhaseFootnotes['2A'].summary,
   },
   '2B': {
-    label: 'Community connections',
-    summary:
-      'For children whose parents are recognised community or clan leaders, or have other formal ties to the school community.',
+    label: moeRegistrationPhaseFootnotes['2B'].label,
+    summary: moeRegistrationPhaseFootnotes['2B'].summary,
   },
   '2C': {
-    label: 'Open registration (most families)',
-    summary:
-      'For Singapore Citizens and PRs registering by distance from home — within 1km first, then 1–2km, then further (balloting may apply).',
+    label: moeRegistrationPhaseFootnotes['2C'].label,
+    summary: moeRegistrationPhaseFootnotes['2C'].summary,
   },
 };
 

@@ -29,35 +29,38 @@ export const p1GuidePhases: P1GuidePhase[] = [
   },
   {
     phase: 'Phase 2A',
-    title: 'For alumni and parent volunteers',
+    title: 'Former students, SAC/Management, staff, MOE Kindergarten',
     description:
-      'Children whose parents are staff or alumni, or who have completed parent volunteer programs.',
-    eligibility: 'Parent is staff/alumni, parent volunteer (40+ hours), endorsed by church/clan',
+      'Children whose parent or sibling is a former student; whose parent is on the School Advisory or Management Committee or is school staff; or who is in the MOE Kindergarten at the school.',
+    eligibility:
+      'Parent/sibling former student; parent on SAC/Management Committee; parent school staff; child in MOE Kindergarten at school',
     timing: 'Early July',
     guaranteed: false,
   },
   {
     phase: 'Phase 2B',
-    title: 'For community connections',
-    description: 'Children whose parents are community leaders or active members.',
-    eligibility: 'Parent is community/clan leader, or has other community ties',
+    title: 'Parent volunteer, church/clan, grassroots',
+    description:
+      'Children whose parent met parent volunteer requirements, is endorsed by a church or clan tied to the school, or is an endorsed active grassroots leader.',
+    eligibility:
+      'Parent volunteer (join by 1 Jul year before, 40+ hrs by 30 Jun registration year); church/clan endorsed; grassroots leader endorsed',
     timing: 'Mid July',
     guaranteed: false,
   },
   {
     phase: 'Phase 2C',
-    title: 'Open registration',
+    title: 'Not yet registered in a primary school',
     description:
-      'Children who are Singapore Citizens or Permanent Residents, living within 2km of the school.',
-    eligibility: 'Singapore Citizen or PR, living within distance bands',
+      'For a child who is not yet registered in a primary school. Singapore Citizens and PRs register by distance from home.',
+    eligibility: 'Child not yet registered; SC/PR with home–school distance priority',
     timing: 'Late July',
     guaranteed: false,
   },
   {
     phase: 'Phase 2C Supplementary',
-    title: 'Remaining places',
-    description: 'For children who did not get a place in earlier phases.',
-    eligibility: 'Same as Phase 2C',
+    title: 'After Phase 2C',
+    description: 'For a child who is not yet registered in a primary school after Phase 2C.',
+    eligibility: 'Child not yet registered after Phase 2C',
     timing: 'Early August',
     guaranteed: false,
   },

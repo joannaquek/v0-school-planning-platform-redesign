@@ -250,6 +250,14 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                 <span className="sr-only">Share</span>
               </Button>
             </div>
+            {inCompare ? (
+              <Link
+                href="/compare"
+                className="mt-2 inline-block text-sm font-medium text-primary hover:underline"
+              >
+                Add ties &amp; plan registration →
+              </Link>
+            ) : null}
           </div>
         </div>
 

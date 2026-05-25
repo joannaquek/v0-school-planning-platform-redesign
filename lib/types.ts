@@ -47,3 +47,29 @@ export interface CompareItem {
   school: School;
   addedAt: Date;
 }
+
+export type Citizenship = 'sc' | 'pr';
+
+/** One MOE Phase 2A pathway per school (parent picks a single reason). */
+export type Phase2ATie =
+  | 'parentOrSiblingAlumni'
+  | 'parentAdvisoryManagement'
+  | 'parentSchoolStaff'
+  | 'childMoeKindergarten';
+
+/** One MOE Phase 2B pathway per school (parent picks a single reason). */
+export type Phase2BTie =
+  | 'parentVolunteer40Hrs'
+  | 'parentChurchOrClanEndorsed'
+  | 'parentGrassrootsLeader';
+
+/** At most one selection per phase for each school in the compare shortlist. */
+export type SchoolPhaseSelections = {
+  phase2A?: Phase2ATie;
+  phase2B?: Phase2BTie;
+};
+
+export type ParentRegistrationProfile = {
+  citizenship: Citizenship;
+  selectionsBySchoolId: Record<string, SchoolPhaseSelections>;
+};

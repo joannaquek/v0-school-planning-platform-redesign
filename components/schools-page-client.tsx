@@ -2,7 +2,8 @@
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { Map as MapIcon, AlertTriangle } from 'lucide-react';
+import Link from 'next/link';
+import { Map as MapIcon, AlertTriangle, Scale } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Header } from '@/components/header';
@@ -199,6 +200,17 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
           onViewModeChange={setViewModeAndUrl}
           hasHome={home != null}
         />
+
+        {home != null ? (
+          <div className="mb-6">
+            <Button variant="outline" className="w-full sm:w-auto" asChild>
+              <Link href="/compare" className="inline-flex items-center gap-2">
+                <Scale className="h-4 w-4" />
+                Plan my registration
+              </Link>
+            </Button>
+          </div>
+        ) : null}
 
         {viewMode === 'map' ? (
           <div className="h-[calc(100vh-420px)] min-h-[400px]">
