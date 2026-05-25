@@ -20,7 +20,7 @@ const phases = [
   {
     phase: 'Phase 2A',
     shortLabel: 'Phase 2A',
-    description: 'Children of alumni & school staff',
+    description: 'Former students, SAC/Management, staff, MOE Kindergarten',
     registrationStart: '9 Jul 9am',
     registrationEnd: '10 Jul 4:30pm',
     results: '17 Jul',
@@ -32,7 +32,7 @@ const phases = [
   {
     phase: 'Phase 2B',
     shortLabel: 'Phase 2B',
-    description: 'Community volunteers & church/clan members',
+    description: 'Parent volunteer (40+ hrs), church/clan, grassroots leader',
     registrationStart: '20 Jul 9am',
     registrationEnd: '21 Jul 4:30pm',
     results: '27 Jul',
@@ -44,7 +44,7 @@ const phases = [
   {
     phase: 'Phase 2C',
     shortLabel: 'Phase 2C',
-    description: 'Open to all Singapore Citizens & PRs',
+    description: 'Child not yet registered; SC/PR by distance',
     registrationStart: '28 Jul 9am',
     registrationEnd: '30 Jul 4:30pm',
     results: '11 Aug',
@@ -56,7 +56,7 @@ const phases = [
   {
     phase: 'Phase 2C Supp.',
     shortLabel: '2C Supp.',
-    description: 'Schools with remaining vacancies',
+    description: 'Not yet registered after Phase 2C',
     registrationStart: '17 Aug 9am',
     registrationEnd: '18 Aug 4:30pm',
     results: '27 Aug',
