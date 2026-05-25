@@ -2,17 +2,15 @@
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { LayoutGrid, Map as MapIcon, List, ArrowUpDown, AlertTriangle } from 'lucide-react';
+import { Map as MapIcon, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Header } from '@/components/header';
 import { MobileNav } from '@/components/mobile-nav';
 import { SchoolCard } from '@/components/school-card';
-import { FilterPanel, FilterChips } from '@/components/filter-panel';
-import { SchoolSearchInput } from '@/components/search-input';
+import { SchoolsFilterBar } from '@/components/schools-filter-bar';
 import { MapView } from '@/components/map-view';
 import { CompareDrawer } from '@/components/compare-drawer';
-import { NearbyRadiusToggle } from '@/components/nearby-radius-toggle';
 import { useAppStore } from '@/lib/store';
 import {
   NEARBY_WITHIN_2,
@@ -20,6 +18,7 @@ import {
   nearbyRadiusKm,
   nearbyRadiusLabelKm,
 } from '@/lib/nearby-radius';
+import { resolveRegistrationYear } from '@/lib/filter-options';
 import { detailsToSchools } from '@/lib/map-detail-to-school';
 import type { SchoolDetailData } from '@/lib/bundled-types';
 import type { GeoPoint } from '@/lib/geo';
@@ -73,10 +72,12 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
   const home: GeoPoint | null =
     userLat != null && userLng != null ? { lat: userLat, lng: userLng } : null;
 
+  const registrationYear = resolveRegistrationYear(filters.year);
+
   const filteredSchools = useMemo(() => {
     const allSchools = detailsToSchools(
       details,
-      Number(filters.year),
+      Number(registrationYear),
       filters.phase,
       home
     );
@@ -135,13 +136,13 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
     }
 
     return result;
-  }, [details, searchQuery, filters, home]);
+  }, [details, searchQuery, filters, home, registrationYear]);
 
   const sortLabels = {
-    distance: 'Distance',
-    pressure: 'Pressure',
-    vacancies: 'Vacancies',
-    name: 'Name',
+    distance: 'distance (nearest first)',
+    pressure: 'pressure (lowest first)',
+    vacancies: 'vacancies (most first)',
+    name: 'name (A–Z)',
   };
 
   const activeNearbyBand = isNearbyDistanceBand(filters.distanceBand)
@@ -181,64 +182,26 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
             </AlertDescription>
           </Alert>
         ) : null}
-        <div className="mb-6">
+        <div className="mb-4">
           <h1 className="text-2xl font-bold text-foreground">Browse Schools</h1>
-          <p className="mt-1 text-muted-foreground">
-            {filteredSchools.length} school{filteredSchools.length !== 1 ? 's' : ''} found · Phase{' '}
-            {filters.phase} · Year {filters.year}
-            {nearbyLabel ? ` · Within ${nearbyLabel} of your home` : ''}
+          <p className="mt-1 text-sm text-muted-foreground">
+            {filteredSchools.length} school{filteredSchools.length !== 1 ? 's' : ''}
+            {nearbyLabel ? ` within ${nearbyLabel} of your home` : ''}
+            {' · '}
+            Sorted by {sortLabels[filters.sortBy]}
           </p>
         </div>
 
-        <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:items-end">
-            <SchoolSearchInput onSearch={setSearchQuery} className="max-w-md flex-1" />
-            {home ? <NearbyRadiusToggle className="w-full sm:w-auto sm:min-w-[200px]" /> : null}
-            <FilterPanel />
-          </div>
-
-          <div className="flex shrink-0 items-center gap-2">
-            <div className="flex rounded-lg border border-border bg-card p-1">
-              <Button
-                variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
-                size="sm"
-                className="h-8 w-8 p-0"
-                onClick={() => setViewModeAndUrl('grid')}
-              >
-                <LayoutGrid className="h-4 w-4" />
-                <span className="sr-only">Grid view</span>
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-                size="sm"
-                className="h-8 w-8 p-0"
-                onClick={() => setViewModeAndUrl('list')}
-              >
-                <List className="h-4 w-4" />
-                <span className="sr-only">List view</span>
-              </Button>
-              <Button
-                variant={viewMode === 'map' ? 'secondary' : 'ghost'}
-                size="sm"
-                className="h-8 w-8 p-0"
-                onClick={() => setViewModeAndUrl('map')}
-              >
-                <MapIcon className="h-4 w-4" />
-                <span className="sr-only">Map view</span>
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        <FilterChips hideNearbyRadius={home != null} />
-
-        <div className="mb-4 mt-4 flex items-center gap-2 text-sm text-muted-foreground">
-          <ArrowUpDown className="h-4 w-4" />
-          <span>Sorted by {sortLabels[filters.sortBy]}</span>
-        </div>
+        <SchoolsFilterBar
+          className="mb-6"
+          onSearch={setSearchQuery}
+          viewMode={viewMode}
+          onViewModeChange={setViewModeAndUrl}
+          hasHome={home != null}
+        />
 
         {viewMode === 'map' ? (
-          <div className="h-[calc(100vh-280px)] min-h-[500px]">
+          <div className="h-[calc(100vh-420px)] min-h-[400px]">
             <MapView
               schools={filteredSchools}
               home={home}
@@ -260,7 +223,7 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
                 key={school.id}
                 school={school}
                 variant={viewMode === 'list' ? 'compact' : 'default'}
-                vacancyYearLabel={filters.year}
+                vacancyYearLabel={registrationYear}
               />
             ))}
           </div>

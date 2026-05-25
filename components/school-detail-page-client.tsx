@@ -31,6 +31,7 @@ import { PressureBadge } from '@/components/pressure-badge';
 import { TrendChart, BallotChart } from '@/components/trend-chart';
 import { CompareDrawer } from '@/components/compare-drawer';
 import { useAppStore } from '@/lib/store';
+import { resolveRegistrationYear } from '@/lib/filter-options';
 import { detailToSchool } from '@/lib/map-detail-to-school';
 import type { SchoolDetailData } from '@/lib/bundled-types';
 import { cn } from '@/lib/utils';
@@ -47,18 +48,20 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
   const home =
     userLat != null && userLng != null ? { lat: userLat, lng: userLng } : null;
 
+  const registrationYear = resolveRegistrationYear(filters.year);
+
   const school = useMemo(
-    () => detailToSchool(detail, Number(filters.year), filters.phase, home),
-    [detail, filters.year, filters.phase, home]
+    () => detailToSchool(detail, Number(registrationYear), filters.phase, home),
+    [detail, registrationYear, filters.phase, home]
   );
 
   const phaseKey = normalizePhase(filters.phase);
   const selectionRecord = useMemo(
     () =>
       school.historicalData.find(
-        (d) => d.year === Number(filters.year) && d.phase === phaseKey
+        (d) => d.year === Number(registrationYear) && d.phase === phaseKey
       ),
-    [school.historicalData, filters.year, phaseKey]
+    [school.historicalData, registrationYear, phaseKey]
   );
 
   const pivotRows = useMemo(() => {
@@ -274,7 +277,7 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                   <Users className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Vacancies ({filters.year})</p>
+                  <p className="text-sm text-muted-foreground">Vacancies ({registrationYear})</p>
                   <p className="text-xl font-bold text-foreground">{school.totalVacancies}</p>
                 </div>
               </div>
@@ -341,8 +344,8 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                       <IntakeIcon className={cn('h-4 w-4', intakeChangeColor)} />
                       <span className={intakeChangeColor}>
                         {school.intakeChange === 'no-change'
-                          ? `No change from ${filters.year}`
-                          : `${school.intakeChangeValue && school.intakeChangeValue > 0 ? '+' : ''}${school.intakeChangeValue || 0} vacancies (from ${filters.year})`}
+                          ? `No change from ${registrationYear}`
+                          : `${school.intakeChangeValue && school.intakeChangeValue > 0 ? '+' : ''}${school.intakeChangeValue || 0} vacancies (from ${registrationYear})`}
                       </span>
                     </div>
                   </div>
@@ -359,7 +362,7 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Data Phase</p>
                     <p className="mt-1 text-foreground">
-                      Phase {phaseKey}, {filters.year}
+                      Phase {phaseKey}, {registrationYear}
                     </p>
                   </div>
                 </div>
