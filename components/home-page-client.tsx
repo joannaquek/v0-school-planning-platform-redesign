@@ -90,8 +90,6 @@ export function HomePageClient({
   const stats = [
     { value: String(schoolCount), label: 'Schools Tracked' },
     { value: yearRangeLabel, label: 'Historical Data' },
-    { value: latestYear, label: 'Latest Year' },
-    { value: 'Periodic', label: 'MOE data refresh' },
   ];
 
   const handleSearch = async () => {
@@ -213,7 +211,7 @@ export function HomePageClient({
               ) : null}
             </div>
 
-            <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="mt-10 grid grid-cols-2 gap-4">
               {stats.map((stat) => (
                 <div
                   key={stat.label}

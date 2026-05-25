@@ -1,23 +1,24 @@
 'use client';
 
 import Image from 'next/image';
-import { X, Scale, ChevronUp, ChevronDown, MapPin, Trash2, GraduationCap, Plus } from 'lucide-react';
+import { X, Scale, ChevronUp, ChevronDown, GraduationCap, Plus } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { PressureBadge } from '@/components/pressure-badge';
 import { useAppStore } from '@/lib/store';
 import type { School } from '@/lib/types';
+import { resolveRegistrationYear } from '@/lib/filter-options';
+import {
+  compareDrawerMetrics,
+  getPhaseRegistrationSnapshot,
+  getPhaseFillRatio,
+  getPhaseFillIntensity,
+  type CompareDrawerMetricKey,
+  type RegistrationPhase,
+  type PhaseFillIntensity,
+} from '@/lib/compare-phase-metrics';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import Link from 'next/link';
-
-const MOBILE_COMPARE_METRICS = [
-  { key: 'distance', label: 'Distance' },
-  { key: 'pressure', label: 'Pressure' },
-  { key: 'vacancies', label: 'Vacancies' },
-  { key: 'registered', label: 'Registered' },
-  { key: 'ballot', label: 'Ballot %' },
-] as const;
 
 const SCHOOL_COL_WIDTH = 'w-[92px] min-w-[92px] max-w-[92px]';
 const STICKY_LABEL_WIDTH = 'w-[88px] min-w-[88px] max-w-[88px]';
@@ -27,79 +28,154 @@ function abbreviateSchoolName(name: string, maxLen = 18): string {
   return `${name.slice(0, maxLen - 1)}…`;
 }
 
-function getMetricCellValue(school: School, key: (typeof MOBILE_COMPARE_METRICS)[number]['key']) {
-  switch (key) {
-    case 'distance':
-      return school.distance != null ? `${school.distance.toFixed(2)}km` : '—';
-    case 'pressure':
-      return school.pressure;
-    case 'vacancies':
-      return String(school.totalVacancies);
-    case 'registered':
-      return String(school.registeredStudents);
-    case 'ballot':
-      return school.ballotChance != null ? `${school.ballotChance}%` : '—';
-    default:
-      return '—';
-  }
+function getDistanceLabel(school: School): string {
+  return school.distance != null ? `${school.distance.toFixed(2)}km` : '—';
 }
 
 function getBestIndices(
   compareList: { school: School }[],
-  key: (typeof MOBILE_COMPARE_METRICS)[number]['key']
+  key: CompareDrawerMetricKey,
+  registrationYear: number
 ): number[] {
   if (compareList.length < 2) return [];
 
   const indices = compareList.map((_, i) => i);
 
-  switch (key) {
-    case 'distance': {
-      const min = Math.min(...compareList.map(({ school }) => school.distance ?? 999));
-      return indices.filter((i) => compareList[i].school.distance === min);
-    }
-    case 'pressure': {
-      const low = indices.filter((i) => compareList[i].school.pressure === 'low');
-      if (low.length) return low;
-      return indices.filter((i) => compareList[i].school.pressure === 'moderate');
-    }
-    case 'vacancies': {
-      const max = Math.max(...compareList.map(({ school }) => school.totalVacancies));
-      return indices.filter((i) => compareList[i].school.totalVacancies === max);
-    }
-    case 'ballot': {
-      const max = Math.max(...compareList.map(({ school }) => school.ballotChance ?? 0));
-      return indices.filter((i) => compareList[i].school.ballotChance === max);
-    }
-    default:
-      return [];
+  if (key === 'distance') {
+    const min = Math.min(...compareList.map(({ school }) => school.distance ?? 999));
+    return indices.filter((i) => compareList[i].school.distance === min);
   }
+
+  const phase = key as RegistrationPhase;
+  const ratios = compareList.map(({ school }) => getPhaseFillRatio(school, registrationYear, phase));
+  const withinCapacity = ratios
+    .map((r, i) => (r != null && r <= 1 ? { r, i } : null))
+    .filter((x): x is { r: number; i: number } => x != null);
+  if (withinCapacity.length === 0) return [];
+
+  const minRatio = Math.min(...withinCapacity.map((x) => x.r));
+  return withinCapacity.filter((x) => x.r === minRatio).map((x) => x.i);
 }
 
-function MobileCompareTable({
+function phaseCellTone(fillPercent: number, isBest: boolean): string {
+  const intensity = getPhaseFillIntensity(fillPercent);
+  if (intensity === 'oversubscribed') {
+    return 'bg-destructive/15 text-destructive ring-1 ring-destructive/25';
+  }
+  if (intensity === 'high') {
+    return 'bg-warning/15 text-warning-foreground ring-1 ring-warning/35';
+  }
+  if (isBest) {
+    return 'bg-success/15 text-success ring-1 ring-success/25';
+  }
+  return 'text-foreground';
+}
+
+function phaseSublineTone(intensity: PhaseFillIntensity, isBest: boolean): string {
+  if (intensity === 'oversubscribed') return 'text-destructive/90';
+  if (intensity === 'high') return 'text-warning-foreground/90';
+  if (isBest) return 'text-success/90';
+  return 'text-muted-foreground';
+}
+
+function MetricCell({
+  school,
+  metricKey,
+  registrationYear,
+  isBest,
+}: {
+  school: School;
+  metricKey: CompareDrawerMetricKey;
+  registrationYear: number;
+  isBest: boolean;
+}) {
+  if (metricKey === 'distance') {
+    return (
+      <span
+        className={cn(
+          'inline-block rounded-md px-1.5 py-0.5 text-xs font-semibold',
+          isBest ? 'bg-success/15 text-success' : 'text-foreground'
+        )}
+      >
+        {getDistanceLabel(school)}
+      </span>
+    );
+  }
+
+  const snapshot = getPhaseRegistrationSnapshot(
+    school,
+    registrationYear,
+    metricKey as RegistrationPhase
+  );
+
+  if (!snapshot) {
+    return <span className="text-xs text-muted-foreground">—</span>;
+  }
+
+  const intensity = getPhaseFillIntensity(snapshot.fillPercent);
+  const highlightBest = isBest && intensity === 'comfortable';
+
+  return (
+    <div
+      className={cn(
+        'inline-flex flex-col items-center rounded-md px-1.5 py-0.5',
+        phaseCellTone(snapshot.fillPercent, highlightBest)
+      )}
+    >
+      <span className="text-xs font-semibold tabular-nums">{snapshot.label}</span>
+      <span className={cn('text-[10px] tabular-nums', phaseSublineTone(intensity, highlightBest))}>
+        {snapshot.fillPercent}% fill
+      </span>
+    </div>
+  );
+}
+
+function CompareMetricsTable({
   compareList,
+  registrationYear,
   onRemove,
+  className,
 }: {
   compareList: { school: School }[];
+  registrationYear: number;
   onRemove: (schoolId: string) => void;
+  className?: string;
 }) {
   const emptySlots = 4 - compareList.length;
 
   return (
-    <div className="md:hidden">
-      <p className="mb-2 text-xs text-muted-foreground">Swipe sideways to compare schools →</p>
-      <div className="relative -mx-4">
+    <div className={className}>
+      <p className="mb-2 text-xs text-muted-foreground">
+        {registrationYear} registration · registered/vacancies per phase
+        <span className="md:hidden"> · Swipe sideways →</span>
+      </p>
+      <p className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-muted-foreground">
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-success" aria-hidden />
+          ≤100% fill
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-warning" aria-hidden />
+          &gt;100% (high demand)
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-full bg-destructive" aria-hidden />
+          &gt;150% (oversubscribed)
+        </span>
+      </p>
+      <div className="relative md:-mx-0 -mx-4">
         <div
-          className="pointer-events-none absolute right-0 top-0 z-20 h-full w-10 bg-gradient-to-l from-card via-card/80 to-transparent"
+          className="pointer-events-none absolute right-0 top-0 z-20 h-full w-10 bg-gradient-to-l from-card via-card/80 to-transparent md:hidden"
           aria-hidden
         />
-        <div className="overflow-x-auto px-4 pb-1">
+        <div className="overflow-x-auto px-4 pb-1 md:px-0">
           <table className="border-collapse text-sm">
             <thead>
               <tr>
                 <th
                   className={cn(
                     STICKY_LABEL_WIDTH,
-                    'sticky left-0 z-30 bg-card pb-2 pr-2 text-left align-bottom'
+                    'sticky left-0 z-30 bg-card pb-2 pr-2 text-left align-bottom md:static md:z-auto'
                   )}
                 />
                 {compareList.map(({ school }) => (
@@ -150,47 +226,29 @@ function MobileCompareTable({
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {MOBILE_COMPARE_METRICS.map(({ key, label }) => {
-                const bestIndices = getBestIndices(compareList, key);
+              {compareDrawerMetrics.map(({ key, label }) => {
+                const bestIndices = getBestIndices(compareList, key, registrationYear);
 
                 return (
                   <tr key={key}>
                     <td
                       className={cn(
                         STICKY_LABEL_WIDTH,
-                        'sticky left-0 z-10 bg-card py-2.5 pr-2 text-xs font-medium text-muted-foreground'
+                        'sticky left-0 z-10 bg-card py-2.5 pr-2 text-xs font-medium text-muted-foreground md:static md:z-auto'
                       )}
                     >
                       {label}
                     </td>
-                    {compareList.map(({ school }, index) => {
-                      const value = getMetricCellValue(school, key);
-                      const isBest = bestIndices.includes(index);
-
-                      return (
-                        <td key={school.id} className={cn(SCHOOL_COL_WIDTH, 'px-1 py-2.5 text-center')}>
-                          {key === 'pressure' ? (
-                            <div
-                              className={cn(
-                                'flex justify-center rounded-full',
-                                isBest && 'ring-2 ring-success/40'
-                              )}
-                            >
-                              <PressureBadge pressure={school.pressure} size="sm" />
-                            </div>
-                          ) : (
-                            <span
-                              className={cn(
-                                'inline-block rounded-md px-1.5 py-0.5 text-xs font-semibold',
-                                isBest ? 'bg-success/15 text-success' : 'text-foreground'
-                              )}
-                            >
-                              {value}
-                            </span>
-                          )}
-                        </td>
-                      );
-                    })}
+                    {compareList.map(({ school }, index) => (
+                      <td key={school.id} className={cn(SCHOOL_COL_WIDTH, 'px-1 py-2.5 text-center')}>
+                        <MetricCell
+                          school={school}
+                          metricKey={key}
+                          registrationYear={registrationYear}
+                          isBest={bestIndices.includes(index)}
+                        />
+                      </td>
+                    ))}
                     {Array.from({ length: emptySlots }).map((_, i) => (
                       <td
                         key={`empty-metric-${key}-${i}`}
@@ -211,12 +269,13 @@ function MobileCompareTable({
 }
 
 export function CompareDrawer() {
-  const { compareList, removeFromCompare, clearCompare, showCompareDrawer } = useAppStore();
+  const { compareList, removeFromCompare, clearCompare, showCompareDrawer, filters } = useAppStore();
   const [expanded, setExpanded] = useState(false);
+  const registrationYear = Number(resolveRegistrationYear(filters.year));
 
   if (compareList.length === 0) return null;
 
-  const showMobileTable = compareList.length >= 2;
+  const showCompareTable = compareList.length >= 2;
 
   return (
     <div
@@ -230,7 +289,7 @@ export function CompareDrawer() {
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="flex min-w-0 flex-1 items-center gap-3 text-left transition-colors hover:bg-muted/50 rounded-md -ml-1 pl-1 py-0.5"
+            className="flex min-w-0 flex-1 items-center gap-3 rounded-md -ml-1 py-0.5 pl-1 text-left transition-colors hover:bg-muted/50"
           >
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
               <Scale className="h-4 w-4" />
@@ -241,7 +300,7 @@ export function CompareDrawer() {
               </p>
               <p className="text-xs text-muted-foreground">
                 {4 - compareList.length} more can be added
-                {showMobileTable && !expanded ? ' · Tap to compare side by side' : ''}
+                {showCompareTable && !expanded ? ' · Tap to compare side by side' : ''}
               </p>
             </div>
           </button>
@@ -252,7 +311,6 @@ export function CompareDrawer() {
               className="text-muted-foreground hover:text-destructive"
               onClick={() => clearCompare()}
             >
-              <Trash2 className="mr-1.5 h-4 w-4" />
               Clear
             </Button>
             <button
@@ -273,13 +331,14 @@ export function CompareDrawer() {
           )}
         >
           <div className="overflow-y-auto border-t border-border p-4 md:max-h-[500px]">
-            {showMobileTable && (
-              <MobileCompareTable compareList={compareList} onRemove={removeFromCompare} />
-            )}
-
-            {/* Single school on mobile: compact strip */}
-            {compareList.length === 1 && (
-              <div className="flex gap-3 overflow-x-auto md:hidden">
+            {showCompareTable ? (
+              <CompareMetricsTable
+                compareList={compareList}
+                registrationYear={registrationYear}
+                onRemove={removeFromCompare}
+              />
+            ) : (
+              <div className="flex gap-3 overflow-x-auto">
                 {compareList.map(({ school }) => (
                   <Card key={school.id} className="relative min-w-[140px] shrink-0">
                     <button
@@ -306,6 +365,9 @@ export function CompareDrawer() {
                       <Link href={`/schools/${school.id}`}>
                         <h4 className="line-clamp-2 text-sm font-medium text-foreground">{school.name}</h4>
                       </Link>
+                      <p className="mt-2 text-xs text-muted-foreground tabular-nums">
+                        {getDistanceLabel(school)}
+                      </p>
                     </CardContent>
                   </Card>
                 ))}
@@ -317,99 +379,13 @@ export function CompareDrawer() {
               </div>
             )}
 
-            {/* Desktop: card grid + table preview */}
-            <div className="hidden md:block">
-              <div className="grid grid-cols-4 gap-3">
-                {compareList.map(({ school }) => (
-                  <Card key={school.id} className="relative">
-                    <button
-                      type="button"
-                      onClick={() => removeFromCompare(school.id)}
-                      className="absolute -right-1.5 -top-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                    <CardContent className="p-3">
-                      <div className="mb-2 flex h-12 w-full items-center justify-center overflow-hidden rounded-md bg-secondary">
-                        {school.imageUrl ? (
-                          <Image
-                            src={school.imageUrl}
-                            alt=""
-                            width={48}
-                            height={48}
-                            className="max-h-full w-auto max-w-full object-contain p-1"
-                          />
-                        ) : (
-                          <GraduationCap className="h-6 w-6 text-secondary-foreground/40" />
-                        )}
-                      </div>
-                      <Link href={`/schools/${school.id}`}>
-                        <h4 className="line-clamp-2 text-sm font-medium text-foreground hover:text-primary transition-colors">
-                          {school.name}
-                        </h4>
-                      </Link>
-                      <div className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
-                        <MapPin className="h-3 w-3" />
-                        <span>{school.distance != null ? `${school.distance.toFixed(2)}km` : '—'}</span>
-                      </div>
-                      <div className="mt-2">
-                        <PressureBadge pressure={school.pressure} size="sm" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-                {Array.from({ length: 4 - compareList.length }).map((_, i) => (
-                  <Card key={`empty-${i}`} className="border-dashed">
-                    <CardContent className="flex items-center justify-center p-6 text-center">
-                      <p className="text-xs text-muted-foreground">Add school to compare</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-
-              {showMobileTable && (
-                <div className="mt-4 overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-border">
-                        <th className="pb-2 pr-4 text-left font-medium text-muted-foreground">Metric</th>
-                        {compareList.map(({ school }) => (
-                          <th key={school.id} className="px-2 pb-2 text-center font-medium text-foreground">
-                            {abbreviateSchoolName(school.name, 24)}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-border">
-                      {MOBILE_COMPARE_METRICS.map(({ key, label }) => (
-                        <tr key={key}>
-                          <td className="py-2 pr-4 text-muted-foreground">{label}</td>
-                          {compareList.map(({ school }) => (
-                            <td key={school.id} className="px-2 py-2 text-center font-medium">
-                              {key === 'pressure' ? (
-                                <div className="flex justify-center">
-                                  <PressureBadge pressure={school.pressure} size="sm" />
-                                </div>
-                              ) : (
-                                getMetricCellValue(school, key)
-                              )}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
-
-            {showMobileTable && (
+            {showCompareTable ? (
               <div className="mt-4">
                 <Button asChild className="w-full">
                   <Link href="/compare">View full comparison</Link>
                 </Button>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
