@@ -10,6 +10,7 @@ import { MobileNav } from '@/components/mobile-nav';
 import { SchoolCard } from '@/components/school-card';
 import { CompareDrawer } from '@/components/compare-drawer';
 import { useAppStore } from '@/lib/store';
+import { resolveRegistrationYear } from '@/lib/filter-options';
 import { detailsToSchools } from '@/lib/map-detail-to-school';
 import type { SchoolDetailData } from '@/lib/bundled-types';
 import type { GeoPoint } from '@/lib/geo';
@@ -20,10 +21,12 @@ export function FavoritesPageClient({ details }: { details: SchoolDetailData[] }
   const home: GeoPoint | null =
     userLat != null && userLng != null ? { lat: userLat, lng: userLng } : null;
 
+  const registrationYear = resolveRegistrationYear(filters.year);
+
   const schoolsById = useMemo(() => {
-    const list = detailsToSchools(details, Number(filters.year), filters.phase, home);
+    const list = detailsToSchools(details, Number(registrationYear), filters.phase, home);
     return new Map(list.map((s) => [s.id, s]));
-  }, [details, filters.year, filters.phase, home]);
+  }, [details, registrationYear, filters.phase, home]);
 
   const favoriteSchools = favorites
     .map((id) => schoolsById.get(id))
@@ -39,7 +42,7 @@ export function FavoritesPageClient({ details }: { details: SchoolDetailData[] }
             <h1 className="text-2xl font-bold text-foreground">Saved Schools</h1>
             <p className="mt-1 text-muted-foreground">
               {favoriteSchools.length} school{favoriteSchools.length !== 1 ? 's' : ''} saved · Phase{' '}
-              {filters.phase}, {filters.year}
+              {filters.phase}, {registrationYear}
             </p>
           </div>
           {favoriteSchools.length > 0 && (
@@ -58,7 +61,7 @@ export function FavoritesPageClient({ details }: { details: SchoolDetailData[] }
         {favoriteSchools.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {favoriteSchools.map((school) => (
-              <SchoolCard key={school.id} school={school} vacancyYearLabel={filters.year} />
+              <SchoolCard key={school.id} school={school} vacancyYearLabel={registrationYear} />
             ))}
           </div>
         ) : (

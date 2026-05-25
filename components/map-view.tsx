@@ -1,90 +1,170 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState, useCallback, useRef, useEffect } from 'react';
 import { MapPin, ZoomIn, ZoomOut, Locate } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PressureBadge } from '@/components/pressure-badge';
 import type { School } from '@/lib/types';
+import type { GeoPoint, GeoBounds } from '@/lib/geo';
+import { boundsAroundPoint, pointToPercent } from '@/lib/geo';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 interface MapViewProps {
   schools: School[];
+  home?: GeoPoint | null;
+  /** Registration distance circle when home is set (km). */
+  radiusKm?: 1 | 2;
   selectedSchoolId?: string | null;
   onSelectSchool?: (id: string) => void;
 }
 
-// Simplified map view component with markers
-// In production, this would use a proper map library like Mapbox or Google Maps
-export function MapView({ schools, selectedSchoolId, onSelectSchool }: MapViewProps) {
-  const [zoom, setZoom] = useState(12);
+/** Viewport extends beyond the 2km circle (1 = circle fills entire map). */
+const DEFAULT_VIEW_PADDING = 1.35;
+
+const SINGAPORE_BOUNDS: GeoBounds = {
+  minLat: 1.27,
+  maxLat: 1.38,
+  minLng: 103.78,
+  maxLng: 103.92,
+};
+
+const GRID_BG =
+  "bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTBlMCIgc3Ryb2tlLXdpZHRoPSIwLjUiLz48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDBlMGQwIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')]";
+
+export function MapView({
+  schools,
+  home,
+  radiusKm = 2,
+  selectedSchoolId,
+  onSelectSchool,
+}: MapViewProps) {
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const [zoomOffset, setZoomOffset] = useState(0);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [circleDiameterPx, setCircleDiameterPx] = useState(0);
 
-  // Calculate positions based on coordinates (simplified)
-  const getMarkerPosition = (school: School) => {
-    // Normalize coordinates to fit in view
-    const minLat = 1.27;
-    const maxLat = 1.38;
-    const minLng = 103.78;
-    const maxLng = 103.92;
+  const viewPadding = Math.max(1.1, DEFAULT_VIEW_PADDING - zoomOffset * 0.12);
 
-    const x = ((school.coordinates.lng - minLng) / (maxLng - minLng)) * 100;
-    const y = ((maxLat - school.coordinates.lat) / (maxLat - minLat)) * 100;
+  const mapBounds = useMemo(() => {
+    if (!home) return SINGAPORE_BOUNDS;
+    return boundsAroundPoint(home, radiusKm * viewPadding);
+  }, [home, radiusKm, viewPadding]);
 
-    return { x: Math.max(5, Math.min(95, x)), y: Math.max(5, Math.min(95, y)) };
-  };
+  const homePosition = useMemo(
+    () => (home ? pointToPercent(home, mapBounds) : { x: 50, y: 50 }),
+    [home, mapBounds]
+  );
+
+  /** Diameter of the radius circle as a fraction of the map’s shorter side. */
+  const circleDiameterRatio = 1 / viewPadding;
+
+  useEffect(() => {
+    const el = mapContainerRef.current;
+    if (!el || !home) {
+      setCircleDiameterPx(0);
+      return;
+    }
+
+    const updateCircleSize = () => {
+      const minSide = Math.min(el.clientWidth, el.clientHeight);
+      setCircleDiameterPx(minSide * circleDiameterRatio);
+    };
+
+    updateCircleSize();
+    const observer = new ResizeObserver(updateCircleSize);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [home, circleDiameterRatio]);
+
+  const handleRecenter = useCallback(() => {
+    setZoomOffset(0);
+  }, []);
 
   const selectedSchool = schools.find((s) => s.id === selectedSchoolId);
 
   return (
-    <div className="relative h-full w-full min-h-[400px] overflow-hidden rounded-xl bg-secondary/50">
-      {/* Map Background */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2UwZTBlMCIgc3Ryb2tlLXdpZHRoPSIwLjUiLz48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDBlMGQwIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-50" />
+    <div
+      ref={mapContainerRef}
+      className="relative h-full w-full min-h-[400px] overflow-hidden rounded-xl bg-secondary/50"
+    >
+      <div className={cn('absolute inset-0 opacity-50', GRID_BG)} />
 
-      {/* Map Controls */}
       <div className="absolute right-4 top-4 z-10 flex flex-col gap-2">
         <Button
           variant="secondary"
           size="icon"
-          className="h-9 w-9 rounded-lg shadow-md bg-card"
-          onClick={() => setZoom(Math.min(zoom + 1, 18))}
+          className="h-9 w-9 rounded-lg bg-card shadow-md"
+          onClick={() => setZoomOffset((z) => Math.min(z + 1, 4))}
+          aria-label="Zoom in"
         >
           <ZoomIn className="h-4 w-4" />
         </Button>
         <Button
           variant="secondary"
           size="icon"
-          className="h-9 w-9 rounded-lg shadow-md bg-card"
-          onClick={() => setZoom(Math.max(zoom - 1, 8))}
+          className="h-9 w-9 rounded-lg bg-card shadow-md"
+          onClick={() => setZoomOffset((z) => Math.max(z - 1, 0))}
+          aria-label="Zoom out"
         >
           <ZoomOut className="h-4 w-4" />
         </Button>
         <Button
           variant="secondary"
           size="icon"
-          className="h-9 w-9 rounded-lg shadow-md bg-card"
+          className="h-9 w-9 rounded-lg bg-card shadow-md"
+          onClick={handleRecenter}
+          disabled={!home}
+          aria-label="Center on your home location"
         >
           <Locate className="h-4 w-4" />
         </Button>
       </div>
 
-      {/* Home Marker */}
+      {home && circleDiameterPx > 0 ? (
+        <>
+          <div
+            className="pointer-events-none absolute z-[5] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary/50 bg-primary/20 shadow-inner"
+            style={{
+              left: `${homePosition.x}%`,
+              top: `${homePosition.y}%`,
+              width: circleDiameterPx,
+              height: circleDiameterPx,
+            }}
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute z-[6] -translate-x-1/2 whitespace-nowrap rounded-full bg-card/90 px-2 py-0.5 text-[10px] font-medium text-primary shadow-sm"
+            style={{
+              left: `${homePosition.x}%`,
+              top: `calc(${homePosition.y}% + ${circleDiameterPx / 2}px + 4px)`,
+            }}
+          >
+            {radiusKm}km radius
+          </div>
+        </>
+      ) : null}
+
       <div
         className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
-        style={{ left: '50%', top: '50%' }}
+        style={{ left: `${homePosition.x}%`, top: `${homePosition.y}%` }}
       >
         <div className="relative">
-          <div className="h-6 w-6 rounded-full bg-primary shadow-lg flex items-center justify-center">
-            <div className="h-2 w-2 rounded-full bg-primary-foreground" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary shadow-lg ring-2 ring-card">
+            <div className="h-2.5 w-2.5 rounded-full bg-primary-foreground" />
           </div>
           <div className="absolute -bottom-1 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 bg-primary" />
         </div>
+        {home ? (
+          <span className="absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded bg-card/95 px-1.5 py-0.5 text-[10px] font-medium text-foreground shadow-sm">
+            Your home
+          </span>
+        ) : null}
       </div>
 
-      {/* School Markers */}
       {schools.map((school) => {
-        const pos = getMarkerPosition(school);
+        const pos = pointToPercent(school.coordinates, mapBounds);
         const isSelected = school.id === selectedSchoolId;
         const isHovered = school.id === hoveredId;
 
@@ -97,6 +177,7 @@ export function MapView({ schools, selectedSchoolId, onSelectSchool }: MapViewPr
         return (
           <button
             key={school.id}
+            type="button"
             className={cn(
               'absolute z-10 -translate-x-1/2 -translate-y-1/2 transition-all duration-200',
               (isSelected || isHovered) && 'z-30 scale-125'
@@ -105,10 +186,11 @@ export function MapView({ schools, selectedSchoolId, onSelectSchool }: MapViewPr
             onClick={() => onSelectSchool?.(school.id)}
             onMouseEnter={() => setHoveredId(school.id)}
             onMouseLeave={() => setHoveredId(null)}
+            aria-label={school.name}
           >
             <div
               className={cn(
-                'h-8 w-8 rounded-full shadow-lg flex items-center justify-center text-xs font-bold text-white transition-all',
+                'flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white shadow-lg transition-all',
                 pressureColor,
                 (isSelected || isHovered) && 'ring-2 ring-white'
               )}
@@ -119,21 +201,24 @@ export function MapView({ schools, selectedSchoolId, onSelectSchool }: MapViewPr
         );
       })}
 
-      {/* Selected School Info Card */}
-      {selectedSchool && (
+      {selectedSchool ? (
         <div className="absolute bottom-4 left-4 right-4 z-30 md:left-4 md:right-auto md:w-80">
           <Card className="shadow-lg">
             <CardContent className="p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <Link href={`/schools/${selectedSchool.id}`}>
-                    <h3 className="font-semibold text-foreground hover:text-primary transition-colors line-clamp-2">
+                    <h3 className="line-clamp-2 font-semibold text-foreground transition-colors hover:text-primary">
                       {selectedSchool.name}
                     </h3>
                   </Link>
                   <div className="mt-1.5 flex items-center gap-1.5 text-sm text-muted-foreground">
                     <MapPin className="h-3.5 w-3.5" />
-                    <span>{selectedSchool.distance ? `${selectedSchool.distance}km away` : 'Distance unknown'}</span>
+                    <span>
+                      {selectedSchool.distance != null
+                        ? `${selectedSchool.distance.toFixed(2)}km away`
+                        : 'Distance unknown'}
+                    </span>
                   </div>
                 </div>
                 <PressureBadge pressure={selectedSchool.pressure} size="sm" />
@@ -156,10 +241,14 @@ export function MapView({ schools, selectedSchoolId, onSelectSchool }: MapViewPr
             </CardContent>
           </Card>
         </div>
-      )}
+      ) : null}
 
-      {/* Legend */}
-      <div className="absolute bottom-4 right-4 z-20 hidden md:block">
+      <div
+        className={cn(
+          'absolute z-20',
+          home ? 'bottom-4 left-4 max-w-[11rem]' : 'bottom-4 right-4 hidden md:block'
+        )}
+      >
         <Card className="shadow-md">
           <CardContent className="p-3">
             <p className="mb-2 text-xs font-medium text-muted-foreground">Pressure Level</p>
@@ -176,6 +265,12 @@ export function MapView({ schools, selectedSchoolId, onSelectSchool }: MapViewPr
                 <span className="h-3 w-3 rounded-full bg-destructive" />
                 <span>High</span>
               </div>
+              {home ? (
+                <div className="flex items-center gap-2 border-t border-border pt-1.5 text-xs">
+                  <span className="h-3 w-3 rounded-full border-2 border-primary/50 bg-primary/25" />
+                  <span>Within {radiusKm}km</span>
+                </div>
+              ) : null}
             </div>
           </CardContent>
         </Card>
