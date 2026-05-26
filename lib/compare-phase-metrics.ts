@@ -20,6 +20,12 @@ export function getPhaseFillIntensity(fillPercent: number): PhaseFillIntensity {
   return 'comfortable';
 }
 
+/** registered ÷ vacancies × 100 — same as compare table “% fill”. */
+export function computePhaseFillPercent(registered: number, vacancies: number): number | undefined {
+  if (vacancies <= 0 || !Number.isFinite(registered)) return undefined;
+  return Math.round((registered / vacancies) * 100);
+}
+
 export function getPhaseRegistrationSnapshot(
   school: School,
   year: number,
@@ -28,7 +34,7 @@ export function getPhaseRegistrationSnapshot(
   const row = school.historicalData.find((d) => d.year === year && d.phase === phase);
   if (!row || row.vacancies <= 0) return null;
 
-  const fillPercent = Math.round((row.registered / row.vacancies) * 100);
+  const fillPercent = computePhaseFillPercent(row.registered, row.vacancies) ?? 0;
   return {
     registered: row.registered,
     vacancies: row.vacancies,

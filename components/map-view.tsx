@@ -1,11 +1,12 @@
 'use client';
 
 import { useMemo, useState, useCallback, useRef, useEffect } from 'react';
-import { MapPin, ZoomIn, ZoomOut, Locate } from 'lucide-react';
+import { MapPin, ZoomIn, ZoomOut, Locate, Baby } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PressureBadge } from '@/components/pressure-badge';
 import type { School } from '@/lib/types';
+import type { StudentCareMapPin } from '@/lib/student-care';
 import type { GeoPoint, GeoBounds } from '@/lib/geo';
 import { boundsAroundPoint, pointToPercent } from '@/lib/geo';
 import { cn } from '@/lib/utils';
@@ -17,7 +18,11 @@ interface MapViewProps {
   /** Registration distance circle when home is set (km). */
   radiusKm?: 1 | 2;
   selectedSchoolId?: string | null;
-  onSelectSchool?: (id: string) => void;
+  onSelectSchool?: (id: string | null) => void;
+  studentCareCentres?: StudentCareMapPin[];
+  showStudentCare?: boolean;
+  selectedStudentCareId?: string | null;
+  onSelectStudentCare?: (id: string | null) => void;
 }
 
 /** Viewport extends beyond the 2km circle (1 = circle fills entire map). */
@@ -39,10 +44,15 @@ export function MapView({
   radiusKm = 2,
   selectedSchoolId,
   onSelectSchool,
+  studentCareCentres = [],
+  showStudentCare = false,
+  selectedStudentCareId = null,
+  onSelectStudentCare,
 }: MapViewProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [zoomOffset, setZoomOffset] = useState(0);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [hoveredSccId, setHoveredSccId] = useState<string | null>(null);
   const [circleDiameterPx, setCircleDiameterPx] = useState(0);
 
   const viewPadding = Math.max(1.1, DEFAULT_VIEW_PADDING - zoomOffset * 0.12);
@@ -83,6 +93,17 @@ export function MapView({
   }, []);
 
   const selectedSchool = schools.find((s) => s.id === selectedSchoolId);
+  const selectedScc = studentCareCentres.find((c) => c.id === selectedStudentCareId);
+
+  const handleSelectSchool = (id: string) => {
+    onSelectStudentCare?.(null);
+    onSelectSchool?.(id);
+  };
+
+  const handleSelectScc = (id: string) => {
+    onSelectSchool?.(null);
+    onSelectStudentCare?.(id);
+  };
 
   return (
     <div
@@ -183,7 +204,7 @@ export function MapView({
               (isSelected || isHovered) && 'z-30 scale-125'
             )}
             style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-            onClick={() => onSelectSchool?.(school.id)}
+            onClick={() => handleSelectSchool(school.id)}
             onMouseEnter={() => setHoveredId(school.id)}
             onMouseLeave={() => setHoveredId(null)}
             aria-label={school.name}
@@ -201,7 +222,63 @@ export function MapView({
         );
       })}
 
-      {selectedSchool ? (
+      {showStudentCare
+        ? studentCareCentres.map((centre) => {
+            if (!centre.coordinates) return null;
+            const pos = pointToPercent(centre.coordinates, mapBounds);
+            const isSelected = centre.id === selectedStudentCareId;
+            const isHovered = centre.id === hoveredSccId;
+
+            return (
+              <button
+                key={centre.id}
+                type="button"
+                className={cn(
+                  'absolute z-[8] -translate-x-1/2 -translate-y-1/2 transition-all duration-200',
+                  (isSelected || isHovered) && 'z-[25] scale-125'
+                )}
+                style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+                onClick={() => handleSelectScc(centre.id)}
+                onMouseEnter={() => setHoveredSccId(centre.id)}
+                onMouseLeave={() => setHoveredSccId(null)}
+                aria-label={centre.name}
+              >
+                <div
+                  className={cn(
+                    'flex h-6 w-6 items-center justify-center rounded-full bg-violet-600 text-white shadow-md',
+                    (isSelected || isHovered) && 'ring-2 ring-white'
+                  )}
+                >
+                  <Baby className="h-3.5 w-3.5" />
+                </div>
+              </button>
+            );
+          })
+        : null}
+
+      {selectedScc ? (
+        <div className="absolute bottom-4 left-4 right-4 z-30 md:left-4 md:right-auto md:w-80">
+          <Card className="shadow-lg">
+            <CardContent className="p-4">
+              <h3 className="line-clamp-2 font-semibold text-foreground">{selectedScc.name}</h3>
+              <p className="mt-1 text-sm font-semibold tabular-nums text-foreground">
+                {selectedScc.monthlyFeeDisplay ?? '—'}/mo
+              </p>
+              <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+                <MapPin className="h-3.5 w-3.5" />
+                {selectedScc.distanceFromHomeKm.toFixed(2)}km from home
+              </p>
+              {selectedScc.linkedSchoolSlug ? (
+                <Button asChild className="mt-3 w-full" size="sm" variant="outline">
+                  <Link href={`/schools/${selectedScc.linkedSchoolSlug}`}>Linked school</Link>
+                </Button>
+              ) : null}
+            </CardContent>
+          </Card>
+        </div>
+      ) : null}
+
+      {selectedSchool && !selectedScc ? (
         <div className="absolute bottom-4 left-4 right-4 z-30 md:left-4 md:right-auto md:w-80">
           <Card className="shadow-lg">
             <CardContent className="p-4">
@@ -229,9 +306,9 @@ export function MapView({
                   <p className="text-lg font-semibold">{selectedSchool.totalVacancies}</p>
                 </div>
                 <div className="rounded-lg bg-muted/50 py-2">
-                  <p className="text-xs text-muted-foreground">Ballot Chance</p>
+                  <p className="text-xs text-muted-foreground">Subscription rate</p>
                   <p className="text-lg font-semibold">
-                    {selectedSchool.ballotChance ? `${selectedSchool.ballotChance}%` : '—'}
+                    {selectedSchool.subscriptionRate != null ? `${selectedSchool.subscriptionRate}%` : '—'}
                   </p>
                 </div>
               </div>
@@ -269,6 +346,14 @@ export function MapView({
                 <div className="flex items-center gap-2 border-t border-border pt-1.5 text-xs">
                   <span className="h-3 w-3 rounded-full border-2 border-primary/50 bg-primary/25" />
                   <span>Within {radiusKm}km</span>
+                </div>
+              ) : null}
+              {showStudentCare ? (
+                <div className="flex items-center gap-2 border-t border-border pt-1.5 text-xs">
+                  <span className="flex h-3 w-3 items-center justify-center rounded-full bg-violet-600">
+                    <Baby className="h-2 w-2 text-white" />
+                  </span>
+                  <span>Student care</span>
                 </div>
               ) : null}
             </div>

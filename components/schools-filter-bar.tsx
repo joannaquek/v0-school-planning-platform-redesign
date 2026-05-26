@@ -2,7 +2,9 @@
 
 import { useEffect, type ReactNode } from 'react';
 import Link from 'next/link';
-import { LayoutGrid, List, Map as MapIcon, RotateCcw } from 'lucide-react';
+import { LayoutGrid, List, Map as MapIcon, RotateCcw, Baby } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -51,6 +53,8 @@ type SchoolsFilterBarProps = {
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
   hasHome: boolean;
+  showStudentCare?: boolean;
+  onShowStudentCareChange?: (show: boolean) => void;
   className?: string;
 };
 
@@ -59,6 +63,8 @@ export function SchoolsFilterBar({
   viewMode,
   onViewModeChange,
   hasHome,
+  showStudentCare = false,
+  onShowStudentCareChange,
   className,
 }: SchoolsFilterBarProps) {
   const { filters, setFilters, resetFilters } = useAppStore();
@@ -103,7 +109,7 @@ export function SchoolsFilterBar({
         >
           Registration data
         </h2>
-        <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end">
+        <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start">
           <FilterField label="Year" className="sm:w-32">
             <Select value={registrationYear} onValueChange={(value) => setFilters({ year: value })}>
               <SelectTrigger className={compactSelectTriggerClass}>
@@ -214,8 +220,29 @@ export function SchoolsFilterBar({
           <SchoolSearchInput onSearch={onSearch} className="w-full" />
         </div>
 
-        <div className="mt-3 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
+        <div className="mt-3 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start">
+            {hasHome && onShowStudentCareChange ? (
+              <FilterField label="Student care on map" className="sm:min-w-[10rem]">
+                <div className="flex h-9 items-center gap-2">
+                  <Checkbox
+                    id="show-student-care-map"
+                    checked={showStudentCare}
+                    onCheckedChange={(checked) => onShowStudentCareChange(checked === true)}
+                  />
+                  <Label
+                    htmlFor="show-student-care-map"
+                    className="cursor-pointer text-sm font-normal text-foreground"
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      <Baby className="h-3.5 w-3.5 text-violet-600" aria-hidden />
+                      Show on map
+                    </span>
+                  </Label>
+                </div>
+              </FilterField>
+            ) : null}
+
             {hasHome ? (
               <NearbyRadiusToggle layout="inline" className="sm:min-w-[10rem]" />
             ) : (

@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint .",
     "fetch:moe-logos": "node scripts/fetch-moe-school-logos.mjs",
-    "import:moe-vacancies": "node scripts/import-moe-p1-vacancies.mjs"
+    "import:moe-vacancies": "node scripts/import-moe-p1-vacancies.mjs",
+    "student-care:geocode": "node scripts/geocode-student-care.mjs",
+    "student-care:link": "node scripts/link-student-care-schools.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

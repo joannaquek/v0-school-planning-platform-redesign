@@ -10,7 +10,8 @@ export interface School {
   intakeChangeValue?: number;
   totalVacancies: number;
   registeredStudents: number;
-  ballotChance?: number;
+  /** registered ÷ vacancies × 100 for active registration year/phase */
+  subscriptionRate?: number;
   ccas: string[];
   affiliation?: string;
   specialPrograms?: string[];

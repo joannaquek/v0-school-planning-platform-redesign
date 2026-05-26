@@ -2,6 +2,7 @@ import type { SchoolDetailData } from './bundled-types';
 import type { GeoPoint } from './geo';
 import { haversineKm } from './geo';
 import { schoolLogoPathForSlug } from './school-logo-paths';
+import { computePhaseFillPercent } from './compare-phase-metrics';
 import type { School, YearlyData } from './types';
 
 const SG_FALLBACK = { lat: 1.3521, lng: 103.8198 };
@@ -83,10 +84,7 @@ function historyToYearlyData(history: SchoolDetailData['ballotingHistory']): Yea
       vacancies: h.vacancies,
       registered: h.applicants,
       balloted: h.balloted,
-      ballotRate:
-        h.vacancies > 0 && h.applicants > 0
-          ? Math.round((h.vacancies / h.applicants) * 100)
-          : undefined,
+      ballotRate: computePhaseFillPercent(h.applicants, h.vacancies),
     }));
 }
 
@@ -110,9 +108,9 @@ export function detailToSchool(
       ? ballotingPressureFromRatio(rec.applicants, rec.vacancies)
       : detail.ballotingPressure;
 
-  const ballotChance =
-    rec && rec.vacancies > 0 && rec.applicants > 0
-      ? Math.round((rec.vacancies / rec.applicants) * 100)
+  const subscriptionRate =
+    rec && rec.vacancies > 0
+      ? computePhaseFillPercent(rec.applicants, rec.vacancies)
       : undefined;
 
   let distanceKm: number | null = detail.distanceKm;
@@ -132,7 +130,7 @@ export function detailToSchool(
     intakeChangeValue: intakeChange.delta,
     totalVacancies: totalVacanciesYear,
     registeredStudents: totalRegisteredYear,
-    ballotChance,
+    subscriptionRate,
     ccas: detail.ccas,
     affiliation: detail.affiliation ?? undefined,
     specialPrograms: detail.programmes.length > 0 ? detail.programmes : undefined,

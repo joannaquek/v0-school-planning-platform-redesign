@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
+import { getStudentCareNearHome } from '@/lib/student-care';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Map as MapIcon, AlertTriangle, Scale } from 'lucide-react';
@@ -41,6 +42,8 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
 
   const [viewMode, setViewMode] = useState<ViewMode>(() => viewFromSearchParams(searchParams));
   const [searchQuery, setSearchQuery] = useState('');
+  const [showStudentCare, setShowStudentCare] = useState(false);
+  const [selectedStudentCareId, setSelectedStudentCareId] = useState<string | null>(null);
 
   useEffect(() => {
     setViewMode(viewFromSearchParams(searchParams));
@@ -155,6 +158,11 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
   const mapRadiusKm = home ? (nearbyRadiusKm(activeNearbyBand) ?? 2) : 2;
   const nearbyLabel = home ? nearbyRadiusLabelKm(activeNearbyBand) : null;
 
+  const studentCarePins = useMemo(() => {
+    if (!home || !showStudentCare) return [];
+    return getStudentCareNearHome(home, mapRadiusKm);
+  }, [home, showStudentCare, mapRadiusKm]);
+
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
       <Header />
@@ -209,6 +217,8 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
           viewMode={viewMode}
           onViewModeChange={setViewModeAndUrl}
           hasHome={home != null}
+          showStudentCare={showStudentCare}
+          onShowStudentCareChange={setShowStudentCare}
         />
 
         {home != null ? (
@@ -229,7 +239,14 @@ export function SchoolsPageClient({ details }: { details: SchoolDetailData[] }) 
               home={home}
               radiusKm={mapRadiusKm as 1 | 2}
               selectedSchoolId={selectedSchoolId}
-              onSelectSchool={setSelectedSchoolId}
+              onSelectSchool={(id) => {
+                setSelectedSchoolId(id);
+                if (id) setSelectedStudentCareId(null);
+              }}
+              studentCareCentres={studentCarePins}
+              showStudentCare={showStudentCare}
+              selectedStudentCareId={selectedStudentCareId}
+              onSelectStudentCare={setSelectedStudentCareId}
             />
           </div>
         ) : (

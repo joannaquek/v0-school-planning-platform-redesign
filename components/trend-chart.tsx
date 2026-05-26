@@ -273,10 +273,10 @@ export function BallotChart({ data }: BallotChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Ballot Success Rate</CardTitle>
+        <CardTitle className="text-lg">Phase subscription rate</CardTitle>
         <CardDescription>
-          <span className="block">{`Chance of securing a place through ballot for Phase ${phase}.`}</span>
-          <span className="block">{`Success rate = vacancies ÷ registered applicants × 100%.`}</span>
+          <span className="block">{`Registered applicants as a share of vacancies for Phase ${phase}.`}</span>
+          <span className="block">{`Subscription rate = registered ÷ vacancies × 100%. Above 100% means oversubscribed.`}</span>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -314,7 +314,7 @@ export function BallotChart({ data }: BallotChartProps) {
               />
               <Bar
                 dataKey="ballotRate"
-                name="Ballot Rate"
+                name="Subscription rate"
                 fill="var(--trend-bar-vacancies)"
                 radius={[4, 4, 0, 0]}
               >

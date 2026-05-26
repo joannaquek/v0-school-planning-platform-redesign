@@ -30,10 +30,12 @@ import { MobileNav } from '@/components/mobile-nav';
 import { PressureBadge } from '@/components/pressure-badge';
 import { TrendChart, BallotChart } from '@/components/trend-chart';
 import { CompareDrawer } from '@/components/compare-drawer';
+import { StudentCareSection } from '@/components/student-care-section';
 import { useAppStore } from '@/lib/store';
 import { resolveRegistrationYear } from '@/lib/filter-options';
 import { detailToSchool } from '@/lib/map-detail-to-school';
 import type { SchoolDetailData } from '@/lib/bundled-types';
+import { getPhaseFillIntensity } from '@/lib/compare-phase-metrics';
 import { cn } from '@/lib/utils';
 
 function normalizePhase(phase: string): '2A' | '2B' | '2C' {
@@ -312,11 +314,13 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                 <div
                   className={cn(
                     'flex h-10 w-10 items-center justify-center rounded-lg',
-                    school.ballotChance != null && school.ballotChance >= 70
+                    school.subscriptionRate != null &&
+                      getPhaseFillIntensity(school.subscriptionRate) === 'comfortable'
                       ? 'bg-success/10 text-success'
-                      : school.ballotChance != null && school.ballotChance >= 40
+                      : school.subscriptionRate != null &&
+                          getPhaseFillIntensity(school.subscriptionRate) === 'high'
                         ? 'bg-warning/10 text-warning-foreground'
-                        : school.ballotChance != null
+                        : school.subscriptionRate != null
                           ? 'bg-destructive/10 text-destructive'
                           : 'bg-muted text-muted-foreground'
                   )}
@@ -324,9 +328,9 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                   <Award className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Ballot Chance</p>
+                  <p className="text-sm text-muted-foreground">Subscription rate</p>
                   <p className="text-xl font-bold text-foreground">
-                    {school.ballotChance != null ? `${school.ballotChance}%` : '—'}
+                    {school.subscriptionRate != null ? `${school.subscriptionRate}%` : '—'}
                   </p>
                 </div>
               </div>
@@ -381,6 +385,8 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
 
             <BallotChart data={school.historicalData} />
 
+            <StudentCareSection schoolSlug={school.id} schoolName={school.name} />
+
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Year-by-Year Data</CardTitle>
@@ -416,7 +422,7 @@ export function SchoolDetailPageClient({ detail }: { detail: SchoolDetailData })
                           return (
                             <div className="flex flex-col items-center gap-1">
                               <span className="text-[11px] text-muted-foreground">
-                                {phaseRow.vacancies}/{phaseRow.registered}
+                                {phaseRow.registered}/{phaseRow.vacancies}
                               </span>
                               <span className="text-base font-semibold text-foreground">
                                 {phaseRow.ballotRate != null ? `${phaseRow.ballotRate}%` : '—'}
