@@ -9,6 +9,7 @@ import { MobileNav } from '@/components/mobile-nav';
 import { CompareMetricsTable } from '@/components/compare-metrics-table';
 import { RegistrationProfileForm } from '@/components/registration-profile-form';
 import { RegistrationPlanPanel } from '@/components/registration-plan-panel';
+import { StudentCareComparePanel } from '@/components/student-care-compare-panel';
 import { useAppStore } from '@/lib/store';
 import type { SchoolDetailData } from '@/lib/bundled-types';
 import { resolveRegistrationYear } from '@/lib/filter-options';
@@ -110,6 +111,10 @@ export function ComparePlannerClient({ details }: ComparePlannerClientProps) {
                 maxSlots={compareListForTable.length}
               />
             </section>
+          ) : null}
+
+          {selectedSchools.length > 0 ? (
+            <StudentCareComparePanel schools={selectedSchools} />
           ) : null}
 
           <RegistrationPlanPanel plan={plan} homeMissing={homeMissing && selectedSchools.length === 0} />

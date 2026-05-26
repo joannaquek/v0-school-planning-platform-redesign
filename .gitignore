@@ -18,3 +18,6 @@ node_modules
 # MOE import live HTML snapshots (regenerate via npm run import:moe-vacancies)
 scripts/moe-p1-snapshots/_live-*.html
 scripts/moe-p1-snapshots/*.html
+
+# Student care extraction source (keep out of git)
+full-list-of-scc_*.pdf

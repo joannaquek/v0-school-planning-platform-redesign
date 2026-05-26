@@ -316,9 +316,9 @@ export function HomePageClient({
                         <span className="font-medium text-foreground">{school.totalVacancies}</span>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">Ballot:</span>{' '}
+                        <span className="text-muted-foreground">Subscription:</span>{' '}
                         <span className="font-medium text-foreground">
-                          {school.ballotChance != null ? `${school.ballotChance}%` : '—'}
+                          {school.subscriptionRate != null ? `${school.subscriptionRate}%` : '—'}
                         </span>
                       </div>
                     </div>

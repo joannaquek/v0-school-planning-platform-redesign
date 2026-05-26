@@ -16,8 +16,8 @@ export default function HomePage() {
     .sort((a, b) => {
       const pressureDiff = pressureRank[b.pressure] - pressureRank[a.pressure];
       if (pressureDiff !== 0) return pressureDiff;
-      const ballotDiff = (b.ballotChance ?? -1) - (a.ballotChance ?? -1);
-      if (ballotDiff !== 0) return ballotDiff;
+      const fillDiff = (a.subscriptionRate ?? 999) - (b.subscriptionRate ?? 999);
+      if (fillDiff !== 0) return fillDiff;
       return a.name.localeCompare(b.name);
     })
     .slice(0, 4);
